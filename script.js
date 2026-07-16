@@ -61,12 +61,15 @@ function initStarfield() {
 }
 
 // Navbar scrolled class toggle
+// NOTE: guarded with optional chaining — if .navbar isn't found for any
+// reason (markup mismatch, timing, etc.) this silently no-ops instead of
+// throwing, which would otherwise halt every remaining line in this file.
 window.addEventListener('scroll', function () {
   var navbar = document.querySelector('.navbar');
   if (window.scrollY > 50) {
-    navbar.classList.add('scrolled');
+    navbar?.classList.add('scrolled');
   } else {
-    navbar.classList.remove('scrolled');
+    navbar?.classList.remove('scrolled');
   }
 });
 
@@ -145,6 +148,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Formspree Integration Contact Form Handler
+// NOTE: there is currently no <form id="contactForm"> in index.html (the
+// Contact section uses connect-card links instead), so this block is
+// inert by design — it's guarded and simply does nothing until/unless a
+// form with these exact IDs is added back to the markup.
 const contactForm = document.getElementById("contactForm");
 const statusMsg = document.getElementById("formStatus");
 const submitBtn = document.getElementById("submitBtn");

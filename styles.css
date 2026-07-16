@@ -141,11 +141,30 @@ html {
     scroll-behavior: smooth;
 }
 
-@font-face {
+/*
+  REMOVED the local @font-face for "Baumans" that previously pointed at
+  fonts/Baumans-Regular.ttf.
+
+  Two real bugs there:
+   1) format("ttf") is not a valid CSS format token — it should be
+      format("truetype") — so most browsers silently ignored the rule.
+   2) It depended on a fonts/ folder actually existing in the deployed
+      repo with matching case. If that file wasn't committed (or the
+      case didn't match, e.g. Baumans-regular.ttf vs Baumans-Regular.ttf),
+      it 404s on GitHub Pages' case-sensitive Linux server even though it
+      may have resolved fine locally on Windows/Mac.
+
+  Baumans is already loaded reliably via the Google Fonts <link> in
+  index.html, which --font-heading already references as a fallback, so
+  this local @font-face was redundant risk with no upside. If you want
+  to self-host it later, re-add it correctly as:
+
+  @font-face {
     font-family: "Baumans";
-    src: url("fonts/Baumans-Regular.ttf") format("ttf");
+    src: url("fonts/Baumans-Regular.ttf") format("truetype");
     font-display: swap;
-}
+  }
+*/
 
 ::-webkit-scrollbar {
     width: 8px;
