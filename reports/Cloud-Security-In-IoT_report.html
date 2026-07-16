@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Security RPMs — Technical Capability & Architecture Report</title>
+    <!-- Monospace & Sans-serif fonts from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baumans&family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../reports.css">
+    <script src="../report.js" defer></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_upward" />
+
+</head>
+<body class="report-page">
+    <canvas id="starfield" aria-hidden="true"></canvas>
+    <header>
+        <nav class="navbar report-navbar">
+            <a href="../index.html" class="nav-head"><span class="gradient-text">Cherish Vasant</span></a>
+            <div class="report-nav-actions">
+                <a href="../index.html" class="report-nav-link back-link">← Portfolio</a>
+                <a href="https://github.com/CherishVasant/Cloud-Security-In-IoT" class="report-nav-link github-link" target="_blank" rel="noopener">GitHub</a>
+            </div>
+        </nav>
+    </header>
+    <div class="report-layout">
+        <nav class="section-nav-desktop" id="sectionNavDesktop" aria-label="Section navigation"></nav>
+        <main class="report-main">
+<!-- Header -->
+        <header class="report-hero">
+            <span class="report-eyebrow">Technical Report</span>
+            <h1 class="report-title">Cloud Security in Remote Patient Monitoring Systems</h1>
+            <p class="report-intro">A comprehensive machine learning pipeline for network traffic analysis and multi-class cyberattack detection using the Edge-IIoTset benchmark dataset.</p>
+            <div class="report-tags">
+                <span class="tag">Machine Learning</span>
+                <span class="tag">Cybersecurity</span>
+                <span class="tag">IoT Security</span>
+                <span class="tag">Remote Patient Monitoring</span>
+                <span class="tag">Ensemble Learning</span>
+                <span class="tag">Python</span>
+            </div>
+        </header>
+
+        <!-- Motivation -->
+        <section class="report-section" id="motivation">
+            <h2>Problem & Motivation</h2>
+            <p>Remote Patient Monitoring (RPM) systems transmit sensitive health telemetry from resource-constrained IoT devices to cloud servers. Due to their decentralized nature, these channels are highly vulnerable to network-based attacks which can compromise data integrity, steal patient information, or disable medical devices entirely. Building robust, real-time Intrusion Detection Systems (IDS) customized for IoT protocols is critical to ensuring patient safety and securing health networks. This project leverages the modern Edge-IIoTset dataset to develop a highly accurate, multi-class cyberattack detection pipeline capable of identifying 14 distinct attack types and normal traffic.</p>
+        </section>
+
+        <!-- Approach -->
+        <section class="report-section" id="approach">
+            <h2>Approach & Pipeline Overview</h2>
+            <p>The system is built as a reproducible, end-to-end machine learning pipeline that scales and processes network traffic features to yield class predictions. The workflow is organized into the following sequential steps:</p>
+            <ol>
+                <li><strong>Data Integration & Cleaning</strong>: Combines multi-source network packet dumps, resolves missing values, replaces infinite network metrics, and cleans invalid fields.</li>
+                <li><strong>Feature Engineering & Standardization</strong>: Builds advanced protocol flags, handles temporal cycles (hour/minute sinusoids), and standardizes numerical values using a StandardScaler.</li>
+                <li><strong>Feature Space Reduction</strong>: Leverages variance thresholds, correlation analysis (removing collinear features), and Recursive Feature Elimination (RFE) with a Random Forest estimator to scale features down to the 30-40 most informative predictors.</li>
+                <li><strong>Model Benchmarking</strong>: Benchmarks 8 diverse classifiers—ranging from simple Decision Trees to advanced tree ensembles (XGBoost, CatBoost, Random Forest, Gradient Boosting), Bagging, Voting, and Stacking Classifiers.</li>
+                <li><strong>Ensemble Stacking</strong>: Combines prediction probabilities of top-performing estimators (XGBoost, CatBoost, Random Forest) via a meta-learner (Logistic Regression) to boost final accuracy.</li>
+            </ol>
+        </section>
+
+        <!-- Preprocessing -->
+        <section class="report-section" id="preprocessing">
+            <h2>Data & Preprocessing</h2>
+            <p>The pipeline processes traffic data from the <strong>Edge-IIoTset dataset</strong>, specifically tailored for IoT security benchmarks. The dataset is balanced to prevent model bias across classes, securing equal representation for all traffic types.</p>
+            
+            <div class="alert alert-tip">
+                <strong>💡 Preprocessing Highlight:</strong> Real-world network metrics often contain missing (NaN) or infinite values (e.g. rate fields calculated during division by zero). These are resolved by zero-filling missing entries, replacing infinite values with large finite bounds, and clipping extreme outliers to secure numerical stability during gradient calculations.
+            </div>
+
+            <p>The dataset includes the following 15 balanced classes (14 cyberattack categories + normal traffic):</p>
+            <ul>
+                <li><strong>Malware & Entry</strong>: Backdoor, Vulnerability Scanner, OS Fingerprinting, Uploading Attacks, Ransomware.</li>
+                <li><strong>Denial of Service (DoS)</strong>: DDoS (HTTP, ICMP, TCP, UDP).</li>
+                <li><strong>Eavesdropping & Authentication</strong>: Man-in-the-Middle (MITM), Port Scanning, Password Attacks.</li>
+                <li><strong>Web Attacks</strong>: SQL Injection, Cross-Site Scripting (XSS).</li>
+                <li><strong>Baseline</strong>: Normal Traffic.</li>
+            </ul>
+
+            <div class="table-responsive">
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Traffic Type (Class)</th>
+                            <th>Original Features Included</th>
+                            <th>Cleaning Strategy</th>
+                            <th>Train/Test Split Strategy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>14 Attack Types + Normal</td>
+                            <td>63 protocol fields</td>
+                            <td>NaN zero-filled; inf replaced</td>
+                            <td>80/20 Stratified Split</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Model & Training -->
+        <section class="report-section" id="training">
+            <h2>Model & Training Architecture</h2>
+            <p>Model training was executed in a structured benchmark framework using 8 machine learning estimators. Feature inputs are standardized using standard scaling to ensure balanced feature weight distribution during gradient boosting and distance metrics computations.</p>
+            
+            <p><strong>Key Hyperparameters and Setup:</strong></p>
+            <ul>
+                <li><strong>Random Forest</strong>: 100 estimators, Gini impurity, max depth bootstrap trees.</li>
+                <li><strong>XGBoost</strong>: Max depth of 6, learning rate of 0.1, 100 trees, multi-class softprob objective.</li>
+                <li><strong>CatBoost</strong>: 500 iterations, learning rate of 0.1, multi-class log-loss objective.</li>
+                <li><strong>Stacking Classifier</strong>: Meta-model: Logistic Regression; base estimators: Random Forest, XGBoost, and CatBoost.</li>
+            </ul>
+
+            <div class="alert alert-important">
+                <strong>⚠️ Cybersecurity Trap (Topology Leakage):</strong> Early test iterations yielded near-perfect performance. Investigation revealed that the models were memorizing network IP addresses (<code>ip.src_host</code>, <code>ip.dst_host</code>) instead of actual packet properties. Removing these identifier columns forced the models to learn real traffic patterns (packet sizes, rates, inter-arrival times), ensuring generalizability to unseen networks.
+            </div>
+        </section>
+
+        <!-- Results -->
+        <section class="report-section" id="results">
+            <h2>Results & Interactive Visualizations</h2>
+            <p>The models achieved exceptional results, with advanced tree ensembles demonstrating superior performance in identifying cyberattacks. Below is the detailed comparative analysis:</p>
+            
+            <!-- Summary Metric Cards -->
+            <div class="metrics-summary-grid">
+                <div class="metric-card">
+                    <div class="metric-val" id="top-accuracy">99.02%</div>
+                    <div class="metric-lbl">Top Test Accuracy</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-val" id="top-f1">99.02%</div>
+                    <div class="metric-lbl">Macro F1-Score</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-val" id="feature-count">30</div>
+                    <div class="metric-lbl">Selected Features</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-val">15</div>
+                    <div class="metric-lbl">Total Classes Classified</div>
+                </div>
+            </div>
+
+            <!-- Interactive Charts Grid -->
+            <div class="charts-container">
+                <div class="chart-box">
+                    <h3>Model Performance Benchmarking</h3>
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+                
+                <div class="chart-box">
+                    <h3>Top 30 Feature Importances (RFE Selection)</h3>
+                    <canvas id="featuresChart"></canvas>
+                </div>
+
+                <div class="chart-box">
+                    <h3>XGBoost Cyberattack Classification Heatmap (Confusion Matrix)</h3>
+                    <p style="text-align: center; font-size: 0.9rem; margin-bottom: 15px; color: var(--text-secondary);">
+                        Hover over any grid cell to view the true class, predicted class, and classification count.
+                    </p>
+                    <div class="confusion-matrix-wrapper">
+                        <div id="matrix-container"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Model Comparison Table -->
+            <h3 style="font-family: var(--font-mono); margin-top: 40px; margin-bottom: 15px; font-size: 1.2rem;">Model Performance Comparison Table</h3>
+            <div class="table-responsive">
+                <table id="metricsTable">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable(0)">Model Name ⇅</th>
+                            <th onclick="sortTable(1)">Accuracy ⇅</th>
+                            <th onclick="sortTable(2)">Precision ⇅</th>
+                            <th onclick="sortTable(3)">Recall ⇅</th>
+                            <th onclick="sortTable(4)">F1-Score ⇅</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <p style="margin-top: 15px; font-size: 0.9rem; color: var(--text-secondary); italicized: true;">
+                * Note: Precision, recall, and F1-score represent weighted averages across all 15 classes. The Stacking Classifier slightly outperforms single estimators due to cross-validation blending.
+            </p>
+        </section>
+
+        <!-- Learnings -->
+        <section class="report-section" id="learnings">
+            <h2>Key Learnings & Engineering Judgment</h2>
+            <ul>
+                <li><strong>Network Topology Overfitting</strong>: Standard network captures include IP address and MAC ranges. Dropping these during preprocessing is critical to prevent models from learning the topology of the training network instead of general traffic anomalies.</li>
+                <li><strong>Handling Protocol Anomalies</strong>: Feature distributions in cybersecurity datasets exhibit huge variance (e.g. packet rates jumping from 0 to millions in microseconds). Scaling these using <code>StandardScaler</code> or log transformations is required to stabilize model coefficients.</li>
+                <li><strong>Model Latency vs Accuracy Trade-off</strong>: While Stacking and Voting classifiers offer the highest accuracy (99.02%), their model sizes (exceeding 250MB) and inference latencies make them unsuitable for real-time edge deployment. Single estimators like XGBoost (2.3MB) achieve a virtually identical accuracy (99.01%) with a fraction of the computational footprint.</li>
+            </ul>
+        </section>
+
+        <!-- Final Summary -->
+        <section class="report-section summary-section" id="summary">
+            <h2>Summary</h2>
+            <p><strong>Final Chosen Model:</strong> XGBoost Classifier (Tuned & scaled to 30 protocol features).</p>
+            <p><strong>Headline Result:</strong> Achieved 99.01% multi-class classification accuracy (99.00% precision, recall, and macro F1-score) on network-level intrusion detection, classifying normal traffic alongside 14 threat types with minor performance overhead.</p>
+            <p><strong>Real-world Relevance:</strong> This lightweight tree ensemble can be deployed directly onto edge nodes or gateways in remote patient monitoring systems, monitoring incoming and outgoing network frames in real-time to detect security breaches before patient health telemetry is compromised.</p>
+        </section>
+
+        <!-- Footer -->
+        <footer class="report-footer">
+            <p>Cloud Security Intrusion Detection System Report | Created in 2026</p>
+            <p style="margin-top: 10px; font-size: 0.8rem;">
+                Built with Python, Scikit-Learn, XGBoost, CatBoost, Optuna, and Chart.js. 
+                <a href="../index.html">Back to Portfolio</a> | <a href="https://github.com/CherishVasant/Cloud-Security-In-IoT" target="_blank" rel="noopener">View on GitHub</a>
+            </p>
+        </footer>
+
+    <!-- Tooltip for Heatmap -->
+    <div id="matrix-tooltip" class="custom-tooltip"></div>
+
+    <script>
+        // Data injected from report_data.json
+        const reportData = {
+            "classes": ["Backdoor", "DDoS_HTTP", "DDoS_ICMP", "DDoS_TCP", "DDoS_UDP", "Fingerprinting", "MITM", "Normal", "Password", "Port_Scanning", "Ransomware", "SQL_injection", "Uploading", "Vulnerability_scanner", "XSS"],
+            "feature_importances": [{"feature": "hour_cos", "importance": 0.10880228162329128}, {"feature": "hour_sin", "importance": 0.08300290763456825}, {"feature": "packet_burst_rate", "importance": 0.0780831261148439}, {"feature": "tcp.ack", "importance": 0.05644778857860235}, {"feature": "ip_src_frequency_log", "importance": 0.05443186928761679}, {"feature": "inter_arrival_time", "importance": 0.05292864038176744}, {"feature": "ip_dst_frequency_log", "importance": 0.05190015867397555}, {"feature": "tcp.seq", "importance": 0.04435129368337462}, {"feature": "http_entropy", "importance": 0.03549642263709709}, {"feature": "http_special_char_ratio", "importance": 0.031659632442358594}, {"feature": "icmp_checksum_normalized", "importance": 0.03157053222081837}, {"feature": "http_content_length_log", "importance": 0.02991696691281186}, {"feature": "icmp_present", "importance": 0.0282800146862462}, {"feature": "minute_sin", "importance": 0.02776299339387836}, {"feature": "minute_cos", "importance": 0.025563937734157126}, {"feature": "udp.stream", "importance": 0.024812235231964515}, {"feature": "tcp.checksum", "importance": 0.021417444045412636}, {"feature": "day_sin", "importance": 0.02077807255184823}, {"feature": "day_cos", "importance": 0.01934514727832734}, {"feature": "ip_same_src_dst", "importance": 0.01922406376711401}, {"feature": "tcp_len_log", "importance": 0.018704847329719235}, {"feature": "tcp_dstport_http", "importance": 0.016030036837591462}, {"feature": "tcp.connection.rst", "importance": 0.01550360951162471}, {"feature": "http_present", "importance": 0.010635244903925496}, {"feature": "tcp.flags.ack", "importance": 0.009919516258340115}, {"feature": "http.content_length", "importance": 0.009884560561566544}, {"feature": "ip_src_is_external", "importance": 0.00840024345726008}, {"feature": "ip_dst_is_external", "importance": 0.008344723223353879}, {"feature": "packet_burst_variance", "importance": 0.008277969794449787}, {"feature": "tcp.connection.syn", "importance": 0.0075586954796336096}],
+            "model_comparison": [{"Model": "Stacking Classifier", "Accuracy": 0.9902, "Precision": 0.9902, "Recall": 0.9902, "F1-Score": 0.9902}, {"Model": "XGBoost", "Accuracy": 0.9901, "Precision": 0.9901, "Recall": 0.9901, "F1-Score": 0.9901}, {"Model": "CatBoost", "Accuracy": 0.9899, "Precision": 0.9899, "Recall": 0.9899, "F1-Score": 0.9899}, {"Model": "Random Forest", "Accuracy": 0.9892, "Precision": 0.9893, "Recall": 0.9892, "F1-Score": 0.9892}, {"Model": "Gradient Boosting", "Accuracy": 0.9885, "Precision": 0.9886, "Recall": 0.9885, "F1-Score": 0.9885}, {"Model": "Voting Classifier", "Accuracy": 0.9883, "Precision": 0.9883, "Recall": 0.9883, "F1-Score": 0.9883}, {"Model": "Bagging Classifier", "Accuracy": 0.9882, "Precision": 0.9882, "Recall": 0.9882, "F1-Score": 0.9882}, {"Model": "Decision Tree", "Accuracy": 0.9847, "Precision": 0.9847, "Recall": 0.9847, "F1-Score": 0.9847}],
+            "confusion_matrix": [[2027, 0, 0, 0, 0, 0, 0, 2, 0, 10, 0, 0, 0, 0, 0], [0, 2112, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 2818, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 2050, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 2900, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 200, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 243, 0, 0, 0, 0, 0, 0, 0, 0], [8, 0, 0, 0, 1, 0, 0, 4845, 0, 2, 3, 1, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 1888, 0, 0, 0, 0, 11, 99], [5, 0, 0, 0, 0, 0, 0, 0, 0, 1998, 11, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 2160, 0, 3, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2062, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 2049, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 0, 0, 1990, 11], [0, 0, 0, 0, 0, 0, 0, 0, 87, 0, 0, 0, 0, 17, 1906]]
+        };
+
+        // Render metrics table
+        function renderTable(data) {
+            const tbody = document.querySelector("#metricsTable tbody");
+            tbody.innerHTML = "";
+            data.forEach(row => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td class="model-name">${row.Model}</td>
+                    <td>${(row.Accuracy * 100).toFixed(2)}%</td>
+                    <td>${(row.Precision * 100).toFixed(2)}%</td>
+                    <td>${(row.Recall * 100).toFixed(2)}%</td>
+                    <td>${(row['F1-Score'] * 100).toFixed(2)}%</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        renderTable(reportData.model_comparison);
+
+        // Sort table logic
+        let sortDirection = false;
+        function sortTable(columnIndex) {
+            const keyMap = ["Model", "Accuracy", "Precision", "Recall", "F1-Score"];
+            const key = keyMap[columnIndex];
+            sortDirection = !sortDirection;
+            
+            const sortedData = [...reportData.model_comparison].sort((a, b) => {
+                if (key === "Model") {
+                    return sortDirection ? a[key].localeCompare(b[key]) : b[key].localeCompare(a[key]);
+                } else if (key === "F1-Score") {
+                    return sortDirection ? a['F1-Score'] - b['F1-Score'] : b['F1-Score'] - a['F1-Score'];
+                } else {
+                    return sortDirection ? a[key] - b[key] : b[key] - a[key];
+                }
+            });
+            renderTable(sortedData);
+        }
+
+        // Render Comparison Chart
+        const comparisonCtx = document.getElementById('comparisonChart').getContext('2d');
+        const models = reportData.model_comparison.map(m => m.Model);
+        const accuracies = reportData.model_comparison.map(m => m.Accuracy * 100);
+        const f1Scores = reportData.model_comparison.map(m => m['F1-Score'] * 100);
+
+        new Chart(comparisonCtx, {
+            type: 'bar',
+            data: {
+                labels: models,
+                datasets: [
+                    {
+                        label: 'Accuracy (%)',
+                        data: accuracies,
+                        backgroundColor: 'rgba(79, 107, 255, 0.7)',
+                        borderColor: '#4F6BFF',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'F1-Score (%)',
+                        data: f1Scores,
+                        backgroundColor: 'rgba(4, 201, 109, 0.7)',
+                        borderColor: '#04c96d',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#f3f4f6',
+                            font: { family: 'Fira Code' }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: {
+                            color: '#9ca3af',
+                            font: { family: 'Fira Code', size: 9 }
+                        }
+                    },
+                    y: {
+                        min: 90,
+                        max: 100,
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: {
+                            color: '#9ca3af',
+                            font: { family: 'Fira Code' }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Render Features Chart
+        const featuresCtx = document.getElementById('featuresChart').getContext('2d');
+        const featureLabels = reportData.feature_importances.map(f => f.feature);
+        const featureValues = reportData.feature_importances.map(f => f.importance);
+
+        new Chart(featuresCtx, {
+            type: 'bar',
+            data: {
+                labels: featureLabels,
+                datasets: [{
+                    label: 'Feature Importance',
+                    data: featureValues,
+                    backgroundColor: 'rgba(79, 107, 255, 0.6)',
+                    borderColor: '#4F6BFF',
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: {
+                            color: '#9ca3af',
+                            font: { family: 'Fira Code' }
+                        }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: {
+                            color: '#f3f4f6',
+                            font: { family: 'Fira Code', size: 9 }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Build Confusion Matrix Heatmap as HTML Table for perfect layout and interactive tooltips
+        function buildConfusionMatrix() {
+            const container = document.getElementById("matrix-container");
+            const matrix = reportData.confusion_matrix;
+            const classes = reportData.classes;
+            const tooltip = document.getElementById("matrix-tooltip");
+
+            let tableHTML = `<table class="matrix-table">`;
+            
+            // Header: Predicted Classes
+            tableHTML += `<tr><td></td><td colspan="${classes.length}" class="axis-label" style="text-align: center;">Predicted Attack Class</td></tr>`;
+            tableHTML += `<tr><td></td>`;
+            classes.forEach(c => {
+                tableHTML += `<th class="rotate-header"><div>${c}</div></th>`;
+            });
+            tableHTML += `</tr>`;
+
+            // Rows: True Classes
+            for (let i = 0; i < classes.length; i++) {
+                tableHTML += `<tr>`;
+                if (i === 0) {
+                    tableHTML += `<td rowspan="${classes.length}" class="axis-label" style="writing-mode: vertical-lr; transform: rotate(180deg); padding: 10px;">True Attack Class</td>`;
+                }
+                tableHTML += `<td class="row-header">${classes[i]}</td>`;
+                
+                const rowSum = matrix[i].reduce((a, b) => a + b, 0);
+
+                for (let j = 0; j < classes.length; j++) {
+                    const val = matrix[i][j];
+                    const percentage = rowSum > 0 ? (val / rowSum * 100).toFixed(1) : 0;
+                    
+                    // Normalize cell background color according to the accuracy of that prediction
+                    const intensity = val / (rowSum || 1);
+                    let bgColor;
+                    if (i === j) {
+                        // Diagonal correct predictions (crimson scale)
+                        bgColor = `rgba(255, 59, 92, ${0.15 + intensity * 0.85})`;
+                    } else {
+                        // Off-diagonal errors (gold scale)
+                        bgColor = val > 0 ? `rgba(255, 200, 87, ${0.15 + intensity * 0.6})` : 'rgba(255, 255, 255, 0.02)';
+                    }
+
+                    tableHTML += `<td class="matrix-cell" style="background-color: ${bgColor}; font-family: var(--font-mono);" 
+                                      data-val="${val}" 
+                                      data-pct="${percentage}"
+                                      data-true="${classes[i]}" 
+                                      data-pred="${classes[j]}">
+                                      ${val > 0 ? val : ""}
+                                  </td>`;
+                }
+                tableHTML += `</tr>`;
+            }
+            tableHTML += `</table>`;
+            container.innerHTML = tableHTML;
+
+            // Tooltip interactive logic
+            const cells = document.querySelectorAll(".matrix-cell");
+            cells.forEach(cell => {
+                cell.addEventListener("mousemove", (e) => {
+                    const val = cell.getAttribute("data-val");
+                    const pct = cell.getAttribute("data-pct");
+                    const trueClass = cell.getAttribute("data-true");
+                    const predClass = cell.getAttribute("data-pred");
+                    
+                    tooltip.innerHTML = `
+                        <strong>True:</strong> ${trueClass}<br>
+                        <strong>Predicted:</strong> ${predClass}<br>
+                        <strong>Count:</strong> ${val} (${pct}%)
+                    `;
+                    tooltip.style.left = (e.pageX + 15) + "px";
+                    tooltip.style.top = (e.pageY + 15) + "px";
+                    tooltip.style.display = "block";
+                });
+
+                cell.addEventListener("mouseleave", () => {
+                    tooltip.style.display = "none";
+                });
+            });
+        }
+
+        buildConfusionMatrix();
+    </script>
+        </main>
+    </div>
+    <nav class="section-nav-mobile" id="sectionNavMobile" aria-label="Section navigation mobile">
+        <div class="section-nav-mobile-inner"></div>
+    </nav>
+    <div class="back-to-top" id="backToTop" aria-label="Back to top">
+        <span class="material-symbols-outlined" style="font-size:24px;color:#fff;">arrow_upward</span>
+    </div>
+
+</body>
+</html>

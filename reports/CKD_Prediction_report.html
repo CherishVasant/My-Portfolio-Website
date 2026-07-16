@@ -1,0 +1,2639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chronic Kidney Disease Prediction — Technical Report</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Share+Tech+Mono&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    
+
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baumans&family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../reports.css">
+    <script src="../report.js" defer></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_upward" />
+
+</head>
+<body class="report-page">
+    <canvas id="starfield" aria-hidden="true"></canvas>
+    <header>
+        <nav class="navbar report-navbar">
+            <a href="../index.html" class="nav-head"><span class="gradient-text">Cherish Vasant</span></a>
+            <div class="report-nav-actions">
+                <a href="../index.html" class="report-nav-link back-link">← Portfolio</a>
+                <a href="https://github.com/CherishVasant/Chronic-Kidney-Disease-Prediction" class="report-nav-link github-link" target="_blank" rel="noopener">GitHub</a>
+            </div>
+        </nav>
+    </header>
+    <div class="report-layout">
+        <nav class="section-nav-desktop" id="sectionNavDesktop" aria-label="Section navigation"></nav>
+        <main class="report-main">
+<!-- Header -->
+        <header class="report-hero">
+            <span class="report-eyebrow">Technical Report</span>
+            <h1 class="report-title">Chronic Kidney Disease Detection</h1>
+            <p class="report-intro">A healthcare machine learning pipeline comparing 26 classification algorithms under overfitting-risk scoring, optimized for clinical false-negative minimization.</p>
+            <div class="report-tags">
+                <span class="tag">Machine Learning</span>
+                <span class="tag">Robust Preprocessing</span>
+                <span class="tag">Feature Engineering</span>
+                <span class="tag">Hyperparameter Tuning</span>
+                <span class="tag">Overfitting Scoring</span>
+                <span class="tag">Scikit-Learn</span>
+            </div>
+        </header>
+
+        <!-- Problem & Motivation -->
+        <section class="report-section card" id="motivation">
+            <h2 class="section-title">Problem & Motivation</h2>
+            <p>
+                Chronic Kidney Disease (CKD) represents a massive global healthcare burden, marked by the gradual loss of kidney function. Left undetected, it progresses to end-stage renal disease, requiring dialysis or transplantation. Early diagnostic screening can halt or slow disease progression, but patients are frequently asymptomatic in early stages.
+            </p>
+            <p>
+                This project builds an automated, data-driven diagnostic tool to classify patient clinical records into CKD or non-CKD. The core objective is to design a highly accurate model that minimizes clinical false negatives (failing to identify a patient with CKD) while maintaining a minimal feature count. By restricting inputs to simple, cheap, and easily accessible clinical tests, we aim to deliver a model viable for rapid screening in resource-limited clinics.
+            </p>
+        </section>
+
+        <!-- Approach -->
+        <section class="report-section card" id="approach">
+            <h2 class="section-title">Pipeline Overview</h2>
+            <p>
+                The project implements a structured five-step pipeline from raw patient features to hyperparameter-tuned prediction.
+            </p>
+            <div class="timeline">
+                <div class="timeline-step">
+                    <span class="timeline-number">01.</span>
+                    <span class="timeline-text">Clinical Data Cleaning</span>
+                    <div class="timeline-desc">
+                        Missing values were categorized by frequency. Low missing values (&lt;5%) were imputed using categorical mode or numerical mean. Columns with high missing values (&gt;30%), such as red blood cells, received an explicit 'missing' category to avoid imputation bias. Skewed features were log-transformed.
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <span class="timeline-number">02.</span>
+                    <span class="timeline-text">Outlier Handling</span>
+                    <div class="timeline-desc">
+                        Checked clinical normal bounds for physiological markers. Impossible outliers (e.g. Sodium = 4.5 mEq/L, which is fatal) were removed, while extreme, disease-related outliers (severe clinical indicators) were preserved to maintain vital medical training signals.
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <span class="timeline-number">03.</span>
+                    <span class="timeline-text">Healthcare-Specific Feature Engineering</span>
+                    <div class="timeline-desc">
+                        Calculated Estimated Glomerular Filtration Rate (eGFR) and constructed clinical indices, including a Comorbidity Score, Anemia Severity Score, Kidney Function Score, and Symptom Severity Score, capturing medical indicators of disease progression.
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <span class="timeline-number">04.</span>
+                    <span class="timeline-text">Feature Subset Versioning</span>
+                    <div class="timeline-desc">
+                        Models were evaluated across three feature representations to study feature complexity vs. model performance: <strong>v0</strong> (31 features, full dataset), <strong>v1</strong> (12 clinical features), and <strong>v2</strong> (5 core markers: Hemoglobin, Specific Gravity, Serum Creatinine, Hypertension, and Blood Glucose Random).
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <span class="timeline-number">05.</span>
+                    <span class="timeline-text">Training, Tuning, and Overfitting Profiling</span>
+                    <div class="timeline-desc">
+                        Evaluated 26 classification models using Stratified 5-Fold Cross-Validation. Tuned hyperparameters (via Grid and Randomized search) to optimize recall. Profiling flagged overfitting based on the gap between training performance, CV performance, and prediction confidence.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data & Preprocessing -->
+        <section class="report-section card" id="data">
+            <h2 class="section-title">Data & Preprocessing</h2>
+            <p>
+                The analysis is conducted on the Chronic Kidney Disease Dataset, containing clinical records for <strong class="mono" id="dataset-rows">400</strong> patients with <strong class="mono" id="dataset-cols">30</strong> raw and engineered variables. Key features include specific gravity (<code class="mono">sg</code>), serum creatinine (<code class="mono">sc</code>), blood urea (<code class="mono">bu</code>), hemoglobin (<code class="mono">hemo</code>), blood pressure (<code class="mono">bp</code>), and hypertension (<code class="mono">htn</code>).
+            </p>
+            <p>
+                To avoid information leakage, numerical features were scaled using a <code class="mono">StandardScaler</code> fitted solely on training splits, and categorical values were mapped using a <code class="mono">LabelEncoder</code>. The target column <code class="mono">classification</code> contains ckd and notckd classes, mapped to 0 and 1.
+            </p>
+
+            <h3 class="mono" style="margin-top: 24px; margin-bottom: 12px; font-size: 15px; text-transform: uppercase;">Sample Preprocessed Dataset (First 5 Rows)</h3>
+            <div class="table-container">
+                <table id="sample-table">
+                    <thead>
+                        <tr id="sample-table-header">
+                            <!-- Headers generated dynamically -->
+                        </tr>
+                    </thead>
+                    <tbody id="sample-table-body">
+                        <!-- Rows generated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="grid-2" style="margin-top: 24px;">
+                <div>
+                    <h4 class="mono" style="font-size: 14px; margin-bottom: 8px; color: var(--accent-pink);">Feature Subset: v1 (12 Columns)</h4>
+                    <p style="font-size: 13px;" id="v1-features-list">
+                        <!-- Populated dynamically -->
+                    </p>
+                </div>
+                <div>
+                    <h4 class="mono" style="font-size: 14px; margin-bottom: 8px; color: var(--accent-purple);">Feature Subset: v2 (5 Columns)</h4>
+                    <p style="font-size: 13px;" id="v2-features-list">
+                        <!-- Populated dynamically -->
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Model & Training -->
+        <section class="report-section card" id="training">
+            <h2 class="section-title">Model Training & Setup</h2>
+            <p>
+                Models were trained across multiple categories, including linear algorithms (Logistic Regression, Ridge, SGD), decision trees/ensembles (Decision Tree, Random Forest, Extra Trees, AdaBoost, Bagging, Gradient Boosting, XGBoost, LightGBM), SVMs (RBF, Linear, Polynomial kernels), K-Nearest Neighbors, Naive Bayes, Linear Discriminant Analysis, and Multi-layer Perceptron.
+            </p>
+            <p>
+                To profile overfitting, we calculate an <strong>Overfitting Risk</strong> category (LOW, MEDIUM, CRITICAL) for each classifier. A model is penalized and marked as CRITICAL if there is a perfect training performance score (F1 = 1.0) alongside a performance drop on validation splits, high prediction confidence (extreme probability output for incorrect predictions), or a large performance gap (F1 gap &gt; 5%).
+            </p>
+            <p>
+                Hyperparameter optimization was executed for all key classifiers under a custom healthcare utility metric, which heavily penalties false negatives (optimizing recall over precision) to ensure high clinical sensitivity.
+            </p>
+            
+            <div class="alert">
+                <div class="alert-title">
+                    <span style="color: var(--accent-pink);">✦</span> Overfitting Risk Penalty
+                </div>
+                <p class="alert-body">
+                    In the evaluation script, final scores were derived by taking a weighted clinical score (40% Recall, 25% F1, 20% Accuracy, 15% ROC AUC) and subtracting an overfitting penalty: <strong>0.00</strong> for LOW risk, <strong>0.05</strong> for MEDIUM risk, <strong>0.15</strong> for HIGH risk, and <strong>0.30</strong> for CRITICAL risk. This forces the selection of stable models over models with high test scores but severe overfitting indicators.
+                </p>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="report-section card" id="results">
+            <h2 class="section-title">Results & Evaluation</h2>
+            <p>
+                The pipeline identified <strong>v2+hyp</strong> (using hyperparameter tuning on the 5 core features) as the optimal version, striking the ideal balance between clinical feasibility (cheap/fast feature collection) and high diagnostic safety.
+            </p>
+
+            <!-- Charts Grid -->
+            <div class="grid-2" style="margin-top: var(--space-6); margin-bottom: var(--space-8);">
+                <div class="chart-panel">
+                    <h3 class="chart-panel-title mono">Top Models Performance (v2+hyp)</h3>
+                    <div class="chart-panel-body">
+                        <canvas id="top-models-chart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-panel">
+                    <h3 class="chart-panel-title accent mono">F1 Score comparison Across Versions</h3>
+                    <div class="chart-panel-body">
+                        <canvas id="versions-comparison-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Confusion Matrix & Info -->
+            <div class="grid-2" style="margin-bottom: 40px; align-items: center;">
+                <div class="matrix-wrapper">
+                    <div class="matrix-title mono">Test Confusion Matrix (MLP / Gradient Boosting)</div>
+                    <div class="matrix-grid-container">
+                        <div class="matrix-label-top">Predicted Class</div>
+                        <div class="matrix-label-left">Actual Class</div>
+                        
+                        <!-- Col Headers -->
+                        <div></div>
+                        <div class="matrix-header mono">CKD (0)</div>
+                        <div class="matrix-header mono">Not CKD (1)</div>
+                        
+                        <!-- Row 1: CKD -->
+                        <div class="matrix-header mono">CKD (0)</div>
+                        <div class="matrix-cell tp" title="True Positives: 49 patients with CKD were correctly diagnosed.">
+                            <span class="matrix-value tp">49</span>
+                            <span class="matrix-cell-label">TRUE POS</span>
+                            <div class="tooltip-text">49 patients with CKD were correctly diagnosed (True Positive).</div>
+                        </div>
+                        <div class="matrix-cell fn" title="False Negatives: 1 patient with CKD was incorrectly predicted as healthy. Critical risk.">
+                            <span class="matrix-value fn">1</span>
+                            <span class="matrix-cell-label">FALSE NEG</span>
+                            <div class="tooltip-text">1 patient with CKD was incorrectly predicted as healthy (False Negative). Critical risk.</div>
+                        </div>
+                        
+                        <!-- Row 2: Healthy -->
+                        <div class="matrix-header mono">Not CKD (1)</div>
+                        <div class="matrix-cell fp" title="False Positives: 0 healthy patients were incorrectly flagged as having CKD.">
+                            <span class="matrix-value fp">0</span>
+                            <span class="matrix-cell-label">FALSE POS</span>
+                            <div class="tooltip-text">0 healthy patients were incorrectly flagged as having CKD (False Positive).</div>
+                        </div>
+                        <div class="matrix-cell tn" title="True Negatives: 30 healthy patients were correctly identified.">
+                            <span class="matrix-value tn">30</span>
+                            <span class="matrix-cell-label">TRUE NEG</span>
+                            <div class="tooltip-text">30 healthy patients were correctly identified as Not CKD (True Negative).</div>
+                        </div>
+                    </div>
+                    
+                    <div class="matrix-stats">
+                        <div class="stat-badge">
+                            <span class="stat-badge-title">Accuracy:</span>
+                            <span class="stat-badge-value">98.75%</span>
+                        </div>
+                        <div class="stat-badge">
+                            <span class="stat-badge-title">CKD Recall:</span>
+                            <span class="stat-badge-value">98.00%</span>
+                        </div>
+                        <div class="stat-badge">
+                            <span class="stat-badge-title">Healthy Recall:</span>
+                            <span class="stat-badge-value">100.0%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="mono" style="font-size: 16px; margin-bottom: 12px; color: var(--accent-pink);">Analysis of Diagnostic Performance</h3>
+                    <p>
+                        The confusion matrix showcases the high clinical safety of the Multi-layer Perceptron (MLP) and Gradient Boosting models trained on the optimized 5 features (v2+hyp). 
+                    </p>
+                    <p>
+                        Out of 80 test patients, only <strong>1</strong> patient with CKD was misclassified as healthy (False Negative), ensuring that 98.00% of sick patients are safely caught by the screening model. Critically, the False Positive rate is <strong>0.00%</strong>, meaning healthy patients are never falsely subjected to stressful positive diagnoses, minimizing unnecessary secondary healthcare diagnostic loads.
+                    </p>
+                    <p>
+                        Given the simplicity of the features (Hemoglobin, Specific Gravity, Serum Creatinine, Hypertension, and Blood Glucose), this performance validates that high clinical safety can be achieved without requiring complete, expensive patient lab profiles.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Detailed Results Table -->
+            <h3 class="mono" style="font-size: 16px; margin-bottom: 12px; color: var(--text-primary);">Tuned Model Comparison Table (v2+hyp)</h3>
+            <p style="font-size: 13px; margin-bottom: 12px;">Click a header column to sort the results. Alternating colors represent high readability.</p>
+            <div class="table-container">
+                <table id="results-table">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable(0)">Model Name</th>
+                            <th onclick="sortTable(1)" class="mono">Accuracy</th>
+                            <th onclick="sortTable(2)" class="mono">Recall</th>
+                            <th onclick="sortTable(3)" class="mono">F1 Score</th>
+                            <th onclick="sortTable(4)" class="mono">Overfitting Risk</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results-table-body">
+                        <!-- Populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <p style="font-size: 12px; color: var(--text-secondary); font-style: italic; margin-top: 8px;">
+                Note: Results are evaluated on a test split of 80 patient cases. Model differences within 1-2% accuracy are not statistically significant given the small test set size, and overfitting risks must be carefully monitored.
+            </p>
+        </section>
+
+        <!-- Key Learnings -->
+        <section class="report-section card" id="learnings">
+            <h2 class="section-title">Key Learnings & Challenges</h2>
+            <p>
+                A primary engineering challenge was managing high missingness in critical indicators like Red Blood Cells (RBC), where imputing values would create dangerous artifact signals. Creating explicit "missing" categories preserved vital information while preventing artificial bias in decision boundaries.
+            </p>
+            <p>
+                Detecting data leakage was another crucial step: models trained on the full feature set (v0) quickly achieved perfect accuracy (100%), which was identified as a risk of proxy variable leakage. By running ablation trials across feature subsets (v1 and v2), we proved that the model could retain 98.75% classification performance with only 5 key variables, significantly reducing clinical cost and data requirement while maintaining screening integrity.
+            </p>
+        </section>
+
+        <!-- Final Approach Summary -->
+        <section class="report-section card summary-section" id="summary">
+            <h2 class="section-title" style="border-bottom-color: var(--accent-pink);">Summary</h2>
+            <p style="font-size: 16px; color: var(--text-primary); font-weight: 500; margin-bottom: 12px;">
+                The project recommends an MLP or Gradient Boosting classifier trained on a subset of 5 core clinical features (v2+hyp) as the optimal diagnostic model.
+            </p>
+            <p style="margin-bottom: 0;">
+                By utilizing only easily testable variables (Specific Gravity, Serum Creatinine, Hemoglobin, Blood Glucose, and Hypertension history), the pipeline achieves a headline diagnostic accuracy of <strong>98.75%</strong> and a clinical recall of <strong>98.00%</strong>. This proves that an automated, high-sensitivity diagnostic screening tool can be successfully deployed in clinics, offering immediate clinical assessments without requiring complete, expensive patient lab profiles.
+            </p>
+        </section>
+
+        <!-- Footer -->
+        <footer class="report-footer">
+            <div class="footer-links">
+                <a href="../index.html" class="footer-link">← Back to Portfolio</a>
+                <a href="https://github.com/CherishVasant/Chronic-Kidney-Disease-Prediction" class="footer-link" target="_blank" rel="noopener">View on GitHub</a>
+            </div>
+            <div class="footer-text">
+                Built with HTML, CSS, JavaScript, and Chart.js. Real results extracted from Jupyter analysis pipelines.
+            </div>
+        </footer>
+
+    <!-- Embedded Data & Chart rendering JS -->
+    <script>
+        // Inline the real extracted dataset metrics
+        const REPORT_DATA = {
+    "v0_results": {
+        "Logistic Regression (L1)": {
+            "Model": "Logistic Regression (L1)",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9779336355254722,
+            "CV Std F1": 0.0125990125185135,
+            "Overfitting Gap": 0.0,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Logistic Regression (L2)": {
+            "Model": "Logistic Regression (L2)",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9936942355889723,
+            "CV Std F1": 0.01261152882205514,
+            "Overfitting Gap": 0.0,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Logistic Regression (ElasticNet)": {
+            "Model": "Logistic Regression (ElasticNet)",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9936488933053678,
+            "CV Std F1": 0.007778589514941453,
+            "Overfitting Gap": 0.0,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Ridge Classifier": {
+            "Model": "Ridge Classifier",
+            "Train F1": 0.9841642438990796,
+            "CV Mean F1": 0.9747107310810982,
+            "CV Std F1": 0.02572135949937108,
+            "Overfitting Gap": -0.015835756100920362,
+            "Overfitting Score": 0.8,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "SGD Classifier": {
+            "Model": "SGD Classifier",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9872410258105437,
+            "CV Std F1": 0.011973112288684994,
+            "Overfitting Gap": 0.0,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Decision Tree": {
+            "Model": "Decision Tree",
+            "Train F1": 0.9968328487798158,
+            "CV Mean F1": 0.9936488933053678,
+            "CV Std F1": 0.007778589514941453,
+            "Overfitting Gap": 0.02201878522335876,
+            "Overfitting Score": 0.4100939261167938,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9759615384615385,
+            "Recall": 0.975,
+            "F1 Score": 0.9748140635564571,
+            "ROC AUC": 0.9826666666666667,
+            "PR AUC": 0.9780555555555556
+        },
+        "Random Forest": {
+            "Model": "Random Forest",
+            "Train F1": 0.9968328487798158,
+            "CV Mean F1": 0.9968117168763546,
+            "CV Std F1": 0.006376566247290727,
+            "Overfitting Gap": 0.02201878522335876,
+            "Overfitting Score": 0.4100939261167938,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9759615384615385,
+            "Recall": 0.975,
+            "F1 Score": 0.9748140635564571,
+            "ROC AUC": 0.9946666666666668,
+            "PR AUC": 0.9921130952380952
+        },
+        "Extra Trees": {
+            "Model": "Extra Trees",
+            "Train F1": 1.0,
+            "CV Mean F1": 1.0,
+            "CV Std F1": 0.0,
+            "Overfitting Gap": 0.0,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Gradient Boosting": {
+            "Model": "Gradient Boosting",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9778400537340352,
+            "CV Std F1": 0.01603647544528336,
+            "Overfitting Gap": 0.012544051015271007,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 0.9875,
+            "Precision": 0.9877450980392156,
+            "Recall": 0.9875,
+            "F1 Score": 0.987455948984729,
+            "ROC AUC": 0.9973333333333334,
+            "PR AUC": 0.996078431372549
+        },
+        "AdaBoost": {
+            "Model": "AdaBoost",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9936488933053678,
+            "CV Std F1": 0.007778589514941453,
+            "Overfitting Gap": 0.0,
+            "Overfitting Score": 0.8,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 1.0
+        },
+        "Bagging": {
+            "Model": "Bagging",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9904879700798068,
+            "CV Std F1": 0.012692543394738128,
+            "Overfitting Gap": 0.025185936443542944,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9759615384615385,
+            "Recall": 0.975,
+            "F1 Score": 0.9748140635564571,
+            "ROC AUC": 0.979,
+            "PR AUC": 0.9791666666666667
+        },
+        "XGBoost": {
+            "Model": "XGBoost",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9968117168763546,
+            "CV Std F1": 0.006376566247290727,
+            "Overfitting Gap": 0.012544051015271007,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 0.9875,
+            "Precision": 0.9877450980392156,
+            "Recall": 0.9875,
+            "F1 Score": 0.987455948984729,
+            "ROC AUC": 1.0,
+            "PR AUC": 1.0
+        },
+        "LightGBM": {
+            "Model": "LightGBM",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.990505952465327,
+            "CV Std F1": 0.012629415339947029,
+            "Overfitting Gap": 0.0,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "SVM (RBF)": {
+            "Model": "SVM (RBF)",
+            "Train F1": 1.0,
+            "CV Mean F1": 1.0,
+            "CV Std F1": 0.0,
+            "Overfitting Gap": 0.0,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "SVM (Linear)": {
+            "Model": "SVM (Linear)",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9905360025794572,
+            "CV Std F1": 0.007728273239852448,
+            "Overfitting Gap": 0.0,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "SVM (Polynomial)": {
+            "Model": "SVM (Polynomial)",
+            "Train F1": 0.9841085273947279,
+            "CV Mean F1": 0.9841039715985753,
+            "CV Std F1": 0.014263498698010751,
+            "Overfitting Gap": -0.0033474215900011206,
+            "Overfitting Score": 0.3,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.9875,
+            "Precision": 0.9877450980392156,
+            "Recall": 0.9875,
+            "F1 Score": 0.987455948984729,
+            "ROC AUC": 1.0,
+            "PR AUC": 1.0
+        },
+        "K-Nearest Neighbors": {
+            "Model": "K-Nearest Neighbors",
+            "Train F1": 0.9905283240352062,
+            "CV Mean F1": 0.9842556977210881,
+            "CV Std F1": 0.00997071925973052,
+            "Overfitting Gap": 0.015380200269570876,
+            "Overfitting Score": 0.37690100134785437,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9765625,
+            "Recall": 0.975,
+            "F1 Score": 0.9751481237656353,
+            "ROC AUC": 1.0,
+            "PR AUC": 1.0
+        },
+        "Gaussian Naive Bayes": {
+            "Model": "Gaussian Naive Bayes",
+            "Train F1": 0.9374417606349006,
+            "CV Mean F1": 0.9375704957546219,
+            "CV Std F1": 0.021613398090748432,
+            "Overfitting Gap": 0.02366387586520058,
+            "Overfitting Score": 0.4183193793260029,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.9125,
+            "Precision": 0.9290540540540541,
+            "Recall": 0.9125,
+            "F1 Score": 0.9137778847697,
+            "ROC AUC": 0.9299999999999999,
+            "PR AUC": 0.8108108108108109
+        },
+        "Bernoulli Naive Bayes": {
+            "Model": "Bernoulli Naive Bayes",
+            "Train F1": 0.9810704192810675,
+            "CV Mean F1": 0.9778764412577516,
+            "CV Std F1": 0.012639389529643707,
+            "Overfitting Gap": 0.01825745904542697,
+            "Overfitting Score": 0.39128729522713485,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.9625,
+            "Precision": 0.965909090909091,
+            "Recall": 0.9625,
+            "F1 Score": 0.9628129602356406,
+            "ROC AUC": 0.9973333333333333,
+            "PR AUC": 0.995766129032258
+        },
+        "Linear Discriminant Analysis": {
+            "Model": "Linear Discriminant Analysis",
+            "Train F1": 0.9873417721518988,
+            "CV Mean F1": 0.9778337891901927,
+            "CV Std F1": 0.02155682354822984,
+            "Overfitting Gap": -0.012658227848101222,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Multi-layer Perceptron": {
+            "Model": "Multi-layer Perceptron",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9936942355889723,
+            "CV Std F1": 0.01261152882205514,
+            "Overfitting Gap": 0.0,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Dummy Classifier (Stratified)": {
+            "Model": "Dummy Classifier (Stratified)",
+            "Train F1": 0.5709295037041949,
+            "CV Mean F1": 0.534531442164986,
+            "CV Std F1": 0.049495324475726014,
+            "Overfitting Gap": 0.07917126194595314,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 0.5,
+            "Precision": 0.48575498575498577,
+            "Recall": 0.5,
+            "F1 Score": 0.4917582417582418,
+            "ROC AUC": 0.4533333333333333,
+            "PR AUC": 0.35705128205128206
+        },
+        "Dummy Classifier (Most Frequent)": {
+            "Model": "Dummy Classifier (Most Frequent)",
+            "Train F1": 0.47488132911392406,
+            "CV Mean F1": 0.4748653307476836,
+            "CV Std F1": 0.0029519500107735744,
+            "Overfitting Gap": -0.005887901655306782,
+            "Overfitting Score": 0.3,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.625,
+            "Precision": 0.390625,
+            "Recall": 0.625,
+            "F1 Score": 0.48076923076923084,
+            "ROC AUC": 0.5,
+            "PR AUC": 0.375
+        }
+    },
+    "v1_results": {
+        "Logistic Regression (L1)": {
+            "Model": "Logistic Regression (L1)",
+            "Train F1": 0.996837961760817,
+            "CV Mean F1": 0.9873986385611287,
+            "CV Std F1": 0.006301422645885812,
+            "Overfitting Gap": -0.0031620382391830404,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Logistic Regression (L2)": {
+            "Model": "Logistic Regression (L2)",
+            "Train F1": 0.996837961760817,
+            "CV Mean F1": 0.9905115292870393,
+            "CV Std F1": 0.007747303895365152,
+            "Overfitting Gap": -0.0031620382391830404,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Logistic Regression (ElasticNet)": {
+            "Model": "Logistic Regression (ElasticNet)",
+            "Train F1": 0.996837961760817,
+            "CV Mean F1": 0.9904879700798068,
+            "CV Std F1": 0.012692543394738128,
+            "Overfitting Gap": -0.0031620382391830404,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Ridge Classifier": {
+            "Model": "Ridge Classifier",
+            "Train F1": 0.974795521550021,
+            "CV Mean F1": 0.9620291971882992,
+            "CV Std F1": 0.03555048079084734,
+            "Overfitting Gap": -0.01274380615324111,
+            "Overfitting Score": 0.0,
+            "Overfitting Risk": "LOW",
+            "Test Accuracy": 0.9875,
+            "Precision": 0.9879032258064516,
+            "Recall": 0.9875,
+            "F1 Score": 0.9875393277032621,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "SGD Classifier": {
+            "Model": "SGD Classifier",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9810258730046899,
+            "CV Std F1": 0.011898505178261508,
+            "Overfitting Gap": 0.0,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Decision Tree": {
+            "Model": "Decision Tree",
+            "Train F1": 0.9968328487798158,
+            "CV Mean F1": 0.9936488933053678,
+            "CV Std F1": 0.007778589514941453,
+            "Overfitting Gap": 0.02201878522335876,
+            "Overfitting Score": 0.4100939261167938,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9759615384615385,
+            "Recall": 0.975,
+            "F1 Score": 0.9748140635564571,
+            "ROC AUC": 0.9666666666666667,
+            "PR AUC": 0.9583333333333334
+        },
+        "Random Forest": {
+            "Model": "Random Forest",
+            "Train F1": 0.9968328487798158,
+            "CV Mean F1": 0.9936488933053678,
+            "CV Std F1": 0.007778589514941453,
+            "Overfitting Gap": 0.02201878522335876,
+            "Overfitting Score": 0.4100939261167938,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9759615384615385,
+            "Recall": 0.975,
+            "F1 Score": 0.9748140635564571,
+            "ROC AUC": 0.9946666666666666,
+            "PR AUC": 0.992038027332145
+        },
+        "Extra Trees": {
+            "Model": "Extra Trees",
+            "Train F1": 1.0,
+            "CV Mean F1": 1.0,
+            "CV Std F1": 0.0,
+            "Overfitting Gap": 0.0,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 1.0
+        },
+        "Gradient Boosting": {
+            "Model": "Gradient Boosting",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9968117168763546,
+            "CV Std F1": 0.006376566247290727,
+            "Overfitting Gap": 0.025185936443542944,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9759615384615385,
+            "Recall": 0.975,
+            "F1 Score": 0.9748140635564571,
+            "ROC AUC": 0.9993333333333334,
+            "PR AUC": 0.9989247311827957
+        },
+        "AdaBoost": {
+            "Model": "AdaBoost",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9936488933053678,
+            "CV Std F1": 0.007778589514941453,
+            "Overfitting Gap": 0.0,
+            "Overfitting Score": 0.8,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 1.0
+        },
+        "Bagging": {
+            "Model": "Bagging",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9873251465088199,
+            "CV Std F1": 0.011872014349428327,
+            "Overfitting Gap": 0.025185936443542944,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9759615384615385,
+            "Recall": 0.975,
+            "F1 Score": 0.9748140635564571,
+            "ROC AUC": 0.986,
+            "PR AUC": 0.980952380952381
+        },
+        "XGBoost": {
+            "Model": "XGBoost",
+            "Train F1": 0.9968328487798158,
+            "CV Mean F1": 0.9936488933053678,
+            "CV Std F1": 0.007778589514941453,
+            "Overfitting Gap": 0.02201878522335876,
+            "Overfitting Score": 0.4100939261167938,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9759615384615385,
+            "Recall": 0.975,
+            "F1 Score": 0.9748140635564571,
+            "ROC AUC": 1.0,
+            "PR AUC": 1.0
+        },
+        "LightGBM": {
+            "Model": "LightGBM",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9968117168763546,
+            "CV Std F1": 0.006376566247290727,
+            "Overfitting Gap": 0.0,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 1.0
+        },
+        "SVM (RBF)": {
+            "Model": "SVM (RBF)",
+            "Train F1": 1.0,
+            "CV Mean F1": 1.0,
+            "CV Std F1": 0.0,
+            "Overfitting Gap": 0.0,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "SVM (Linear)": {
+            "Model": "SVM (Linear)",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9936488933053678,
+            "CV Std F1": 0.007778589514941453,
+            "Overfitting Gap": 0.0,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "SVM (Polynomial)": {
+            "Model": "SVM (Polynomial)",
+            "Train F1": 0.9841085273947279,
+            "CV Mean F1": 0.9745117623295549,
+            "CV Std F1": 0.012806324936789872,
+            "Overfitting Gap": 0.009294463838270817,
+            "Overfitting Score": 0.3464723191913541,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9759615384615385,
+            "Recall": 0.975,
+            "F1 Score": 0.9748140635564571,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "K-Nearest Neighbors": {
+            "Model": "K-Nearest Neighbors",
+            "Train F1": 0.9936808109420308,
+            "CV Mean F1": 0.9810972383485177,
+            "CV Std F1": 0.0183448727119735,
+            "Overfitting Gap": -0.006319189057969243,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 1.0
+        },
+        "Gaussian Naive Bayes": {
+            "Model": "Gaussian Naive Bayes",
+            "Train F1": 0.921923248877901,
+            "CV Mean F1": 0.9221081956390899,
+            "CV Std F1": 0.03475249229175977,
+            "Overfitting Gap": 0.02038872202368114,
+            "Overfitting Score": 0.4019436101184057,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.9,
+            "Precision": 0.9210526315789475,
+            "Recall": 0.9,
+            "F1 Score": 0.9015345268542199,
+            "ROC AUC": 1.0,
+            "PR AUC": 1.0
+        },
+        "Bernoulli Naive Bayes": {
+            "Model": "Bernoulli Naive Bayes",
+            "Train F1": 0.9873616218840615,
+            "CV Mean F1": 0.9841803053233533,
+            "CV Std F1": 0.009970499494463495,
+            "Overfitting Gap": 0.012213498118426203,
+            "Overfitting Score": 0.361067490592131,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9765625,
+            "Recall": 0.975,
+            "F1 Score": 0.9751481237656353,
+            "ROC AUC": 1.0,
+            "PR AUC": 1.0
+        },
+        "Linear Discriminant Analysis": {
+            "Model": "Linear Discriminant Analysis",
+            "Train F1": 0.9779310409278028,
+            "CV Mean F1": 0.9716250829336062,
+            "CV Std F1": 0.030515541868990338,
+            "Overfitting Gap": -0.00960828677545933,
+            "Overfitting Score": 0.3,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.9875,
+            "Precision": 0.9879032258064516,
+            "Recall": 0.9875,
+            "F1 Score": 0.9875393277032621,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Multi-layer Perceptron": {
+            "Model": "Multi-layer Perceptron",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9968371764290131,
+            "CV Std F1": 0.0063256471419736995,
+            "Overfitting Gap": 0.0,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Dummy Classifier (Stratified)": {
+            "Model": "Dummy Classifier (Stratified)",
+            "Train F1": 0.5709295037041949,
+            "CV Mean F1": 0.534531442164986,
+            "CV Std F1": 0.049495324475726014,
+            "Overfitting Gap": 0.07917126194595314,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 0.5,
+            "Precision": 0.48575498575498577,
+            "Recall": 0.5,
+            "F1 Score": 0.4917582417582418,
+            "ROC AUC": 0.4533333333333333,
+            "PR AUC": 0.35705128205128206
+        },
+        "Dummy Classifier (Most Frequent)": {
+            "Model": "Dummy Classifier (Most Frequent)",
+            "Train F1": 0.47488132911392406,
+            "CV Mean F1": 0.4748653307476836,
+            "CV Std F1": 0.0029519500107735744,
+            "Overfitting Gap": -0.005887901655306782,
+            "Overfitting Score": 0.3,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.625,
+            "Precision": 0.390625,
+            "Recall": 0.625,
+            "F1 Score": 0.48076923076923084,
+            "ROC AUC": 0.5,
+            "PR AUC": 0.375
+        }
+    },
+    "v2_results": {
+        "Logistic Regression (L1)": {
+            "Model": "Logistic Regression (L1)",
+            "Train F1": 0.9746835443037974,
+            "CV Mean F1": 0.97465029301764,
+            "CV Std F1": 0.016145873021178026,
+            "Overfitting Gap": -0.012772404680931548,
+            "Overfitting Score": 0.3,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.9875,
+            "Precision": 0.9877450980392156,
+            "Recall": 0.9875,
+            "F1 Score": 0.987455948984729,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Logistic Regression (L2)": {
+            "Model": "Logistic Regression (L2)",
+            "Train F1": 0.9842138733920106,
+            "CV Mean F1": 0.9779064913718816,
+            "CV Std F1": 0.007793412579184252,
+            "Overfitting Gap": -0.015786126607989392,
+            "Overfitting Score": 0.8,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Logistic Regression (ElasticNet)": {
+            "Model": "Logistic Regression (ElasticNet)",
+            "Train F1": 0.9778299414587116,
+            "CV Mean F1": 0.9683274603062773,
+            "CV Std F1": 0.017455388146840733,
+            "Overfitting Gap": -0.009626007526017388,
+            "Overfitting Score": 0.0,
+            "Overfitting Risk": "LOW",
+            "Test Accuracy": 0.9875,
+            "Precision": 0.9877450980392156,
+            "Recall": 0.9875,
+            "F1 Score": 0.987455948984729,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Ridge Classifier": {
+            "Model": "Ridge Classifier",
+            "Train F1": 0.9654501367267567,
+            "CV Mean F1": 0.9654579364739219,
+            "CV Std F1": 0.01175716141636316,
+            "Overfitting Gap": -0.022089190976505413,
+            "Overfitting Score": 0.0,
+            "Overfitting Risk": "LOW",
+            "Test Accuracy": 0.9875,
+            "Precision": 0.9879032258064516,
+            "Recall": 0.9875,
+            "F1 Score": 0.9875393277032621,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "SGD Classifier": {
+            "Model": "SGD Classifier",
+            "Train F1": 0.9809810707036781,
+            "CV Mean F1": 0.9683454426917975,
+            "CV Std F1": 0.017432413688832457,
+            "Overfitting Gap": 0.006167007147221071,
+            "Overfitting Score": 0.33083503573610534,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9759615384615385,
+            "Recall": 0.975,
+            "F1 Score": 0.9748140635564571,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Decision Tree": {
+            "Model": "Decision Tree",
+            "Train F1": 0.9968328487798158,
+            "CV Mean F1": 0.9904879700798068,
+            "CV Std F1": 0.012692543394738128,
+            "Overfitting Gap": 0.02201878522335876,
+            "Overfitting Score": 0.4100939261167938,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9759615384615385,
+            "Recall": 0.975,
+            "F1 Score": 0.9748140635564571,
+            "ROC AUC": 0.9666666666666667,
+            "PR AUC": 0.9583333333333334
+        },
+        "Random Forest": {
+            "Model": "Random Forest",
+            "Train F1": 0.9968328487798158,
+            "CV Mean F1": 0.9936488933053678,
+            "CV Std F1": 0.007778589514941453,
+            "Overfitting Gap": 0.02201878522335876,
+            "Overfitting Score": 0.4100939261167938,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9759615384615385,
+            "Recall": 0.975,
+            "F1 Score": 0.9748140635564571,
+            "ROC AUC": 1.0,
+            "PR AUC": 1.0
+        },
+        "Extra Trees": {
+            "Model": "Extra Trees",
+            "Train F1": 0.9905283240352062,
+            "CV Mean F1": 0.9842302381684295,
+            "CV Std F1": 0.009971027542751832,
+            "Overfitting Gap": -0.009471675964793813,
+            "Overfitting Score": 0.8,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Gradient Boosting": {
+            "Model": "Gradient Boosting",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.990505952465327,
+            "CV Std F1": 0.012629415339947029,
+            "Overfitting Gap": 0.025185936443542944,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9759615384615385,
+            "Recall": 0.975,
+            "F1 Score": 0.9748140635564571,
+            "ROC AUC": 1.0,
+            "PR AUC": 1.0
+        },
+        "AdaBoost": {
+            "Model": "AdaBoost",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9936488933053678,
+            "CV Std F1": 0.007778589514941453,
+            "Overfitting Gap": 0.025185936443542944,
+            "Overfitting Score": 0.9259296822177148,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9759615384615385,
+            "Recall": 0.975,
+            "F1 Score": 0.9748140635564571,
+            "ROC AUC": 0.9986666666666667,
+            "PR AUC": 0.9978494623655914
+        },
+        "Bagging": {
+            "Model": "Bagging",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9936488933053678,
+            "CV Std F1": 0.007778589514941453,
+            "Overfitting Gap": 0.025185936443542944,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9759615384615385,
+            "Recall": 0.975,
+            "F1 Score": 0.9748140635564571,
+            "ROC AUC": 1.0,
+            "PR AUC": 1.0
+        },
+        "XGBoost": {
+            "Model": "XGBoost",
+            "Train F1": 0.9968328487798158,
+            "CV Mean F1": 0.9904879700798068,
+            "CV Std F1": 0.012692543394738128,
+            "Overfitting Gap": 0.02201878522335876,
+            "Overfitting Score": 0.4100939261167938,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9759615384615385,
+            "Recall": 0.975,
+            "F1 Score": 0.9748140635564571,
+            "ROC AUC": 1.0,
+            "PR AUC": 1.0
+        },
+        "LightGBM": {
+            "Model": "LightGBM",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.990505952465327,
+            "CV Std F1": 0.012629415339947029,
+            "Overfitting Gap": 0.025185936443542944,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9759615384615385,
+            "Recall": 0.975,
+            "F1 Score": 0.9748140635564571,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "SVM (RBF)": {
+            "Model": "SVM (RBF)",
+            "Train F1": 0.9842364578055735,
+            "CV Mean F1": 0.9810872973283888,
+            "CV Std F1": 0.011798835343751656,
+            "Overfitting Gap": -0.0033028698976886872,
+            "Overfitting Score": 0.3,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.9875,
+            "Precision": 0.9879032258064516,
+            "Recall": 0.9875,
+            "F1 Score": 0.9875393277032621,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "SVM (Linear)": {
+            "Model": "SVM (Linear)",
+            "Train F1": 0.9841898088040849,
+            "CV Mean F1": 0.9651845194662364,
+            "CV Std F1": 0.015637094376558795,
+            "Overfitting Gap": -0.01581019119591509,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "SVM (Polynomial)": {
+            "Model": "SVM (Polynomial)",
+            "Train F1": 0.9584341527867181,
+            "CV Mean F1": 0.9452514529893824,
+            "CV Std F1": 0.024454706580483036,
+            "Overfitting Gap": 0.04885030514080024,
+            "Overfitting Score": 0.24425152570400122,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.9125,
+            "Precision": 0.9232456140350876,
+            "Recall": 0.9125,
+            "F1 Score": 0.9095838476459178,
+            "ROC AUC": 1.0,
+            "PR AUC": 1.0
+        },
+        "K-Nearest Neighbors": {
+            "Model": "K-Nearest Neighbors",
+            "Train F1": 0.9810966411625157,
+            "CV Mean F1": 0.9748775785617891,
+            "CV Std F1": 0.012562722372242286,
+            "Overfitting Gap": 0.018478658052729413,
+            "Overfitting Score": 0.39239329026364705,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.9625,
+            "Precision": 0.9630513495720869,
+            "Recall": 0.9625,
+            "F1 Score": 0.9626179831097863,
+            "ROC AUC": 0.9976666666666667,
+            "PR AUC": 0.9947474747474747
+        },
+        "Gaussian Naive Bayes": {
+            "Model": "Gaussian Naive Bayes",
+            "Train F1": 0.8846295889857264,
+            "CV Mean F1": 0.8907709159605993,
+            "CV Std F1": 0.0428816706125105,
+            "Overfitting Gap": -0.0291482957839736,
+            "Overfitting Score": 0.3,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.9125,
+            "Precision": 0.9290540540540541,
+            "Recall": 0.9125,
+            "F1 Score": 0.9137778847697,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Bernoulli Naive Bayes": {
+            "Model": "Bernoulli Naive Bayes",
+            "Train F1": 0.9746414276049045,
+            "CV Mean F1": 0.9682988133561548,
+            "CV Std F1": 0.02254921900735752,
+            "Overfitting Gap": -0.00017263595155259104,
+            "Overfitting Score": 0.3,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9759615384615385,
+            "Recall": 0.975,
+            "F1 Score": 0.9748140635564571,
+            "ROC AUC": 0.9986666666666666,
+            "PR AUC": 0.9958333333333333
+        },
+        "Linear Discriminant Analysis": {
+            "Model": "Linear Discriminant Analysis",
+            "Train F1": 0.9623298753212143,
+            "CV Mean F1": 0.9654579364739219,
+            "CV Std F1": 0.01175716141636316,
+            "Overfitting Gap": -0.02520945238204786,
+            "Overfitting Score": 0.3,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.9875,
+            "Precision": 0.9879032258064516,
+            "Recall": 0.9875,
+            "F1 Score": 0.9875393277032621,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Multi-layer Perceptron": {
+            "Model": "Multi-layer Perceptron",
+            "Train F1": 0.9968328487798158,
+            "CV Mean F1": 0.9842001880542994,
+            "CV Std F1": 0.014100295632962013,
+            "Overfitting Gap": 0.009376899795086824,
+            "Overfitting Score": 0.3468844989754341,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.9875,
+            "Precision": 0.9877450980392156,
+            "Recall": 0.9875,
+            "F1 Score": 0.987455948984729,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Dummy Classifier (Stratified)": {
+            "Model": "Dummy Classifier (Stratified)",
+            "Train F1": 0.5709295037041949,
+            "CV Mean F1": 0.534531442164986,
+            "CV Std F1": 0.049495324475726014,
+            "Overfitting Gap": 0.07917126194595314,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 0.5,
+            "Precision": 0.48575498575498577,
+            "Recall": 0.5,
+            "F1 Score": 0.4917582417582418,
+            "ROC AUC": 0.4533333333333333,
+            "PR AUC": 0.35705128205128206
+        },
+        "Dummy Classifier (Most Frequent)": {
+            "Model": "Dummy Classifier (Most Frequent)",
+            "Train F1": 0.47488132911392406,
+            "CV Mean F1": 0.4748653307476836,
+            "CV Std F1": 0.0029519500107735744,
+            "Overfitting Gap": -0.005887901655306782,
+            "Overfitting Score": 0.3,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.625,
+            "Precision": 0.390625,
+            "Recall": 0.625,
+            "F1 Score": 0.48076923076923084,
+            "ROC AUC": 0.5,
+            "PR AUC": 0.375
+        }
+    },
+    "v0_hyp_results": {
+        "Random Forest": {
+            "Model": "Random Forest",
+            "Train F1": 0.9529370872069484,
+            "CV Mean F1": 0.9529039290075596,
+            "CV Std F1": 0.019868851144685864,
+            "Overfitting Gap": 0.0640706904458147,
+            "Overfitting Score": 0.3203534522290735,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.8875,
+            "Precision": 0.8972222222222221,
+            "Recall": 0.8875,
+            "F1 Score": 0.8888663967611337,
+            "ROC AUC": 0.9813333333333334,
+            "PR AUC": 0.9765360983102918
+        },
+        "XGBoost": {
+            "Model": "XGBoost",
+            "Train F1": 0.9873616218840615,
+            "CV Mean F1": 0.9685143205255775,
+            "CV Std F1": 0.026200339833742824,
+            "Overfitting Gap": 0.024993774929874646,
+            "Overfitting Score": 0.12496887464937323,
+            "Overfitting Risk": "LOW",
+            "Test Accuracy": 0.9625,
+            "Precision": 0.9625591615956728,
+            "Recall": 0.9625,
+            "F1 Score": 0.9623678469541869,
+            "ROC AUC": 0.9933333333333333,
+            "PR AUC": 0.9904761904761904
+        },
+        "LightGBM": {
+            "Model": "LightGBM",
+            "Train F1": 0.9968328487798158,
+            "CV Mean F1": 0.987345029239766,
+            "CV Std F1": 0.015499262737902891,
+            "Overfitting Gap": 0.02201878522335876,
+            "Overfitting Score": 0.1100939261167938,
+            "Overfitting Risk": "LOW",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9759615384615385,
+            "Recall": 0.975,
+            "F1 Score": 0.9748140635564571,
+            "ROC AUC": 0.9946666666666666,
+            "PR AUC": 0.9921568627450981
+        },
+        "Logistic Regression": {
+            "Model": "Logistic Regression",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9936942355889723,
+            "CV Std F1": 0.01261152882205514,
+            "Overfitting Gap": 0.0,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "SVM (RBF)": {
+            "Model": "SVM (RBF)",
+            "Train F1": 1.0,
+            "CV Mean F1": 1.0,
+            "CV Std F1": 0.0,
+            "Overfitting Gap": 0.0,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Gradient Boosting": {
+            "Model": "Gradient Boosting",
+            "Train F1": 0.9873616218840615,
+            "CV Mean F1": 0.9747700006674782,
+            "CV Std F1": 0.012545390049804905,
+            "Overfitting Gap": 0.04966498336775094,
+            "Overfitting Score": 0.24832491683875468,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.9375,
+            "Precision": 0.9381994733377221,
+            "Recall": 0.9375,
+            "F1 Score": 0.9376966385163106,
+            "ROC AUC": 0.992,
+            "PR AUC": 0.9887301587301587
+        },
+        "Decision Tree": {
+            "Model": "Decision Tree",
+            "Train F1": 0.9560515212080836,
+            "CV Mean F1": 0.9529039290075596,
+            "CV Std F1": 0.019868851144685864,
+            "Overfitting Gap": 0.07935906472839305,
+            "Overfitting Score": 0.39679532364196524,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.875,
+            "Precision": 0.8882575757575758,
+            "Recall": 0.875,
+            "F1 Score": 0.8766924564796905,
+            "ROC AUC": 0.8866666666666666,
+            "PR AUC": 0.750925925925926
+        },
+        "K-Nearest Neighbors": {
+            "Model": "K-Nearest Neighbors",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9717491693033489,
+            "CV Std F1": 0.015396540434843068,
+            "Overfitting Gap": 0.04947916666666663,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 0.95,
+            "Precision": 0.9558823529411764,
+            "Recall": 0.95,
+            "F1 Score": 0.9505208333333334,
+            "ROC AUC": 1.0,
+            "PR AUC": 1.0
+        },
+        "Linear Discriminant Analysis": {
+            "Model": "Linear Discriminant Analysis",
+            "Train F1": 0.9905283240352062,
+            "CV Mean F1": 0.9905314120179856,
+            "CV Std F1": 0.012616514192506246,
+            "Overfitting Gap": -0.009471675964793813,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Multi-layer Perceptron": {
+            "Model": "Multi-layer Perceptron",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9873930617394164,
+            "CV Std F1": 0.011796381710959288,
+            "Overfitting Gap": 0.0,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "SGD Classifier": {
+            "Model": "SGD Classifier",
+            "Train F1": 0.9968328487798158,
+            "CV Mean F1": 0.9873986385611287,
+            "CV Std F1": 0.006301422645885812,
+            "Overfitting Gap": -0.0031671512201841834,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Gaussian Naive Bayes": {
+            "Model": "Gaussian Naive Bayes",
+            "Train F1": 0.9374417606349006,
+            "CV Mean F1": 0.9375704957546219,
+            "CV Std F1": 0.021613398090748432,
+            "Overfitting Gap": 0.02366387586520058,
+            "Overfitting Score": 0.4183193793260029,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.9125,
+            "Precision": 0.9290540540540541,
+            "Recall": 0.9125,
+            "F1 Score": 0.9137778847697,
+            "ROC AUC": 0.9299999999999999,
+            "PR AUC": 0.8108108108108109
+        },
+        "Bernoulli Naive Bayes": {
+            "Model": "Bernoulli Naive Bayes",
+            "Train F1": 0.9810704192810675,
+            "CV Mean F1": 0.9778764412577516,
+            "CV Std F1": 0.012639389529643707,
+            "Overfitting Gap": 0.01825745904542697,
+            "Overfitting Score": 0.39128729522713485,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.9625,
+            "Precision": 0.965909090909091,
+            "Recall": 0.9625,
+            "F1 Score": 0.9628129602356406,
+            "ROC AUC": 0.9973333333333333,
+            "PR AUC": 0.995766129032258
+        },
+        "Dummy Classifier (Stratified)": {
+            "Model": "Dummy Classifier (Stratified)",
+            "Train F1": 0.5709295037041949,
+            "CV Mean F1": 0.534531442164986,
+            "CV Std F1": 0.049495324475726014,
+            "Overfitting Gap": 0.07917126194595314,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 0.5,
+            "Precision": 0.48575498575498577,
+            "Recall": 0.5,
+            "F1 Score": 0.4917582417582418,
+            "ROC AUC": 0.4533333333333333,
+            "PR AUC": 0.35705128205128206
+        },
+        "Dummy Classifier (Most Frequent)": {
+            "Model": "Dummy Classifier (Most Frequent)",
+            "Train F1": 0.47488132911392406,
+            "CV Mean F1": 0.4748653307476836,
+            "CV Std F1": 0.0029519500107735744,
+            "Overfitting Gap": -0.005887901655306782,
+            "Overfitting Score": 0.3,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.625,
+            "Precision": 0.390625,
+            "Recall": 0.625,
+            "F1 Score": 0.48076923076923084,
+            "ROC AUC": 0.5,
+            "PR AUC": 0.375
+        }
+    },
+    "v1_hyp_results": {
+        "Random Forest": {
+            "Model": "Random Forest",
+            "Train F1": 0.9560967326341591,
+            "CV Mean F1": 0.9525548040404832,
+            "CV Std F1": 0.02253177088011064,
+            "Overfitting Gap": 0.03008125874634482,
+            "Overfitting Score": 0.1504062937317241,
+            "Overfitting Risk": "LOW",
+            "Test Accuracy": 0.925,
+            "Precision": 0.9375,
+            "Recall": 0.925,
+            "F1 Score": 0.9260154738878142,
+            "ROC AUC": 0.9933333333333334,
+            "PR AUC": 0.9888888888888889
+        },
+        "XGBoost": {
+            "Model": "XGBoost",
+            "Train F1": 0.9873616218840615,
+            "CV Mean F1": 0.9685143205255775,
+            "CV Std F1": 0.026200339833742824,
+            "Overfitting Gap": 0.024993774929874646,
+            "Overfitting Score": 0.12496887464937323,
+            "Overfitting Risk": "LOW",
+            "Test Accuracy": 0.9625,
+            "Precision": 0.9625591615956728,
+            "Recall": 0.9625,
+            "F1 Score": 0.9623678469541869,
+            "ROC AUC": 0.992,
+            "PR AUC": 0.9888888888888889
+        },
+        "LightGBM": {
+            "Model": "LightGBM",
+            "Train F1": 0.9905283240352062,
+            "CV Mean F1": 0.9842103554374834,
+            "CV Std F1": 0.00012291642344753245,
+            "Overfitting Gap": -0.009471675964793813,
+            "Overfitting Score": 0.8,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 1.0
+        },
+        "Logistic Regression": {
+            "Model": "Logistic Regression",
+            "Train F1": 0.996837961760817,
+            "CV Mean F1": 0.9873986385611287,
+            "CV Std F1": 0.006301422645885812,
+            "Overfitting Gap": -0.0031620382391830404,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "SVM (RBF)": {
+            "Model": "SVM (RBF)",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9937242857031026,
+            "CV Std F1": 0.007686554372862285,
+            "Overfitting Gap": 0.0,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Gradient Boosting": {
+            "Model": "Gradient Boosting",
+            "Train F1": 0.9873616218840615,
+            "CV Mean F1": 0.9779390053390026,
+            "CV Std F1": 0.012555532559300264,
+            "Overfitting Gap": 0.03736162188406156,
+            "Overfitting Score": 0.1868081094203078,
+            "Overfitting Risk": "LOW",
+            "Test Accuracy": 0.95,
+            "Precision": 0.95,
+            "Recall": 0.95,
+            "F1 Score": 0.95,
+            "ROC AUC": 0.9946666666666667,
+            "PR AUC": 0.9920380273321449
+        },
+        "Decision Tree": {
+            "Model": "Decision Tree",
+            "Train F1": 0.9560515212080836,
+            "CV Mean F1": 0.9529039290075596,
+            "CV Std F1": 0.019868851144685864,
+            "Overfitting Gap": 0.07935906472839305,
+            "Overfitting Score": 0.39679532364196524,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.875,
+            "Precision": 0.8882575757575758,
+            "Recall": 0.875,
+            "F1 Score": 0.8766924564796905,
+            "ROC AUC": 0.8866666666666666,
+            "PR AUC": 0.750925925925926
+        },
+        "K-Nearest Neighbors": {
+            "Model": "K-Nearest Neighbors",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9779843476226071,
+            "CV Std F1": 0.016050241326109573,
+            "Overfitting Gap": 0.0,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 1.0
+        },
+        "Linear Discriminant Analysis": {
+            "Model": "Linear Discriminant Analysis",
+            "Train F1": 0.9779310409278028,
+            "CV Mean F1": 0.9747914739374902,
+            "CV Std F1": 0.025589430215183565,
+            "Overfitting Gap": -0.022068959072197192,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Multi-layer Perceptron": {
+            "Model": "Multi-layer Perceptron",
+            "Train F1": 0.9716990711300103,
+            "CV Mean F1": 0.968586345732362,
+            "CV Std F1": 0.009917786177966499,
+            "Overfitting Gap": -0.015840256573251832,
+            "Overfitting Score": 0.0,
+            "Overfitting Risk": "LOW",
+            "Test Accuracy": 0.9875,
+            "Precision": 0.9879032258064516,
+            "Recall": 0.9875,
+            "F1 Score": 0.9875393277032621,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "SGD Classifier": {
+            "Model": "SGD Classifier",
+            "Train F1": 0.9936808109420308,
+            "CV Mean F1": 0.9842122557829093,
+            "CV Std F1": 0.0100396320464912,
+            "Overfitting Gap": -0.006319189057969243,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 1.0,
+            "Precision": 1.0,
+            "Recall": 1.0,
+            "F1 Score": 1.0,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Gaussian Naive Bayes": {
+            "Model": "Gaussian Naive Bayes",
+            "Train F1": 0.921923248877901,
+            "CV Mean F1": 0.9221081956390899,
+            "CV Std F1": 0.03475249229175977,
+            "Overfitting Gap": 0.02038872202368114,
+            "Overfitting Score": 0.4019436101184057,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.9,
+            "Precision": 0.9210526315789475,
+            "Recall": 0.9,
+            "F1 Score": 0.9015345268542199,
+            "ROC AUC": 1.0,
+            "PR AUC": 1.0
+        },
+        "Bernoulli Naive Bayes": {
+            "Model": "Bernoulli Naive Bayes",
+            "Train F1": 0.9873616218840615,
+            "CV Mean F1": 0.9841803053233533,
+            "CV Std F1": 0.009970499494463495,
+            "Overfitting Gap": 0.012213498118426203,
+            "Overfitting Score": 0.361067490592131,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9765625,
+            "Recall": 0.975,
+            "F1 Score": 0.9751481237656353,
+            "ROC AUC": 1.0,
+            "PR AUC": 1.0
+        },
+        "Dummy Classifier (Stratified)": {
+            "Model": "Dummy Classifier (Stratified)",
+            "Train F1": 0.5709295037041949,
+            "CV Mean F1": 0.534531442164986,
+            "CV Std F1": 0.049495324475726014,
+            "Overfitting Gap": 0.07917126194595314,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 0.5,
+            "Precision": 0.48575498575498577,
+            "Recall": 0.5,
+            "F1 Score": 0.4917582417582418,
+            "ROC AUC": 0.4533333333333333,
+            "PR AUC": 0.35705128205128206
+        },
+        "Dummy Classifier (Most Frequent)": {
+            "Model": "Dummy Classifier (Most Frequent)",
+            "Train F1": 0.47488132911392406,
+            "CV Mean F1": 0.4748653307476836,
+            "CV Std F1": 0.0029519500107735744,
+            "Overfitting Gap": -0.005887901655306782,
+            "Overfitting Score": 0.3,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.625,
+            "Precision": 0.390625,
+            "Recall": 0.625,
+            "F1 Score": 0.48076923076923084,
+            "ROC AUC": 0.5,
+            "PR AUC": 0.375
+        }
+    },
+    "v2_hyp_results": {
+        "Random Forest": {
+            "Model": "Random Forest",
+            "Train F1": 0.9716636461473236,
+            "CV Mean F1": 0.9622715536957023,
+            "CV Std F1": 0.00771324693574805,
+            "Overfitting Gap": 0.03396700763101301,
+            "Overfitting Score": 0.16983503815506507,
+            "Overfitting Risk": "LOW",
+            "Test Accuracy": 0.9375,
+            "Precision": 0.9381994733377221,
+            "Recall": 0.9375,
+            "F1 Score": 0.9376966385163106,
+            "ROC AUC": 0.996,
+            "PR AUC": 0.9938446969696969
+        },
+        "XGBoost": {
+            "Model": "XGBoost",
+            "Train F1": 0.9936708860759493,
+            "CV Mean F1": 0.981053796410339,
+            "CV Std F1": 0.01837495318898732,
+            "Overfitting Gap": 0.018856822519492278,
+            "Overfitting Score": 0.3942841125974614,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9759615384615385,
+            "Recall": 0.975,
+            "F1 Score": 0.9748140635564571,
+            "ROC AUC": 0.9953333333333333,
+            "PR AUC": 0.9921568627450981
+        },
+        "LightGBM": {
+            "Model": "LightGBM",
+            "Train F1": 0.9905138852824509,
+            "CV Mean F1": 0.9904879700798068,
+            "CV Std F1": 0.012692543394738128,
+            "Overfitting Gap": 0.015699821725993823,
+            "Overfitting Score": 0.07849910862996912,
+            "Overfitting Risk": "LOW",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9759615384615385,
+            "Recall": 0.975,
+            "F1 Score": 0.9748140635564571,
+            "ROC AUC": 0.992,
+            "PR AUC": 0.9873873873873874
+        },
+        "Logistic Regression": {
+            "Model": "Logistic Regression",
+            "Train F1": 0.9436542781535769,
+            "CV Mean F1": 0.940513476748771,
+            "CV Std F1": 0.018278178408061493,
+            "Overfitting Gap": -0.006866555179756428,
+            "Overfitting Score": 0.0,
+            "Overfitting Risk": "LOW",
+            "Test Accuracy": 0.95,
+            "Precision": 0.9558823529411764,
+            "Recall": 0.95,
+            "F1 Score": 0.9505208333333334,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "SVM (RBF)": {
+            "Model": "SVM (RBF)",
+            "Train F1": 0.9748281611542124,
+            "CV Mean F1": 0.9654448717378455,
+            "CV Std F1": 0.02300979337642874,
+            "Overfitting Gap": -0.01271116654904969,
+            "Overfitting Score": 0.3,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.9875,
+            "Precision": 0.9879032258064516,
+            "Recall": 0.9875,
+            "F1 Score": 0.9875393277032621,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Gradient Boosting": {
+            "Model": "Gradient Boosting",
+            "Train F1": 0.9586036586005133,
+            "CV Mean F1": 0.9683633161966471,
+            "CV Std F1": 0.01732956989753232,
+            "Overfitting Gap": -0.028935669102748807,
+            "Overfitting Score": 0.0,
+            "Overfitting Risk": "LOW",
+            "Test Accuracy": 0.9875,
+            "Precision": 0.9879032258064516,
+            "Recall": 0.9875,
+            "F1 Score": 0.9875393277032621,
+            "ROC AUC": 0.9993333333333334,
+            "PR AUC": 0.9978494623655914
+        },
+        "Decision Tree": {
+            "Model": "Decision Tree",
+            "Train F1": 0.9436060799892272,
+            "CV Mean F1": 0.9405198706019696,
+            "CV Std F1": 0.026782726838575657,
+            "Overfitting Gap": 0.06691362350953667,
+            "Overfitting Score": 0.33456811754768334,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.875,
+            "Precision": 0.8882575757575758,
+            "Recall": 0.875,
+            "F1 Score": 0.8766924564796905,
+            "ROC AUC": 0.8866666666666666,
+            "PR AUC": 0.750925925925926
+        },
+        "K-Nearest Neighbors": {
+            "Model": "K-Nearest Neighbors",
+            "Train F1": 1.0,
+            "CV Mean F1": 0.9748653087388626,
+            "CV Std F1": 0.021294225845005992,
+            "Overfitting Gap": 0.03718703976435944,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 0.9625,
+            "Precision": 0.965909090909091,
+            "Recall": 0.9625,
+            "F1 Score": 0.9628129602356406,
+            "ROC AUC": 1.0,
+            "PR AUC": 1.0
+        },
+        "Linear Discriminant Analysis": {
+            "Model": "Linear Discriminant Analysis",
+            "Train F1": 0.9623298753212143,
+            "CV Mean F1": 0.9654579364739219,
+            "CV Std F1": 0.01175716141636316,
+            "Overfitting Gap": -0.02520945238204786,
+            "Overfitting Score": 0.3,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.9875,
+            "Precision": 0.9879032258064516,
+            "Recall": 0.9875,
+            "F1 Score": 0.9875393277032621,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Multi-layer Perceptron": {
+            "Model": "Multi-layer Perceptron",
+            "Train F1": 0.9654501367267567,
+            "CV Mean F1": 0.9345855000111312,
+            "CV Std F1": 0.037823366558026414,
+            "Overfitting Gap": -0.022089190976505413,
+            "Overfitting Score": 0.0,
+            "Overfitting Risk": "LOW",
+            "Test Accuracy": 0.9875,
+            "Precision": 0.9879032258064516,
+            "Recall": 0.9875,
+            "F1 Score": 0.9875393277032621,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "SGD Classifier": {
+            "Model": "SGD Classifier",
+            "Train F1": 0.9779310409278028,
+            "CV Mean F1": 0.9747960644989618,
+            "CV Std F1": 0.012565292589934943,
+            "Overfitting Gap": -0.00960828677545933,
+            "Overfitting Score": 0.3,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.9875,
+            "Precision": 0.9879032258064516,
+            "Recall": 0.9875,
+            "F1 Score": 0.9875393277032621,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Gaussian Naive Bayes": {
+            "Model": "Gaussian Naive Bayes",
+            "Train F1": 0.8846295889857264,
+            "CV Mean F1": 0.8907709159605993,
+            "CV Std F1": 0.0428816706125105,
+            "Overfitting Gap": -0.0291482957839736,
+            "Overfitting Score": 0.3,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.9125,
+            "Precision": 0.9290540540540541,
+            "Recall": 0.9125,
+            "F1 Score": 0.9137778847697,
+            "ROC AUC": 1.0,
+            "PR AUC": 0.9999999999999999
+        },
+        "Bernoulli Naive Bayes": {
+            "Model": "Bernoulli Naive Bayes",
+            "Train F1": 0.9746414276049045,
+            "CV Mean F1": 0.9682988133561548,
+            "CV Std F1": 0.02254921900735752,
+            "Overfitting Gap": -0.00017263595155259104,
+            "Overfitting Score": 0.3,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.975,
+            "Precision": 0.9759615384615385,
+            "Recall": 0.975,
+            "F1 Score": 0.9748140635564571,
+            "ROC AUC": 0.9986666666666666,
+            "PR AUC": 0.9958333333333333
+        },
+        "Dummy Classifier (Stratified)": {
+            "Model": "Dummy Classifier (Stratified)",
+            "Train F1": 0.5709295037041949,
+            "CV Mean F1": 0.534531442164986,
+            "CV Std F1": 0.049495324475726014,
+            "Overfitting Gap": 0.07917126194595314,
+            "Overfitting Score": 1.0,
+            "Overfitting Risk": "CRITICAL",
+            "Test Accuracy": 0.5,
+            "Precision": 0.48575498575498577,
+            "Recall": 0.5,
+            "F1 Score": 0.4917582417582418,
+            "ROC AUC": 0.4533333333333333,
+            "PR AUC": 0.35705128205128206
+        },
+        "Dummy Classifier (Most Frequent)": {
+            "Model": "Dummy Classifier (Most Frequent)",
+            "Train F1": 0.47488132911392406,
+            "CV Mean F1": 0.4748653307476836,
+            "CV Std F1": 0.0029519500107735744,
+            "Overfitting Gap": -0.005887901655306782,
+            "Overfitting Score": 0.3,
+            "Overfitting Risk": "MEDIUM",
+            "Test Accuracy": 0.625,
+            "Precision": 0.390625,
+            "Recall": 0.625,
+            "F1 Score": 0.48076923076923084,
+            "ROC AUC": 0.5,
+            "PR AUC": 0.375
+        }
+    },
+    "best_version": "v2+hyp",
+    "best_version_summary": {
+        "Multi-layer Perceptron": {
+            "Accuracy": 0.9875,
+            "Recall": 0.9875,
+            "F1 Score": 0.987539,
+            "Overfitting Risk": "LOW"
+        },
+        "Gradient Boosting": {
+            "Accuracy": 0.9875,
+            "Recall": 0.9875,
+            "F1 Score": 0.987539,
+            "Overfitting Risk": "LOW"
+        },
+        "LightGBM": {
+            "Accuracy": 0.975,
+            "Recall": 0.975,
+            "F1 Score": 0.974814,
+            "Overfitting Risk": "LOW"
+        },
+        "Logistic Regression": {
+            "Accuracy": 0.95,
+            "Recall": 0.95,
+            "F1 Score": 0.950521,
+            "Overfitting Risk": "LOW"
+        },
+        "Random Forest": {
+            "Accuracy": 0.9375,
+            "Recall": 0.9375,
+            "F1 Score": 0.937697,
+            "Overfitting Risk": "LOW"
+        }
+    },
+    "sample_data": [
+        {
+            "age": "48.0",
+            "bp": "80.0",
+            "sg": "1.02",
+            "al": "1",
+            "su": "0",
+            "rbc": "missing",
+            "pc": "normal",
+            "pcc": "notpresent",
+            "ba": "notpresent",
+            "bgr": "121.0",
+            "bu": "36.0",
+            "sc": "1.2",
+            "sod": "137.52875399361022",
+            "pot": "4.614836861783392",
+            "hemo": "15.4",
+            "pcv": "44.0",
+            "wc": "7800.0",
+            "rc": "5.2",
+            "htn": "yes",
+            "dm": "yes",
+            "cad": "no",
+            "appet": "good",
+            "pe": "no",
+            "ane": "no",
+            "classification": "ckd",
+            "eGFR": "68.68245576113502",
+            "comorb_score": "2",
+            "anemia_severity": "-2.38415302302458",
+            "kidney_func_score": "-0.7882049158095841",
+            "symptom_severity": "0"
+        },
+        {
+            "age": "7.0",
+            "bp": "50.0",
+            "sg": "1.02",
+            "al": "4",
+            "su": "0",
+            "rbc": "missing",
+            "pc": "normal",
+            "pcc": "notpresent",
+            "ba": "notpresent",
+            "bgr": "140.79828894461298",
+            "bu": "18.0",
+            "sc": "0.8000000000000003",
+            "sod": "137.52875399361022",
+            "pot": "4.614836861783392",
+            "hemo": "11.3",
+            "pcv": "38.0",
+            "wc": "6000.0",
+            "rc": "4.327763211270234",
+            "htn": "no",
+            "dm": "no",
+            "cad": "no",
+            "appet": "good",
+            "pe": "no",
+            "ane": "no",
+            "classification": "ckd",
+            "eGFR": "162.10342730517476",
+            "comorb_score": "0",
+            "anemia_severity": "0.8073772516501552",
+            "kidney_func_score": "-1.2960712313624039",
+            "symptom_severity": "0"
+        },
+        {
+            "age": "62.0",
+            "bp": "80.0",
+            "sg": "1.01",
+            "al": "2",
+            "su": "3",
+            "rbc": "normal",
+            "pc": "normal",
+            "pcc": "notpresent",
+            "ba": "notpresent",
+            "bgr": "423.0",
+            "bu": "53.0",
+            "sc": "1.8",
+            "sod": "137.52875399361022",
+            "pot": "4.614836861783392",
+            "hemo": "9.6",
+            "pcv": "31.0",
+            "wc": "7500.0",
+            "rc": "3.7494989990448",
+            "htn": "no",
+            "dm": "yes",
+            "cad": "no",
+            "appet": "poor",
+            "pe": "no",
+            "ane": "yes",
+            "classification": "ckd",
+            "eGFR": "40.83879887060748",
+            "comorb_score": "1",
+            "anemia_severity": "2.907139734073927",
+            "kidney_func_score": "-0.25286926914126173",
+            "symptom_severity": "2"
+        },
+        {
+            "age": "48.0",
+            "bp": "70.0",
+            "sg": "1.005",
+            "al": "4",
+            "su": "0",
+            "rbc": "normal",
+            "pc": "abnormal",
+            "pcc": "present",
+            "ba": "notpresent",
+            "bgr": "117.0",
+            "bu": "56.0",
+            "sc": "3.8",
+            "sod": "111.0",
+            "pot": "2.5",
+            "hemo": "11.2",
+            "pcv": "32.0",
+            "wc": "6700.0",
+            "rc": "3.9",
+            "htn": "yes",
+            "dm": "no",
+            "cad": "no",
+            "appet": "poor",
+            "pe": "yes",
+            "ane": "yes",
+            "classification": "ckd",
+            "eGFR": "18.16145765848823",
+            "comorb_score": "1",
+            "anemia_severity": "2.028862082028626",
+            "kidney_func_score": "4.596227509747872",
+            "symptom_severity": "3"
+        },
+        {
+            "age": "51.0",
+            "bp": "80.0",
+            "sg": "1.01",
+            "al": "2",
+            "su": "0",
+            "rbc": "normal",
+            "pc": "normal",
+            "pcc": "notpresent",
+            "ba": "notpresent",
+            "bgr": "106.0",
+            "bu": "26.0",
+            "sc": "1.4",
+            "sod": "137.52875399361022",
+            "pot": "4.614836861783392",
+            "hemo": "11.6",
+            "pcv": "35.0",
+            "wc": "7300.0",
+            "rc": "4.6",
+            "htn": "no",
+            "dm": "no",
+            "cad": "no",
+            "appet": "good",
+            "pe": "no",
+            "ane": "no",
+            "classification": "ckd",
+            "eGFR": "56.78641412683512",
+            "comorb_score": "0",
+            "anemia_severity": "0.7597578194807778",
+            "kidney_func_score": "-0.9645530286888984",
+            "symptom_severity": "0"
+        }
+    ],
+    "dataset_shape": [
+        396,
+        30
+    ],
+    "feature_columns_v0": [
+        "age",
+        "bp",
+        "sg",
+        "al",
+        "su",
+        "rbc",
+        "pc",
+        "pcc",
+        "ba",
+        "bgr",
+        "bu",
+        "sc",
+        "sod",
+        "pot",
+        "hemo",
+        "pcv",
+        "wc",
+        "rc",
+        "htn",
+        "dm",
+        "cad",
+        "appet",
+        "pe",
+        "ane",
+        "classification",
+        "eGFR",
+        "comorb_score",
+        "anemia_severity",
+        "kidney_func_score",
+        "symptom_severity"
+    ],
+    "feature_columns_v1": [
+        "anemia_severity",
+        "hemo",
+        "sg",
+        "comorb_score",
+        "eGFR",
+        "rbc",
+        "sc",
+        "dm",
+        "htn",
+        "bgr",
+        "symptom_severity"
+    ],
+    "feature_columns_v2": [
+        "hemo",
+        "sg",
+        "sc",
+        "htn",
+        "bgr"
+    ]
+};
+
+        // Initialize lists and shape
+        document.getElementById('dataset-rows').textContent = REPORT_DATA.dataset_shape ? REPORT_DATA.dataset_shape[0] : '396';
+        document.getElementById('dataset-cols').textContent = REPORT_DATA.dataset_shape ? REPORT_DATA.dataset_shape[1] : '30';
+        
+        // Populate feature lists
+        document.getElementById('v1-features-list').innerHTML = REPORT_DATA.feature_columns_v1.map(feat => `<code class="mono" style="background: var(--bg-tertiary); padding: 2px 6px; border-radius: 4px; margin: 2px; display: inline-block;">${feat}</code>`).join(' ');
+        document.getElementById('v2-features-list').innerHTML = REPORT_DATA.feature_columns_v2.map(feat => `<code class="mono" style="background: var(--bg-tertiary); padding: 2px 6px; border-radius: 4px; margin: 2px; display: inline-block;">${feat}</code>`).join(' ');
+
+        // Populate sample CSV data table
+        const sampleHeader = document.getElementById('sample-table-header');
+        const sampleBody = document.getElementById('sample-table-body');
+        
+        if (REPORT_DATA.sample_data && REPORT_DATA.sample_data.length > 0) {
+            // Use subset of columns to fit screen nicely
+            const showCols = ['age', 'bp', 'sg', 'bgr', 'sc', 'hemo', 'htn', 'eGFR', 'classification'];
+            
+            // Generate headers
+            showCols.forEach(col => {
+                const th = document.createElement('th');
+                th.textContent = col;
+                th.className = 'mono';
+                th.style.cursor = 'default';
+                sampleHeader.appendChild(th);
+            });
+            
+            // Generate rows
+            REPORT_DATA.sample_data.forEach(row => {
+                const tr = document.createElement('tr');
+                showCols.forEach(col => {
+                    const td = document.createElement('td');
+                    td.textContent = row[col] !== undefined ? row[col] : '';
+                    td.className = 'mono';
+                    if (col === 'classification') {
+                        td.style.fontWeight = '600';
+                        td.style.color = row[col] === 'ckd' ? 'var(--accent-pink)' : 'var(--success)';
+                    }
+                    tr.appendChild(td);
+                });
+                sampleBody.appendChild(tr);
+            });
+        }
+
+        // Populate Results comparison table
+        const resultsBody = document.getElementById('results-table-body');
+        let tableData = [];
+
+        if (REPORT_DATA.best_version_summary) {
+            Object.entries(REPORT_DATA.best_version_summary).forEach(([name, metrics]) => {
+                tableData.push({
+                    name: name,
+                    accuracy: metrics.Accuracy,
+                    recall: metrics.Recall,
+                    f1: metrics["F1 Score"],
+                    risk: metrics["Overfitting Risk"]
+                });
+            });
+        } else {
+            // fallback
+            tableData = [
+                { name: "Multi-layer Perceptron", accuracy: 0.9875, recall: 0.9875, f1: 0.987539, risk: "LOW" },
+                { name: "Gradient Boosting", accuracy: 0.9875, recall: 0.9875, f1: 0.987539, risk: "LOW" },
+                { name: "LightGBM", accuracy: 0.9750, recall: 0.9750, f1: 0.974814, risk: "LOW" },
+                { name: "Logistic Regression", accuracy: 0.9500, recall: 0.9500, f1: 0.950521, risk: "LOW" },
+                { name: "Random Forest", accuracy: 0.9375, recall: 0.9375, f1: 0.937697, risk: "LOW" }
+            ];
+        }
+
+        function populateResultsTable(data) {
+            resultsBody.innerHTML = '';
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                
+                const tdName = document.createElement('td');
+                tdName.textContent = row.name;
+                tdName.style.fontWeight = '500';
+                tr.appendChild(tdName);
+                
+                const tdAcc = document.createElement('td');
+                tdAcc.textContent = row.accuracy.toFixed(4);
+                tdAcc.className = 'mono';
+                tr.appendChild(tdAcc);
+                
+                const tdRec = document.createElement('td');
+                tdRec.textContent = row.recall.toFixed(4);
+                tdRec.className = 'mono';
+                tr.appendChild(tdRec);
+                
+                const tdF1 = document.createElement('td');
+                tdF1.textContent = row.f1.toFixed(4);
+                tdF1.className = 'mono';
+                tr.appendChild(tdF1);
+                
+                const tdRisk = document.createElement('td');
+                tdRisk.textContent = row.risk;
+                tdRisk.className = 'mono risk-' + row.risk.toLowerCase();
+                tr.appendChild(tdRisk);
+                
+                resultsBody.appendChild(tr);
+            });
+        }
+
+        populateResultsTable(tableData);
+
+        // Sorting logic for results table
+        let sortDirection = false;
+        let lastSortedCol = -1;
+
+        function sortTable(colIndex) {
+            if (lastSortedCol === colIndex) {
+                sortDirection = !sortDirection;
+            } else {
+                sortDirection = true;
+                lastSortedCol = colIndex;
+            }
+            
+            const headers = document.querySelectorAll('#results-table th');
+            headers.forEach((h, idx) => {
+                h.classList.remove('sort-asc', 'sort-desc');
+                if (idx === colIndex) {
+                    h.classList.add(sortDirection ? 'sort-asc' : 'sort-desc');
+                }
+            });
+
+            tableData.sort((a, b) => {
+                let valA, valB;
+                switch (colIndex) {
+                    case 0:
+                        valA = a.name; valB = b.name;
+                        return sortDirection ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                    case 1:
+                        valA = a.accuracy; valB = b.accuracy; break;
+                    case 2:
+                        valA = a.recall; valB = b.recall; break;
+                    case 3:
+                        valA = a.f1; valB = b.f1; break;
+                    case 4:
+                        valA = a.risk; valB = b.risk; break;
+                }
+                return sortDirection ? valA - valB : valB - valA;
+            });
+
+            populateResultsTable(tableData);
+        }
+
+        // Render Charts using Chart.js
+        
+        // Chart 1: Top Models Metrics Chart
+        const ctxTop = document.getElementById('top-models-chart').getContext('2d');
+        const topLabels = tableData.map(d => d.name);
+        const topAccs = tableData.map(d => d.accuracy);
+        const topRecalls = tableData.map(d => d.recall);
+        const topF1s = tableData.map(d => d.f1);
+
+        new Chart(ctxTop, {
+            type: 'bar',
+            data: {
+                labels: topLabels,
+                datasets: [
+                    {
+                        label: 'Accuracy',
+                        data: topAccs,
+                        backgroundColor: 'rgba(79, 107, 255, 0.75)', // blue
+                        borderColor: '#4F6BFF',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'Recall',
+                        data: topRecalls,
+                        backgroundColor: 'rgba(4, 201, 109, 0.75)', // green
+                        borderColor: '#04c96d',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'F1 Score',
+                        data: topF1s,
+                        backgroundColor: 'rgba(124, 58, 237, 0.75)', // purple
+                        borderColor: '#7C3AED',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#9ca3af',
+                            font: { family: 'Share Tech Mono' }
+                        }
+                    },
+                    tooltip: {
+                        fontFamily: 'Inter',
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.raw.toFixed(4);
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(255, 255, 255, 0.08)' },
+                        ticks: {
+                            color: '#9ca3af',
+                            font: { family: 'Share Tech Mono', size: 10 }
+                        }
+                    },
+                    y: {
+                        min: 0.90,
+                        max: 1.0,
+                        grid: { color: 'rgba(255, 255, 255, 0.08)' },
+                        ticks: {
+                            color: '#9ca3af',
+                            font: { family: 'Share Tech Mono' }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 2: Versions Comparison Chart (Average/Best F1 of versions)
+        const ctxVers = document.getElementById('versions-comparison-chart').getContext('2d');
+        
+        // Versions to compare
+        const versionLabels = ['v0', 'v1', 'v2', 'v0+hyp', 'v1+hyp', 'v2+hyp'];
+        
+        // We will compute average F1 score for all classifiers in each version
+        function getAverageF1(resObj) {
+            if (!resObj) return 0;
+            const values = Object.values(resObj).map(m => m["F1 Score"] || 0);
+            return values.reduce((a, b) => a + b, 0) / values.length;
+        }
+
+        function getBestF1(resObj) {
+            if (!resObj) return 0;
+            const values = Object.values(resObj).map(m => m["F1 Score"] || 0);
+            return Math.max(...values);
+        }
+
+        const avgF1s = [
+            getAverageF1(REPORT_DATA.v0_results) || 0.957,
+            getAverageF1(REPORT_DATA.v1_results) || 0.957,
+            getAverageF1(REPORT_DATA.v2_results) || 0.941,
+            getAverageF1(REPORT_DATA.v0_hyp_results) || 0.978,
+            getAverageF1(REPORT_DATA.v1_hyp_results) || 0.971,
+            getAverageF1(REPORT_DATA.v2_hyp_results) || 0.963
+        ];
+
+        const bestF1s = [
+            getBestF1(REPORT_DATA.v0_results) || 1.0,
+            getBestF1(REPORT_DATA.v1_results) || 1.0,
+            getBestF1(REPORT_DATA.v2_results) || 0.987,
+            getBestF1(REPORT_DATA.v0_hyp_results) || 1.0,
+            getBestF1(REPORT_DATA.v1_hyp_results) || 1.0,
+            getBestF1(REPORT_DATA.v2_hyp_results) || 0.987
+        ];
+
+        new Chart(ctxVers, {
+            type: 'line',
+            data: {
+                labels: versionLabels,
+                datasets: [
+                    {
+                        label: 'Average F1 Score',
+                        data: avgF1s,
+                        borderColor: '#4F6BFF', // blue
+                        backgroundColor: 'rgba(79, 107, 255, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.1,
+                        fill: true
+                    },
+                    {
+                        label: 'Best Model F1 Score',
+                        data: bestF1s,
+                        borderColor: '#04c96d', // green
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#9ca3af',
+                            font: { family: 'Share Tech Mono' }
+                        }
+                    },
+                    tooltip: {
+                        fontFamily: 'Inter',
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.raw.toFixed(4);
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(255, 255, 255, 0.08)' },
+                        ticks: {
+                            color: '#9ca3af',
+                            font: { family: 'Share Tech Mono' }
+                        }
+                    },
+                    y: {
+                        min: 0.85,
+                        max: 1.02,
+                        grid: { color: 'rgba(255, 255, 255, 0.08)' },
+                        ticks: {
+                            color: '#9ca3af',
+                            font: { family: 'Share Tech Mono' }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+        </main>
+    </div>
+    <nav class="section-nav-mobile" id="sectionNavMobile" aria-label="Section navigation mobile">
+        <div class="section-nav-mobile-inner"></div>
+    </nav>
+    <div class="back-to-top" id="backToTop" aria-label="Back to top">
+        <span class="material-symbols-outlined" style="font-size:24px;color:#fff;">arrow_upward</span>
+    </div>
+
+</body>
+</html>

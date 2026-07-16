@@ -1,540 +1,453 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/x-icon" href="images/PinkSky.png" />
-    <title>Cherish Vasant</title>
-    <link rel="stylesheet" href="styles.css" />
-    <script src="https://kit.fontawesome.com/YOUR_KIT_CODE.js" crossorigin="anonymous"></script>
 
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baumans&family=Varela+Round&display=swap" rel="stylesheet">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="images/PinkSky.png" />
+  <title>Cherish Vasant | Portfolio</title>
 
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=rocket" />
-    
+  <!-- Open Graph / SEO Meta Tags -->
+  <meta name="description"
+    content="Portfolio of Cherish Vasant, a final-year CSE student interested in AI, ML, Deep Learning, NLP, Generative AI, and Agentic AI systems." />
+  <meta property="og:title" content="Cherish Vasant | Portfolio" />
+  <meta property="og:description"
+    content="Explore my portfolio featuring flagship projects in Deep Learning, Time Series, Music AI, and healthcare data-driven systems." />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://kit.fontawesome.com/YOUR_KIT_CODE.js" crossorigin="anonymous"></script>
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Baumans&family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
 
-    <script src="script.js" defer></script>
-  </head>
-  <body>
-    <header>
-      <nav class="navbar">
-        <h1 class="nav-head"><span class="gradient-text">Cherish Vasant</span></h1>
-        <ul class="menu">
-          <li><a href="#about-me">About Me</a></li>
-          <li><a href="#resume">Resume</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#courses">Courses</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
-    </header>
-    
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=rocket" />
 
-    <div class="bg-container">
-      <div class="cosmic-dust"></div>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 
-      <div class="text-content">
-        <p class="hello">Hello, I am</p>
-        <h1 class="cherish gradient-text">Cherish Vasant</h1>
-        <p class="about-title">
-          Back-end developer | AI enthusiast
-        </p>
+  <script src="script.js" defer></script>
+</head>
 
-        <div class="cta">
-          <button class="gradient-button primary-button">
-            <a class="gradient-text" href="#contact">Contact me 📞</a>
-          </button>
-          <button class="gradient-button primary-button">
-            <a class="gradient-text" href="documents/Resume.pdf" target="_blank">Get Resume ⬇</a>
-          </button>
-          <button class="gradient-button">
-            <a href="#projects">View My Work →</a>
-          </button>
-        </div>
+<body>
+  <canvas id="starfield" aria-hidden="true"></canvas>
 
-        <div class="social-buttons">
-          <a href="https://github.com/CherishVasant" target="_blank">
-            <i class="fa-brands fa-github"></i>
-          </a>
-          <a
-            href="https://www.instagram.com/cherry._.incognito/"
-            target="_blank"
-          >
-            <i class="fa-brands fa-instagram"></i>
-          </a>
-          <a
-            href="https://www.linkedin.com/in/cherish-vasant-642241288"
-            target="_blank"
-          >
-            <i class="fa-brands fa-linkedin"></i>
-          </a>
-          <a href="mailto:cherishvasant@gmail.com" target="_blank">
-            <i class="fa-solid fa-envelope"></i>
-          </a>
-        </div>
+  <header>
+    <nav class="navbar">
+      <h1 class="nav-head"><a href="#" style="text-decoration:none;color:inherit;"><span class="gradient-text">Cherish
+            Vasant</span></a></h1>
+      <button type="button" class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="menu">
+        <li><a href="#about-me">About Me</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#resume">Resume</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ═══════════════ HERO ═══════════════ -->
+  <div class="hero">
+    <div class="cosmic-dust"></div>
+    <div class="hero-glow" aria-hidden="true"></div>
+
+    <div class="hero-content">
+      <p class="greeting">Welcome to my universe</p>
+      <h1 class="name-line">Hi, I'm <span class="accent">Cherish Vasant</span></h1>
+      <p class="tagline">Final-year CSE student building AI/ML systems that live somewhere between
+        research and real-world deployment &mdash; Deep Learning, NLP, and Agentic AI.</p>
+
+      <p class="contact-info-header">
+        cherish.vasant@gmail.com
+        &nbsp;|&nbsp; Chennai, India
+      </p>
+
+      <div class="cta-group">
+        <a class="cta cta-primary" href="#projects">Explore My Work</a>
+        <a class="cta cta-secondary" href="#contact">Get In Touch</a>
+      </div>
+
+      <div class="social-buttons">
+        <a href="https://github.com/CherishVasant" target="_blank" aria-label="GitHub Profile">
+          <i class="fa-brands fa-github"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/cherish-vasant-b55ba03b1/" target="_blank" aria-label="LinkedIn Profile">
+          <i class="fa-brands fa-linkedin"></i>
+        </a>
+        <a href="mailto:cherish.vasant@gmail.com" target="_blank" aria-label="Send Email">
+          <i class="fa-solid fa-envelope"></i>
+        </a>
       </div>
     </div>
+  </div>
 
-    <div class="wave-cont">
-      <svg
-        class="wave"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 1200 120"
-        preserveAspectRatio="none"
-      >
-        <path
-          fill="#0a0c27"
-          d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
-          opacity="0.85"
-          class="shape-fill"
-        ></path>
-      </svg>
-    </div>
-    
+  <div class="back-to-top" id="backToTop">
+    <span class="material-symbols-outlined">rocket</span>
+  </div>
 
-<div class="back-to-top" id="backToTop">
-        <span class="material-symbols-outlined">rocket</span>
-    </div>
-    <div class="content">
-      <div class="back-to-top" id="backToTop">
-        <span class="material-symbols-outlined">rocket</span>
-    </div>
+  <div class="content">
 
+    <!-- ═══════════════ ABOUT ME ═══════════════ -->
+    <div class="component comp2 fade-in" id="about-me">
+      <h1 class="section-head">About Me</h1>
 
-      <div class="component comp2 fade-in">
-        <h1 class="section-head" id="about-me">About Me</h1>
-        <div class="image-container glow">
-          <img src="images/profile_pic.jpg" alt="My Profile Picture" />
+      <div class="about-grid">
+        <div class="about-media">
+          <div class="image-container glow">
+            <img src="images/profile_pic.jpg" alt="My Profile Picture" />
+          </div>
+          <a class="resume-download-btn" href="documents/Resume.pdf" target="_blank">
+            <i class="fa-solid fa-download"></i> Download Resume
+          </a>
         </div>
-        
+
         <div class="about-me-content">
-          <h2>Hello there!</h2>
-          <p><center><span class="gradient-text">"Coding or crafting, I love turning problems into masterpieces."</span></center></p>
-          <p>
-            Hi, I'm Cherish Vasant, a curious and passionate Software Developer who loves solving real-world challenges with code. I specialize in Java, C++, and backend systems, focusing on writing clean, efficient, and well-structured code. I enjoy tackling complex problems, optimizing algorithms, and building logical solutions that make an impact.
+          <p class="about-quote">"Coding or crafting, I love turning problems into masterpieces."</p>
+
+          <p class="about-text">
+            I'm a final-year <span class="accent">CSE student</span>, interested in
+            <span class="accent">AI, ML, Deep Learning, NLP, Generative AI, and Agentic AI systems</span>.
+            I enjoy understanding how these models work and how they can be used to solve real-world problems.
+            I love problem solving, and I learn best by <span class="accent">building projects and experimenting
+              with ideas</span>. I'm always trying to go deeper, improve my skills, and turn what I learn into
+            something practical.
           </p>
-          <p>
-            Beyond coding, I love playing the piano, reading, and crafting handmade clay charms, balancing my technical side with creativity. If you're looking for someone who enjoys turning ideas into functional and well-engineered solutions, let's connect and build something amazing!
-        </p> 
-
+          <p class="about-text">
+            Beyond development, I enjoy <span class="accent">playing the piano, reading, and crafting handmade
+              clay charms</span>, balancing my technical engineering focus with creative design. Let's connect
+            and build something amazing!
+          </p>
         </div>
       </div>
-
-      <div class="wave-cont2">
-        <svg
-          class="wave"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-        >
-          <path
-            fill="#1d204a"
-            d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
-            opacity="1"
-            class="shape-fill"
-          ></path>
-        </svg>
-      </div>
-
-      <div class="component comp fade-in">
-        <h1 class="section-head">Skill Star Map</h1>
-
-          <div id="tooltip" class="tooltip"></div>
-
-          <div class="skillsstarmap">
-            <canvas id="starmap" width="500" height="500"></canvas>
-          </div>
-      </div>
-
-
-      <div class="wave-cont">
-        <svg
-          class="wave"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-        >
-          <path
-            fill="#0a0c27"
-            d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
-            opacity="1"
-            class="shape-fill"
-          ></path>
-        </svg>
-      </div>
-
-      <div class="component comp2 fade-in">
-        <h1 class="section-head" id="resume">My Journey</h1>
-
-        <div class="timeline-section">
-          <h2 class="education-title">Experience</h2>
-          <div class="timeline">
-              <div class="timeline-item">
-                  <div class="timeline-dot"></div>
-                  <div class="timeline-content">
-                    <p class="year">Sept 2023 — present</p>
-                      <p class="institute">CYSCOM Student Chapter VIT Chennai <span class="cont">- Front-end developer</span></p>
-                      
-                      <p class="cont">Part of Web Development Departement</p>
-                  </div>
-              </div>
-      
-              <div class="timeline-item">
-                  <div class="timeline-dot"></div>
-                  <div class="timeline-content">
-                    <p class="year">Aug 2024 - present</p>
-                      <p class="institute">Rotaract Club of VIT Chennai <span class="cont">- Social Volunteer</span></p>
-                      
-                      <p class="cont">Volunteered in beach cleanups, donation drives, etc.</p>
-                  </div>
-              </div>
-      
-          </div>
-      </div>
-
-    </br>
-
-        <div class="timeline-section">
-          <h2 class="education-title">Education</h2>
-          <div class="timeline">
-              <div class="timeline-item">
-                  <div class="timeline-dot"></div>
-                  <div class="timeline-content">
-                    <p class="year">2023 — 2027</p>
-                      <p class="institute">Vellore Institute of Technology (VIT) Chennai</p>
-                      <p class="cont">Currently pursuing B.Tech in Computer Science and Engineering with Specialization in AI & ML</p>
-                      <p class="cont">CGPA: 9.24</p>
-                  </div>
-              </div>
-      
-              <div class="timeline-item">
-                  <div class="timeline-dot"></div>
-                  <div class="timeline-content">
-                    <p class="year">2023</p>
-                      <p class="institute">Sishya OMR</p>
-                      <p class="cont">Class 12 - Science</p>
-                      <p class="cont">Percentage: 96%</p>
-                  </div>
-              </div>
-      
-              <div class="timeline-item">
-                  <div class="timeline-dot"></div>
-                  <div class="timeline-content">
-                    <p class="year">2021</p>
-                      <p class="institute">St. Patrick's High School (ICSE)</p>
-                      <p class="cont">Class 10</p>
-                      <p class="cont">Percentage: 95.8%</p>
-                  </div>
-              </div>
-          </div>
-      </div>
-      
     </div>
 
-    <div class="wave-cont2">
-      <svg
-        class="wave"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 1200 120"
-        preserveAspectRatio="none"
-      >
-        <path
-          fill="#1d204a"
-          d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
-          opacity="1"
-          class="shape-fill"
-        ></path>
-      </svg>
+    <!-- ═══════════════ PROJECTS ═══════════════ -->
+    <div class="component comp fade-in" id="projects">
+      <h1 class="section-head">Projects</h1>
+
+      <div class="projects-grid">
+        <!-- Project 1: TrebleAI -->
+        <div class="project-card">
+          <div class="project-card-content">
+            <h2>TrebleAI | AI-Powered Music Platform</h2>
+            <p>Designed and developed TrebleAI, an AI-powered self-learning music platform that enables users to
+              independently learn and practice sheet music through intelligent automation, reducing reliance on
+              instructors and tutorial videos.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">LangChain</span>
+              <span class="tech-tag">FastAPI</span>
+              <span class="tech-tag">Next.js</span>
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">music21</span>
+              <span class="tech-tag">PostgreSQL</span>
+            </div>
+            <div class="project-ctas">
+              <a class="project-cta" href="reports/TrebleAI_report.html">View Report</a>
+              <a class="project-cta secondary" href="https://github.com/CherishVasant/Treble-AI" target="_blank">View
+                Code <i class="fa-brands fa-github"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2: Cloud Security IoT -->
+        <div class="project-card">
+          <div class="project-card-content">
+            <h2>Cloud Security for IoT Health Systems</h2>
+            <p>Developed a multi-class intrusion detection system using the Edge-IIoTset dataset to classify normal
+              traffic and 14 cyberattack categories. Benchmarked XGBoost and CatBoost to select best model.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">Machine Learning</span>
+              <span class="tech-tag">Cybersecurity</span>
+              <span class="tech-tag">IoT</span>
+              <span class="tech-tag">XGBoost</span>
+              <span class="tech-tag">CatBoost</span>
+              <span class="tech-tag">scikit-learn</span>
+            </div>
+            <div class="project-ctas">
+              <a class="project-cta" href="reports/Cloud-Security-In-IoT_report.html">View Report</a>
+              <a class="project-cta secondary" href="https://github.com/CherishVasant/Cloud-Security-In-IoT"
+                target="_blank">View Code <i class="fa-brands fa-github"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3: ECG AF Detection -->
+        <div class="project-card">
+          <div class="project-card-content">
+            <h2>Atrial Fibrillation ECG Detection</h2>
+            <p>Developed a hierarchical deep learning pipeline using the PhysioNet/CinC 2017 Challenge dataset to
+              classify signals into Normal, Atrial Fibrillation, Other Arrhythmias, and Noisy classes despite class
+              imbalance.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">Deep Learning</span>
+              <span class="tech-tag">PyTorch</span>
+              <span class="tech-tag">EfficientNet</span>
+              <span class="tech-tag">TCN</span>
+              <span class="tech-tag">Time Series</span>
+              <span class="tech-tag">Biomedical AI</span>
+            </div>
+            <div class="project-ctas">
+              <a class="project-cta" href="reports/Atrial-Fibrillation-Detection_report.html">View Report</a>
+              <a class="project-cta secondary" href="https://github.com/CherishVasant/Atrial-Fibrillation-Detection"
+                target="_blank">View Code <i class="fa-brands fa-github"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 4: CKD Prediction -->
+        <div class="project-card">
+          <div class="project-card-content">
+            <h2>Chronic Kidney Disease Prediction</h2>
+            <p>Developed a machine learning pipeline for early CKD prediction using the UCI CKD dataset, applying MICE
+              imputation, clinical range engineering, model risk selection, and a Flask deployment framework.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">Machine Learning</span>
+              <span class="tech-tag">Healthcare AI</span>
+              <span class="tech-tag">XGBoost</span>
+              <span class="tech-tag">Flask</span>
+              <span class="tech-tag">Clinical DSS</span>
+              <span class="tech-tag">Team</span>
+            </div>
+            <div class="project-ctas">
+              <a class="project-cta" href="reports/CKD_Prediction_report.html">View Report</a>
+              <a class="project-cta secondary" href="https://github.com/CherishVasant/Chronic-Kidney-Disease-Prediction"
+                target="_blank">View Code <i class="fa-brands fa-github"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-      <div class="component comp fade-in">
-        <h1 class="section-head" id="projects">Projects</h1>
+    <!-- ═══════════════ TECHNICAL SKILLS ═══════════════ -->
+    <div class="component comp fade-in" id="skills">
+      <h1 class="section-head">Technical Skills</h1>
+      <div class="skills-categories">
 
-        <div class="project">
-          <button class="project-arrow" id="prevbtn">&lt;</button>
-          <div class="horizontal-snap">
+        <div class="skills-category">
+          <h3><i class="fa-solid fa-code"></i> Languages</h3>
+          <div class="skills-grid">
+            <span class="pill">Python</span>
+            <span class="pill">Java</span>
+            <span class="pill">C/C++</span>
+            <span class="pill">SQL</span>
+            <span class="pill">JavaScript</span>
+            <span class="pill">TypeScript</span>
+            <span class="pill">R</span>
+            <span class="pill">HTML/CSS</span>
+          </div>
+        </div>
 
-            <div class="card">
-              <img src="images/Project/ChurnRate.png" />
-              <div class="card-content">
-                <h2><span class="gradient-text">Churn Rate Prediction</span></h2>
-                <p>Hackathon: Telecom Customer Churn Rate Prediction using KNN, Random Forest, and XG Boost</p>
+        <div class="skills-category">
+          <h3><i class="fa-solid fa-brain"></i> AI/ML Concepts</h3>
+          <div class="skills-grid">
+            <span class="pill">Machine Learning</span>
+            <span class="pill">Deep Learning</span>
+            <span class="pill">Computer Vision</span>
+            <span class="pill">NLP</span>
+            <span class="pill">LLMs</span>
+            <span class="pill">Prompt Engineering</span>
+          </div>
+        </div>
 
-                <div class="skills tech-stack">
-                  <div>Python</div>
-                </div>
-              </div>
+        <div class="skills-category">
+          <h3><i class="fa-solid fa-diagram-project"></i> ML/DL Frameworks</h3>
+          <div class="skills-grid">
+            <span class="pill">PyTorch</span>
+            <span class="pill">TensorFlow/Keras</span>
+            <span class="pill">Scikit-learn</span>
+            <span class="pill">XGBoost</span>
+            <span class="pill">CatBoost</span>
+            <span class="pill">LangChain</span>
+          </div>
+        </div>
 
-              <button
-                  class="try-it-button"
-                  onclick="window.location.href='https://github.com/faseehakr/Telecom-Company-Churn-Rate-Prediction-using-KNN-Random-Forest-Classifier-and-XG-Boost';"
-                >
-                View Project
-                </button>
-            </div>
+        <div class="skills-category">
+          <h3><i class="fa-solid fa-chart-line"></i> Data &amp; Scientific Computing</h3>
+          <div class="skills-grid">
+            <span class="pill">Pandas</span>
+            <span class="pill">NumPy</span>
+            <span class="pill">Matplotlib</span>
+            <span class="pill">Jupyter Notebook</span>
+          </div>
+        </div>
 
-            <div class="card">
-              <img src="images/Project/CafeOrder.png" />
-              <div class="card-content">
-                <h2><span class="gradient-text">Café Ordering System</span></h2>
-                <p>My 11th-grade school project, for online food ordering for a cafe.</p>
+        <div class="skills-category">
+          <h3><i class="fa-solid fa-globe"></i> Web Frameworks</h3>
+          <div class="skills-grid">
+            <span class="pill">FastAPI</span>
+            <span class="pill">Flask</span>
+            <span class="pill">Next.js</span>
+            <span class="pill">React</span>
+            <span class="pill">Tailwind CSS</span>
+          </div>
+        </div>
 
-                <div class="skills tech-stack">
-                  <div>Java</div>
-                </div>
-              </div>
-              <button
-                  class="try-it-button"
-                  onclick="window.location.href='Projects/Calculator.html';"
-                >
-                View Project
-                </button>
-              
-            </div>
+        <div class="skills-category">
+          <h3><i class="fa-solid fa-database"></i> Databases</h3>
+          <div class="skills-grid">
+            <span class="pill">PostgreSQL</span>
+            <span class="pill">MongoDB</span>
+          </div>
+        </div>
 
-            <div class="card">
-              <img src="images/Project/PercentageMarks.png" />
-              <div class="card-content">
-                <h2><span class="gradient-text">Percentage Calculator</span></h2>
-                <p>
-                  A percentage calculator that calculates percentage of marks of selected subjects
+        <div class="skills-category">
+          <h3><i class="fa-solid fa-screwdriver-wrench"></i> Developer Tools</h3>
+          <div class="skills-grid">
+            <span class="pill">Git</span>
+            <span class="pill">VS Code</span>
+            <span class="pill">Cursor</span>
+            <span class="pill">Claude Code</span>
+            <span class="pill">Antigravity</span>
+          </div>
+        </div>
+
+        <div class="skills-category">
+          <h3><i class="fa-solid fa-flask-vial"></i> Domain-Specific Libraries &amp; Tools</h3>
+          <div class="skills-grid">
+            <span class="pill">OpenCV</span>
+            <span class="pill">Astropy</span>
+            <span class="pill">NeuroKit2</span>
+            <span class="pill">music21</span>
+            <span class="pill">FITS File Processing</span>
+            <span class="pill">OpenSheetMusicDisplay (OSMD)</span>
+            <span class="pill">Audiveris</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════ MY JOURNEY (Resume) ═══════════════ -->
+    <div class="component comp2 fade-in" id="resume">
+      <h1 class="section-head">My Journey</h1>
+
+      <div class="journey-stack">
+        <!-- Work Experience -->
+        <div class="work-experience-block">
+          <h2>Work Experience</h2>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <p class="year">June 2025 – July 2025</p>
+                <p class="institute">Research Intern</p>
+                <p class="cont"><strong>Indian Space Academy (ISA)</strong></p>
+                <p class="cont" style="font-size: 0.95rem; opacity: 0.85; line-height: 1.5; margin-top: 8px;">
+                  • Developed the Age of the Universe Estimation project using the Pantheon+SH0ES Type Ia Supernova
+                  dataset to estimate the Hubble parameter and compute the age of the universe through cosmological
+                  data analysis and numerical methods.<br>
+                  • Worked extensively with astronomical datasets, FITS files, data cubes, and the Astropy ecosystem
+                  for scientific data processing, visualization, and analysis in Python.
                 </p>
-
-                <div class="skills tech-stack">
-                  <div>HTML</div>
-                  <div>CSS</div>
-                  <div>Javascript</div>
-                </div>
-              </div>
-              
-                <button
-                  class="try-it-button"
-                  onclick="window.location.href='Projects/MarkPercentCalculator/index.html';"
-                >
-                  Try it →
-                </button>
-              
-            </div>
-
-            <div class="card">
-              <img src="images/Project/Calculator.png" />
-              <div class="card-content">
-                <h2><span class="gradient-text">Calculator</span></h2>
-                <p>A simple calculator with HTML and CSS</p>
-                <div class="skills tech-stack">
-                  <div>HTML</div>
-                  <div>CSS</div>
-                </div>
-              </div>
-
-                <button
-                  class="try-it-button"
-                  onclick="window.location.href='Projects/Calculator.html';"
-                >
-                  Try it →
-                </button>
-            </div>
-
-            <div class="card">
-              <img src="images/Project/ObsCruiser.png" />
-              <div class="card-content">
-                <h2><span class="gradient-text">ObsCruiser</span></h2>
-                <p>An obstacle avoiding car, a multidisciplinary group project in my 1st year</p>
-
-                <div class="skills tech-stack">
-                  <div>Hardware</div>
-                  <div>Arduino UNO</div>
-                </div>
-            </div>
-              
-            <button
-                class="try-it-button"
-                onclick="window.location.href='documents/ObsCruiserPoster.pdf';">
-              View Poster
-              </button>
-              
               </div>
             </div>
-            <button class="project-arrow" id="nextbtn">&gt;</button>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <p class="year">May 2025 – June 2025</p>
+                <p class="institute">AI Content Intern</p>
+                <p class="cont"><strong>FlyBrand Digital Solutions</strong></p>
+                <p class="cont" style="font-size: 0.95rem; opacity: 0.85; line-height: 1.5; margin-top: 8px;">
+                  • Explored AI model development workflows using Google Teachable Machine and Roboflow by creating
+                  image, audio, and computer vision models for posture recognition, voice-command classification,
+                  and PCB defect detection.<br>
+                  • Produced technical training demonstrations documenting model creation, dataset preparation,
+                  training, evaluation, and deployment workflows for educational AI content.
+                </p>
+              </div>
+            </div>
           </div>
-          
+        </div>
+
+        <!-- Academic History -->
+        <div class="education-block">
+          <h2>Academic History</h2>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <p class="year">Aug 2023 – May 2027</p>
+                <p class="institute">Vellore Institute of Technology</p>
+                <p class="cont">B.Tech in Computer Science and Engineering (spec. AI &amp; ML)</p>
+                <p class="cont"><strong>CGPA: 9.24 / 10.0</strong></p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <p class="year">2021 – 2023</p>
+                <p class="institute">Sishya OMR</p>
+                <p class="cont">Grade 12 – ISC, Science with Computer Science</p>
+                <p class="cont"><strong>Percentage: 96%</strong></p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <p class="year">2019 – 2021</p>
+                <p class="institute">St. Patrick's High School</p>
+                <p class="cont">Grade 10 – CISCE</p>
+                <p class="cont"><strong>Percentage: 95.8%</strong></p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-
-
-      <div class="wave-cont">
-        <svg
-          class="wave"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-        >
-          <path
-            fill="#0a0c27"
-            d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
-            opacity="1"
-            class="shape-fill"
-          ></path>
-        </svg>
-      </div>
-
-      <div class="component comp2">
-        <h1 class="section-head" id="courses">Courses</h1>
-
-      <div class="course-grid">
-        <div class="grid">
-        <div
-          class="cardc"
-          onclick="openCertificate('documents/CHERISH-VASANT-Cpp.pdf')"
-        >
-          <div class="inner-card">
-            <div class="front"><span class="gradient-text">C++ Course</span></div>
-            <div class="back">
-              <img src="images/Certificates/CppSpoken.png" alt="Cpp Course" />
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="cardc"
-          onclick="openCertificate('documents/CHERISH-VASANT-C.pdf')"
-        >
-          <div class="inner-card">
-            <div class="front"><span class="gradient-text">C Course</span></div>
-            <div class="back">
-              <img src="images/Certificates/CSpoken.png" alt="C Course" />
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="cardc"
-          onclick="openCertificate('documents/CHERISH-VASANT-Python.pdf')"
-        >
-          <div class="inner-card">
-            <div class="front"><span class="gradient-text">Python Course</span></div>
-            <div class="back">
-              <img src="images/Certificates/PythonSpoken.png" alt="Python" />
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="cardc"
-          onclick="openCertificate('https://www.linkedin.com/learning/certificates/3d9d323b08165c2cc5c4f6504af7b7d02984dff27a365a53674e98842e319904')"
-        >
-          <div class="inner-card">
-            <div class="front"><span class="gradient-text">Javascript</span></div>
-            <div class="back">
-              <img src="images/Certificates/JSLinkedIn.png" alt="Javascript" />
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="cardc"
-          onclick="openCertificate('https://www.linkedin.com/learning/certificates/2a002a2bca824c31376b1ffb98c47db37833d5f28cecc577474c66e66d6f9090')"
-        >
-          <div class="inner-card">
-            <div class="front"><span class="gradient-text">HTML</span></div>
-            <div class="back">
-              <img src="images/Certificates/HTMLLinkedIn.png" alt="HTML" />
-            </div>
-          </div>
-        </div>
-
-        </div>
-      </div>
-        
-      </div>
-
-      <div class="wave-cont2">
-        <svg
-          class="wave"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-        >
-          <path
-            fill="#1d204a"
-            d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
-            opacity="1"
-            class="shape-fill"
-          ></path>
-        </svg>
-      </div>
-
-      <div class="component comp fade-in">
-        <h1 class="section-head" id="contact">Let's Connect</h1>
-        <p class="connect-intro">Let's connect! Feel free to reach out via email or social media.</p>
-    
-        <div class="contact-blocks">
-            <div class="social-container">
-                <div class="social-buttons2">
-                    <h3><span class="gradient-text">Find me on</span></h3>
-                    <div class="social-icons-list">
-
-                      <div class="social-link">
-                        <a href="mailto:cherish.vasant@gmail.com" aria-label="Email">
-                            <i class="fa-solid fa-envelope"></i></a>
-                            <span class="social-label">cherish.vasant@gmail.com</span>
-                      </div>
-
-                          <div class="social-link">
-                            <a href="https://www.linkedin.com/in/cherish-vasant-642241288" target="_blank" aria-label="LinkedIn">
-                                <i class="fa-brands fa-linkedin"></i></a>
-                                <span class="social-label">www.linkedin.com/in/cherish-vasant-642241288</span>
-                          </div>
-
-                      <div class="social-link">
-                        <a href="https://github.com/CherishVasant" target="_blank" aria-label="GitHub">
-                            <i class="fa-brands fa-github"></i></a>
-                            <span class="social-label">github.com/CherishVasant</span>
-                          </div>
-
-                        <div class="social-link">
-                          <a href="https://www.instagram.com/cherry._.incognito/" target="_blank"   aria-label="Instagram">
-                              <i class="fa-brands fa-instagram"></i>
-                          </a>
-                          <span class="social-label">www.instagram.com/cherry._.incognito</span>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-    
-            <div class="connect">
-              <a class="mail" style="display: none;" href="mailto:cherish.vasant@gmail.com"></a>
-
-                <form class="contact-form" id="contactForm">
-                    <label for="name">Your Name:</label>
-                    <input type="text" id="name" name="name" placeholder="Your Name" required>
-                    
-                    <label for="email">Your Email:</label>
-                    <input type="email" id="email" name="email" placeholder="Your Email" required>
-                    
-                    <label for="message">Your Message:</label>
-                    <textarea id="message" name="message" placeholder="Your Message" rows="8" required></textarea>
-                    
-                    <button type="submit" id="submitBtn">Send Message</button>
-                    <p id="formStatus" class="form-status"></p>
-                </form>
-            </div>
-        </div>
     </div>
 
+    <!-- ═══════════════ CONTACT ═══════════════ -->
+    <div class="component comp fade-in" id="contact">
+      <h1 class="section-head">Let's Connect</h1>
+      <p class="connect-intro">Let's connect! Feel free to reach out via email or social media.</p>
+
+      <div class="connect-links">
+        <a class="connect-card" href="mailto:cherish.vasant@gmail.com" aria-label="Email">
+          <span class="connect-icon"><i class="fa-solid fa-envelope"></i></span>
+          <span class="connect-text">
+            <span class="connect-label">Email</span>
+            <span class="connect-value">cherish.vasant@gmail.com</span>
+          </span>
+        </a>
+
+        <a class="connect-card" href="https://www.linkedin.com/in/cherish-vasant-b55ba03b1/" target="_blank"
+          aria-label="LinkedIn">
+          <span class="connect-icon"><i class="fa-brands fa-linkedin"></i></span>
+          <span class="connect-text">
+            <span class="connect-label">LinkedIn</span>
+            <span class="connect-value">cherish-vasant-b55ba03b1</span>
+          </span>
+        </a>
+
+        <a class="connect-card" href="https://github.com/CherishVasant" target="_blank" aria-label="GitHub">
+          <span class="connect-icon"><i class="fa-brands fa-github"></i></span>
+          <span class="connect-text">
+            <span class="connect-label">GitHub</span>
+            <span class="connect-value">CherishVasant</span>
+          </span>
+        </a>
+
+        <a class="connect-card" href="https://www.instagram.com/cherry._.incognito/" target="_blank"
+          aria-label="Instagram">
+          <span class="connect-icon"><i class="fa-brands fa-instagram"></i></span>
+          <span class="connect-text">
+            <span class="connect-label">Instagram</span>
+            <span class="connect-value">cherry._.incognito</span>
+          </span>
+        </a>
+      </div>
     </div>
 
-    <footer class="">
-      <p>&copy; 2025 Cherish Vasant. All rights reserved.</p>
-    </footer>
-  </body>
+  </div>
+
+  <footer class="">
+    <p>&copy; 2026 Cherish Vasant. All rights reserved.</p>
+  </footer>
+</body>
+
 </html>
