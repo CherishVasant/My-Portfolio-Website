@@ -4,7 +4,7 @@
 import re
 from pathlib import Path
 
-REPORTS_DIR = Path(__file__).parent / "reports"
+REPORTS_DIR = Path(__file__).parent
 
 SHELL_PREFIX_RE = re.compile(
     r"^<body class=\"report-page\">[\s\S]*?<main class=\"report-main\">\s*",
@@ -21,8 +21,8 @@ HEAD_ASSETS = """
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baumans&family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../reports.css">
-    <script src="../report.js" defer></script>
+    <link rel="stylesheet" href="reports.css">
+    <script src="report.js" defer></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_upward" />
 """
 

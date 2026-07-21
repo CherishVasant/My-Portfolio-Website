@@ -71,6 +71,19 @@ window.addEventListener('scroll', function () {
   } else {
     navbar?.classList.remove('scrolled');
   }
+
+  // Highlight 'contact' manually when scrolled to the absolute bottom of the page
+  // (since the contact section is small, the observer might not mark it as intersecting)
+  const navItems = document.querySelectorAll("ul.menu li a");
+  if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50) {
+    navItems.forEach(link => {
+      if (link.getAttribute("href") === "#contact") {
+        link.classList.add("selected");
+      } else {
+        link.classList.remove("selected");
+      }
+    });
+  }
 });
 
 // Mobile Hamburger Toggle

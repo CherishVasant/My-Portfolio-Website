@@ -4,12 +4,16 @@
 
 /* Legacy aliases — keeps migrated report markup on-brand */
 .report-page {
-    --accent-pink: var(--color-primary);
-    --accent-purple: var(--color-accent);
-    --bg-tertiary: var(--bg-mobile-menu-blur);
+    --accent-pink: var(--color-accent);
+    --accent-purple: var(--color-primary);
+    --bg-tertiary: var(--bg-card);
     --text-muted: var(--text-secondary);
     --monospace-font: var(--font-mono);
     --success: var(--color-success);
+    --color-json-text: #e2e8f0;
+    --react-observation-bg: rgba(52, 211, 153, 0.15);
+    --react-observation-text: #34d399;
+    --react-observation-border: rgba(52, 211, 153, 0.30);
 }
 
 .report-page {
@@ -398,8 +402,15 @@
     font-weight: 700;
 }
 
-.matrix-value.tp, .matrix-value.tn { color: var(--color-success); }
-.matrix-value.fn, .matrix-value.fp { color: var(--color-error); }
+.matrix-value.tp,
+.matrix-value.tn {
+    color: var(--color-success);
+}
+
+.matrix-value.fn,
+.matrix-value.fp {
+    color: var(--color-error);
+}
 
 .matrix-cell-label {
     font-family: var(--font-mono);
@@ -576,6 +587,7 @@
 }
 
 @media (min-width: 768px) {
+
     .grid-2,
     .charts-container {
         grid-template-columns: 1fr 1fr;
@@ -800,12 +812,14 @@
     cursor: help;
 }
 
-.matrix-cell.tp, .matrix-cell.tn {
+.matrix-cell.tp,
+.matrix-cell.tn {
     background: var(--color-success-bg);
     border-color: var(--color-success-border);
 }
 
-.matrix-cell.fn, .matrix-cell.fp {
+.matrix-cell.fn,
+.matrix-cell.fp {
     background: var(--color-error-bg);
     border-color: var(--color-error-border);
 }
@@ -832,10 +846,21 @@
     cursor: pointer;
 }
 
-.intensity-high { background-color: var(--intensity-high); }
-.intensity-medium { background-color: var(--intensity-medium); }
-.intensity-low { background-color: var(--intensity-low); }
-.intensity-zero { background-color: var(--border-faint); }
+.intensity-high {
+    background-color: var(--intensity-high);
+}
+
+.intensity-medium {
+    background-color: var(--intensity-medium);
+}
+
+.intensity-low {
+    background-color: var(--intensity-low);
+}
+
+.intensity-zero {
+    background-color: var(--border-faint);
+}
 
 /* TrebleAI components */
 .resume-highlights {
@@ -883,8 +908,13 @@
     max-width: 90%;
 }
 
-.chat-bubble.user { margin-left: auto; }
-.chat-bubble.tutor { margin-right: auto; }
+.chat-bubble.user {
+    margin-left: auto;
+}
+
+.chat-bubble.tutor {
+    margin-right: auto;
+}
 
 .chat-header {
     font-family: var(--font-mono);
@@ -937,9 +967,23 @@
     margin-bottom: var(--space-1);
 }
 
-.react-badge.thought     { background: var(--react-thought-bg);     color: var(--react-thought-text);     border: 1px solid var(--react-thought-border); }
-.react-badge.action      { background: var(--react-action-bg);      color: var(--react-action-text);      border: 1px solid var(--react-action-border); }
-.react-badge.observation { background: var(--react-observation-bg); color: var(--react-observation-text); border: 1px solid var(--react-observation-border); }
+.react-badge.thought {
+    background: var(--react-thought-bg);
+    color: var(--react-thought-text);
+    border: 1px solid var(--react-thought-border);
+}
+
+.react-badge.action {
+    background: var(--react-action-bg);
+    color: var(--react-action-text);
+    border: 1px solid var(--react-action-border);
+}
+
+.react-badge.observation {
+    background: var(--react-observation-bg);
+    color: var(--react-observation-text);
+    border: 1px solid var(--react-observation-border);
+}
 
 .react-text {
     font-size: var(--text-sm);
@@ -978,7 +1022,9 @@
     border-top: 1px solid var(--border-color);
 }
 
-.json-content.collapsed { display: none; }
+.json-content.collapsed {
+    display: none;
+}
 
 .arch-diagram-wrapper {
     margin: var(--space-6) 0;
