@@ -86,18 +86,6 @@
         <a class="cta cta-primary" href="#projects">Explore My Work</a>
         <a class="cta cta-secondary" href="#contact">Get In Touch</a>
       </div>
-
-      <div class="social-buttons">
-        <a href="https://github.com/CherishVasant" target="_blank" aria-label="GitHub Profile">
-          <i class="fa-brands fa-github"></i>
-        </a>
-        <a href="https://www.linkedin.com/in/cherish-vasant-b55ba03b1/" target="_blank" aria-label="LinkedIn Profile">
-          <i class="fa-brands fa-linkedin"></i>
-        </a>
-        <a href="mailto:cherish.vasant@gmail.com" target="_blank" aria-label="Send Email">
-          <i class="fa-solid fa-envelope"></i>
-        </a>
-      </div>
     </div>
   </div>
 
@@ -146,6 +134,27 @@
       <h1 class="section-head">Projects</h1>
 
       <div class="projects-grid">
+        <!-- Project: Northbound AI -->
+        <div class="project-card">
+          <div class="project-card-content">
+            <h2>Northbound AI | Placement Preparation Tracker</h2>
+            <p>A unified, high-performance web dashboard that centralizes coding preparation (DSA tracker), theoretical computer science notes, job application pipelines, and mock HR interview answers, supported by an interactive AI Copilot.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">Next.js</span>
+              <span class="tech-tag">Tailwind CSS v4</span>
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">AI Copilot</span>
+              <span class="tech-tag">shadcn/ui</span>
+              <span class="tech-tag">FastAPI Sync</span>
+            </div>
+            <div class="project-ctas">
+              <a class="project-cta" href="https://northbound-ai-seven.vercel.app/" target="_blank">Try It <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+              <a class="project-cta secondary" href="https://github.com/CherishVasant/Northbound-AI" target="_blank">View
+                Code <i class="fa-brands fa-github"></i></a>
+            </div>
+          </div>
+        </div>
+
         <!-- Project 1: TrebleAI -->
         <div class="project-card">
           <div class="project-card-content">
@@ -241,99 +250,92 @@
     <!-- ═══════════════ TECHNICAL SKILLS ═══════════════ -->
     <div class="component comp fade-in" id="skills">
       <h1 class="section-head">Technical Skills</h1>
-      <div class="skills-categories">
 
-        <div class="skills-category">
-          <h3><i class="fa-solid fa-code"></i> Languages</h3>
-          <div class="skills-grid">
-            <span class="pill">Python</span>
-            <span class="pill">Java</span>
-            <span class="pill">C/C++</span>
-            <span class="pill">SQL</span>
-            <span class="pill">JavaScript</span>
-            <span class="pill">TypeScript</span>
-            <span class="pill">R</span>
-            <span class="pill">HTML/CSS</span>
-          </div>
+      <div class="terminal-bio-container skills-terminal">
+        <div class="terminal-header">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot yellow"></span>
+          <span class="terminal-dot green"></span>
+          <span class="terminal-title">cherish@portfolio — skills</span>
         </div>
 
-        <div class="skills-category">
-          <h3><i class="fa-solid fa-brain"></i> AI/ML Concepts</h3>
-          <div class="skills-grid">
-            <span class="pill">Machine Learning</span>
-            <span class="pill">Deep Learning</span>
-            <span class="pill">Computer Vision</span>
-            <span class="pill">NLP</span>
-            <span class="pill">LLMs</span>
-            <span class="pill">Prompt Engineering</span>
+        <div class="terminal-body">
+          <p class="prompt-line"><span class="prompt">$</span> ls skills/</p>
+          <p class="terminal-text">languages/  ai-ml/  data-science/  frameworks-web/  databases-tools/</p>
+
+          <div class="skills-category">
+            <p class="prompt-line" style="margin-top: 14px;"><span class="prompt">$</span> ls languages/</p>
+            <div class="skills-list">
+              <span class="skill-tag">Python</span>
+              <span class="skill-tag">Java</span>
+              <span class="skill-tag">C/C++</span>
+              <span class="skill-tag">SQL</span>
+              <span class="skill-tag">JavaScript</span>
+              <span class="skill-tag">TypeScript</span>
+              <span class="skill-tag">R</span>
+              <span class="skill-tag">HTML/CSS</span>
+            </div>
+          </div>
+
+          <div class="skills-category">
+            <p class="prompt-line"><span class="prompt">$</span> ls ai-ml/</p>
+            <div class="skills-list">
+              <span class="skill-tag">PyTorch</span>
+              <span class="skill-tag">TensorFlow/Keras</span>
+              <span class="skill-tag">Scikit-learn</span>
+              <span class="skill-tag">XGBoost</span>
+              <span class="skill-tag">CatBoost</span>
+              <span class="skill-tag">Deep Learning</span>
+              <span class="skill-tag">Machine Learning</span>
+              <span class="skill-tag">Computer Vision</span>
+              <span class="skill-tag">NLP</span>
+              <span class="skill-tag">LLMs</span>
+              <span class="skill-tag">LangChain</span>
+              <span class="skill-tag">Prompt Engineering</span>
+            </div>
+          </div>
+
+          <div class="skills-category">
+            <p class="prompt-line"><span class="prompt">$</span> ls data-science/</p>
+            <div class="skills-list">
+              <span class="skill-tag">Pandas</span>
+              <span class="skill-tag">NumPy</span>
+              <span class="skill-tag">Matplotlib</span>
+              <span class="skill-tag">OpenCV</span>
+              <span class="skill-tag">Astropy</span>
+              <span class="skill-tag">NeuroKit2</span>
+              <span class="skill-tag">music21</span>
+              <span class="skill-tag">FITS File Processing</span>
+              <span class="skill-tag">Jupyter Notebook</span>
+            </div>
+          </div>
+
+          <div class="skills-category">
+            <p class="prompt-line"><span class="prompt">$</span> ls frameworks-web/</p>
+            <div class="skills-list">
+              <span class="skill-tag">FastAPI</span>
+              <span class="skill-tag">Flask</span>
+              <span class="skill-tag">Next.js</span>
+              <span class="skill-tag">React</span>
+              <span class="skill-tag">Tailwind CSS</span>
+            </div>
+          </div>
+
+          <div class="skills-category">
+            <p class="prompt-line"><span class="prompt">$</span> ls databases-tools/</p>
+            <div class="skills-list">
+              <span class="skill-tag">PostgreSQL</span>
+              <span class="skill-tag">MongoDB</span>
+              <span class="skill-tag">Git</span>
+              <span class="skill-tag">VS Code</span>
+              <span class="skill-tag">Cursor</span>
+              <span class="skill-tag">Claude Code</span>
+              <span class="skill-tag">Antigravity</span>
+              <span class="skill-tag">OpenSheetMusicDisplay (OSMD)</span>
+              <span class="skill-tag">Audiveris</span>
+            </div>
           </div>
         </div>
-
-        <div class="skills-category">
-          <h3><i class="fa-solid fa-diagram-project"></i> ML/DL Frameworks</h3>
-          <div class="skills-grid">
-            <span class="pill">PyTorch</span>
-            <span class="pill">TensorFlow/Keras</span>
-            <span class="pill">Scikit-learn</span>
-            <span class="pill">XGBoost</span>
-            <span class="pill">CatBoost</span>
-            <span class="pill">LangChain</span>
-          </div>
-        </div>
-
-        <div class="skills-category">
-          <h3><i class="fa-solid fa-chart-line"></i> Data &amp; Scientific Computing</h3>
-          <div class="skills-grid">
-            <span class="pill">Pandas</span>
-            <span class="pill">NumPy</span>
-            <span class="pill">Matplotlib</span>
-            <span class="pill">Jupyter Notebook</span>
-          </div>
-        </div>
-
-        <div class="skills-category">
-          <h3><i class="fa-solid fa-globe"></i> Web Frameworks</h3>
-          <div class="skills-grid">
-            <span class="pill">FastAPI</span>
-            <span class="pill">Flask</span>
-            <span class="pill">Next.js</span>
-            <span class="pill">React</span>
-            <span class="pill">Tailwind CSS</span>
-          </div>
-        </div>
-
-        <div class="skills-category">
-          <h3><i class="fa-solid fa-database"></i> Databases</h3>
-          <div class="skills-grid">
-            <span class="pill">PostgreSQL</span>
-            <span class="pill">MongoDB</span>
-          </div>
-        </div>
-
-        <div class="skills-category">
-          <h3><i class="fa-solid fa-screwdriver-wrench"></i> Developer Tools</h3>
-          <div class="skills-grid">
-            <span class="pill">Git</span>
-            <span class="pill">VS Code</span>
-            <span class="pill">Cursor</span>
-            <span class="pill">Claude Code</span>
-            <span class="pill">Antigravity</span>
-          </div>
-        </div>
-
-        <div class="skills-category">
-          <h3><i class="fa-solid fa-flask-vial"></i> Domain-Specific Libraries &amp; Tools</h3>
-          <div class="skills-grid">
-            <span class="pill">OpenCV</span>
-            <span class="pill">Astropy</span>
-            <span class="pill">NeuroKit2</span>
-            <span class="pill">music21</span>
-            <span class="pill">FITS File Processing</span>
-            <span class="pill">OpenSheetMusicDisplay (OSMD)</span>
-            <span class="pill">Audiveris</span>
-          </div>
-        </div>
-
       </div>
     </div>
 

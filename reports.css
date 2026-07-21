@@ -18,6 +18,7 @@
     font-family: var(--font-body);
     line-height: var(--leading-normal);
     overflow-x: hidden;
+    padding-top: calc(var(--navbar-height) + var(--space-6));
     padding-bottom: calc(var(--space-16) + 60px);
 }
 
@@ -1208,6 +1209,23 @@
 }
 
 @media (max-width: 576px) {
+    .report-navbar {
+        padding: var(--space-2) var(--space-4);
+    }
+
+    .report-navbar .nav-head {
+        font-size: 1.1rem;
+    }
+
+    .report-nav-actions {
+        gap: 6px;
+    }
+
+    .report-nav-link {
+        font-size: 11px;
+        padding: 4px 8px;
+    }
+
     .report-title {
         font-size: 1.5rem;
     }
