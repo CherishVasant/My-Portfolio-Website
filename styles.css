@@ -180,61 +180,60 @@
 
 /* ── Light Theme Overrides (Warm Paper Rainbow) ── */
 [data-theme="light"] {
-    /* Deepened/saturated variants of each rainbow hue, for
-       legible text and borders against the cream paper background. */
-    --color-rose: #C14E6C;
-    --color-salmon: #D9677A;
-    --color-coral: #DC8449;
-    --color-gold: #C99A3D;
-    --color-sage: #6B9950;
-    --color-sky: #4BA8C7;
-    --color-periwinkle: #5F79D9;
-    --color-lavender: #9575D6;
-    --color-amethyst: #9455C9;
+    /* Exact user-provided rainbow palette tokens (same as dark theme default) */
+    --color-rose: #DA6F89;
+    --color-salmon: #EA93A0;
+    --color-coral: #F3AA7C;
+    --color-gold: #C98E1C;
+    --color-sage: #93BE7D;
+    --color-sky: #80CBE2;
+    --color-periwinkle: #8CA4EC;
+    --color-lavender: #C6B0F1;
+    --color-amethyst: #B685E1;
 
     --color-mint: var(--color-sage);
     --color-pink: var(--color-rose);
 
     --color-primary: var(--color-sage);
-    --color-primary-dark: #4E7639;
-    --color-primary-dim: rgba(107, 153, 80, 0.15);
-    --color-primary-faint: rgba(107, 153, 80, 0.08);
-    --color-primary-border: rgba(107, 153, 80, 0.35);
-    --color-primary-glow: rgba(107, 153, 80, 0.35);
-    --color-primary-line: rgba(107, 153, 80, 0.25);
+    --color-primary-dark: #6B9950;
+    --color-primary-dim: rgba(147, 190, 125, 0.15);
+    --color-primary-faint: rgba(147, 190, 125, 0.08);
+    --color-primary-border: rgba(147, 190, 125, 0.35);
+    --color-primary-glow: rgba(147, 190, 125, 0.35);
+    --color-primary-line: rgba(147, 190, 125, 0.25);
 
     --color-secondary: var(--color-sky);
-    --color-secondary-dim: rgba(75, 168, 199, 0.15);
-    --color-secondary-border: rgba(75, 168, 199, 0.30);
+    --color-secondary-dim: rgba(128, 203, 226, 0.15);
+    --color-secondary-border: rgba(128, 203, 226, 0.30);
 
     --color-accent: var(--color-rose);
-    --color-accent-dim: rgba(193, 78, 108, 0.15);
-    --color-accent-faint: rgba(193, 78, 108, 0.08);
-    --color-accent-border: rgba(193, 78, 108, 0.30);
+    --color-accent-dim: rgba(218, 111, 137, 0.15);
+    --color-accent-faint: rgba(218, 111, 137, 0.08);
+    --color-accent-border: rgba(218, 111, 137, 0.30);
 
     --color-accent-lavender: var(--color-periwinkle);
-    --color-lavender-dim: rgba(95, 121, 217, 0.15);
-    --color-lavender-faint: rgba(95, 121, 217, 0.08);
-    --color-lavender-border: rgba(95, 121, 217, 0.35);
-    --color-lavender-glow: rgba(95, 121, 217, 0.35);
-    --color-lavender-line: rgba(95, 121, 217, 0.25);
+    --color-lavender-dim: rgba(140, 164, 236, 0.15);
+    --color-lavender-faint: rgba(140, 164, 236, 0.08);
+    --color-lavender-border: rgba(140, 164, 236, 0.35);
+    --color-lavender-glow: rgba(140, 164, 236, 0.35);
+    --color-lavender-line: rgba(140, 164, 236, 0.25);
 
-    --color-salmon-faint: rgba(217, 103, 122, 0.08);
-    --color-salmon-border: rgba(217, 103, 122, 0.30);
-    --color-coral-faint: rgba(220, 132, 73, 0.08);
-    --color-coral-border: rgba(220, 132, 73, 0.30);
-    --color-gold-faint: rgba(201, 154, 61, 0.08);
-    --color-gold-border: rgba(201, 154, 61, 0.30);
-    --color-gold-dim: rgba(201, 154, 61, 0.15);
-    --color-gold-glow: rgba(201, 154, 61, 0.40);
-    --color-lavender-light-faint: rgba(149, 117, 214, 0.08);
-    --color-lavender-light-border: rgba(149, 117, 214, 0.30);
-    --color-amethyst-faint: rgba(148, 85, 201, 0.08);
-    --color-amethyst-border: rgba(148, 85, 201, 0.30);
+    --color-salmon-faint: rgba(234, 147, 160, 0.08);
+    --color-salmon-border: rgba(234, 147, 160, 0.30);
+    --color-coral-faint: rgba(243, 170, 124, 0.08);
+    --color-coral-border: rgba(243, 170, 124, 0.30);
+    --color-gold-faint: rgba(201, 142, 28, 0.08);
+    --color-gold-border: rgba(201, 142, 28, 0.30);
+    --color-gold-dim: rgba(201, 142, 28, 0.15);
+    --color-gold-glow: rgba(201, 142, 28, 0.40);
+    --color-lavender-light-faint: rgba(198, 176, 241, 0.08);
+    --color-lavender-light-border: rgba(198, 176, 241, 0.30);
+    --color-amethyst-faint: rgba(182, 133, 225, 0.08);
+    --color-amethyst-border: rgba(182, 133, 225, 0.30);
 
-    --gradient-aurora: linear-gradient(135deg, #C14E6C 0%, #DC8449 25%, #6B9950 50%, #4BA8C7 75%, #9455C9 100%);
+    --gradient-aurora: linear-gradient(135deg, var(--color-rose) 0%, var(--color-coral) 25%, var(--color-sage) 50%, var(--color-sky) 75%, var(--color-amethyst) 100%);
     --gradient-aurora-text: var(--gradient-aurora);
-    --gradient-aurora-btn: linear-gradient(135deg, rgba(193,78,108,0.15) 0%, rgba(220,132,73,0.15) 25%, rgba(107,153,80,0.15) 50%, rgba(75,168,199,0.15) 75%, rgba(148,85,201,0.15) 100%);
+    --gradient-aurora-btn: linear-gradient(135deg, rgba(218,111,137,0.15) 0%, rgba(243,170,124,0.15) 25%, rgba(147,190,125,0.15) 50%, rgba(128,203,226,0.15) 75%, rgba(182,133,225,0.15) 100%);
 
     /* Soft paper / cream background */
     --bg-dark: #EFE6D8;
@@ -259,7 +258,8 @@
     --shadow-2xl: rgba(58, 46, 34, 0.22);
 
     --text-primary: #3A2E22;
-    --text-secondary: #B5651D;
+    --text-secondary: var(--color-sky);
+    --text-white: #3A2E22;
     --text-white: #3A2E22;
     --text-white-dim: rgba(58, 46, 34, 0.85);
     --text-white-muted: rgba(58, 46, 34, 0.55);
@@ -525,12 +525,13 @@ a.selected {
     position: absolute;
     left: 0;
     right: 0;
-    bottom: -0.22em;
+    bottom: -0.25em;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    z-index: -1;
-    pointer-events: auto;
+    z-index: 1;
+    pointer-events: none;
+    width: 100%;
 }
 
 .hero-cloud {
@@ -539,6 +540,7 @@ a.selected {
     border-radius: 100px;
     transition: transform 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
     cursor: default;
+    pointer-events: auto;
 }
 
 .hero-cloud::before,
@@ -547,79 +549,55 @@ a.selected {
     position: absolute;
     background: inherit;
     border-radius: 50%;
+    pointer-events: auto;
 }
 
-.hero-cloud-1 {
-    width: 1.75em;
-    height: 0.53em;
-}
+.hero-cloud-1 { width: 1.2em; height: 0.38em; }
+.hero-cloud-1::before { width: 0.6em; height: 0.6em; top: -0.3em; left: 0.12em; }
+.hero-cloud-1::after { width: 0.45em; height: 0.45em; top: -0.22em; left: 0.62em; }
 
-.hero-cloud-1::before {
-    width: 0.84em;
-    height: 0.84em;
-    top: -0.42em;
-    left: 0.19em;
-}
+.hero-cloud-2 { width: 1.0em; height: 0.34em; }
+.hero-cloud-2::before { width: 0.5em; height: 0.5em; top: -0.25em; left: 0.1em; }
+.hero-cloud-2::after { width: 0.38em; height: 0.38em; top: -0.18em; left: 0.52em; }
 
-.hero-cloud-1::after {
-    width: 0.63em;
-    height: 0.63em;
-    top: -0.31em;
-    left: 0.91em;
-}
+.hero-cloud-3 { width: 1.25em; height: 0.4em; }
+.hero-cloud-3::before { width: 0.62em; height: 0.62em; top: -0.32em; left: 0.14em; }
+.hero-cloud-3::after { width: 0.46em; height: 0.46em; top: -0.22em; left: 0.65em; }
 
-.hero-cloud-2 {
-    width: 1.4em;
-    height: 0.44em;
-}
+.hero-cloud-4 { width: 0.95em; height: 0.32em; }
+.hero-cloud-4::before { width: 0.48em; height: 0.48em; top: -0.24em; left: 0.09em; }
+.hero-cloud-4::after { width: 0.35em; height: 0.35em; top: -0.16em; left: 0.48em; }
 
-.hero-cloud-2::before {
-    width: 0.69em;
-    height: 0.69em;
-    top: -0.34em;
-    left: 0.16em;
-}
+.hero-cloud-5 { width: 1.15em; height: 0.36em; }
+.hero-cloud-5::before { width: 0.58em; height: 0.58em; top: -0.28em; left: 0.12em; }
+.hero-cloud-5::after { width: 0.42em; height: 0.42em; top: -0.2em; left: 0.6em; }
 
-.hero-cloud-2::after {
-    width: 0.5em;
-    height: 0.5em;
-    top: -0.25em;
-    left: 0.72em;
-}
+.hero-cloud-6 { width: 1.0em; height: 0.34em; }
+.hero-cloud-6::before { width: 0.5em; height: 0.5em; top: -0.25em; left: 0.1em; }
+.hero-cloud-6::after { width: 0.38em; height: 0.38em; top: -0.18em; left: 0.52em; }
 
-.hero-cloud-3 {
-    width: 1.15em;
-    height: 0.38em;
-}
+.hero-cloud-7 { width: 1.2em; height: 0.38em; }
+.hero-cloud-7::before { width: 0.6em; height: 0.6em; top: -0.3em; left: 0.12em; }
+.hero-cloud-7::after { width: 0.45em; height: 0.45em; top: -0.22em; left: 0.62em; }
 
-.hero-cloud-3::before {
-    width: 0.56em;
-    height: 0.56em;
-    top: -0.28em;
-    left: 0.13em;
-}
+.hero-cloud-8 { width: 0.9em; height: 0.3em; }
+.hero-cloud-8::before { width: 0.45em; height: 0.45em; top: -0.22em; left: 0.08em; }
+.hero-cloud-8::after { width: 0.32em; height: 0.32em; top: -0.15em; left: 0.45em; }
 
-.hero-cloud-3::after {
-    width: 0.41em;
-    height: 0.41em;
-    top: -0.2em;
-    left: 0.63em;
-}
+.hero-cloud-9 { width: 1.1em; height: 0.35em; }
+.hero-cloud-9::before { width: 0.55em; height: 0.55em; top: -0.27em; left: 0.11em; }
+.hero-cloud-9::after { width: 0.4em; height: 0.4em; top: -0.19em; left: 0.58em; }
 
-/* Each cloud drifts a little differently on its own hover — a slight
-   diagonal "away" nudge rather than uniform up/down — and eases back
-   the moment the pointer leaves, via the same transition above. */
-.hero-cloud-1:hover {
-    transform: translate(-0.35em, 0.25em);
-}
-
-.hero-cloud-2:hover {
-    transform: translate(0.4em, 0.3em);
-}
-
-.hero-cloud-3:hover {
-    transform: translate(-0.3em, -0.3em);
-}
+/* Every single cloud drifts downward (positive Y translation) on hover */
+.hero-cloud-1:hover { transform: translate(-0.3em, 0.35em); }
+.hero-cloud-2:hover { transform: translate(0.3em, 0.4em); }
+.hero-cloud-3:hover { transform: translate(0em, 0.38em); }
+.hero-cloud-4:hover { transform: translate(-0.25em, 0.35em); }
+.hero-cloud-5:hover { transform: translate(0.3em, 0.4em); }
+.hero-cloud-6:hover { transform: translate(0em, 0.35em); }
+.hero-cloud-7:hover { transform: translate(-0.3em, 0.4em); }
+.hero-cloud-8:hover { transform: translate(0.25em, 0.35em); }
+.hero-cloud-9:hover { transform: translate(-0.2em, 0.38em); }
 
 .cosmic-dust {
     position: absolute;
@@ -690,7 +668,7 @@ a.selected {
 
 .name-line .accent {
     position: relative;
-    z-index: 0;
+    z-index: 2;
     background: var(--gradient-aurora-text);
     -webkit-background-clip: text;
     background-clip: text;
@@ -710,20 +688,20 @@ a.selected {
 .contact-info-header {
     font-family: var(--font-mono);
     font-size: clamp(0.9rem, 2vw, 1.05rem);
-    color: var(--text-secondary);
+    color: var(--color-sky) !important;
     margin: 0 0 var(--space-8);
     letter-spacing: 0.5px;
 }
 
 .contact-info-header a {
-    color: var(--color-accent);
+    color: var(--color-sky) !important;
     text-decoration: none;
 }
 
 .cta-group {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
+    gap: 14px;
     margin-bottom: var(--space-8);
 }
 
@@ -731,32 +709,37 @@ a.selected {
     display: inline-block;
     text-decoration: none;
     text-align: center;
-    padding: 13px 28px;
+    padding: 12px 24px;
     border-radius: 30px;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     font-family: var(--font-heading);
     transition: var(--transition);
 }
 
-.cta-primary {
+.cta-outline-lavender {
     background-color: transparent;
     color: var(--text-white);
-    border: 2px solid var(--color-accent);
+    border: 2px solid var(--color-lavender);
 }
 
-.cta-primary:hover {
+.cta-outline-lavender:hover {
+    background-color: var(--color-lavender-faint);
+    border-color: var(--color-lavender);
     transform: translateY(-2px);
+    box-shadow: 0 4px 15px var(--color-lavender-dim);
 }
 
-.cta-secondary {
-    background-color: var(--color-accent);
+.cta-filled-pink {
+    background-color: var(--color-rose);
     color: var(--text-white);
-    border: 2px solid var(--color-accent);
+    border: 2px solid var(--color-rose);
 }
 
-.cta-secondary:hover {
+.cta-filled-pink:hover {
+    opacity: 0.92;
     transform: translateY(-2px);
+    box-shadow: 0 4px 15px var(--color-accent-dim);
 }
 
 .cta i {
@@ -968,7 +951,7 @@ a.selected {
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background: var(--color-sage);
+    background: var(--text-primary);
 }
 
 .about-me-content {
@@ -1254,7 +1237,7 @@ table {
     margin-bottom: 10px;
     font-size: clamp(1.1rem, 2.5vw, 1.25rem);
     line-height: 1.3;
-    color: var(--color-sky);
+    color: var(--color-rose);
     font-weight: 600;
     font-family: var(--font-heading);
 }
@@ -1765,13 +1748,17 @@ footer p {
     }
 
     .cta-group {
-        flex-direction: column;
-        align-items: stretch;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
         width: 100%;
     }
 
     .cta {
-        width: 100%;
+        width: auto;
+        font-size: 0.88rem;
+        padding: 9px 18px;
     }
 
     .navbar {
@@ -1868,55 +1855,62 @@ footer p {
    highlight spans. Placed last so it wins same-specificity ties.
 ═══════════════════════════════════════════════════════════ */
 
-/* Nav links — one primary hue per section link, matches that section's heading */
-ul.menu li:nth-child(1) a { color: var(--color-rose); }
-ul.menu li:nth-child(2) a { color: var(--color-salmon); }
-ul.menu li:nth-child(3) a { color: var(--color-coral); }
-ul.menu li:nth-child(4) a { color: var(--color-sky); }
-ul.menu li:nth-child(5) a { color: var(--color-sage); }
-ul.menu li:nth-child(6) a { color: var(--color-gold); }
-ul.menu li:nth-child(7) a { color: var(--color-periwinkle); }
+/* Nav links — match the exact 7-section rainbow order */
+ul.menu li:nth-child(1) a { color: var(--color-salmon); }
+ul.menu li:nth-child(2) a { color: var(--color-coral); }
+ul.menu li:nth-child(3) a { color: var(--color-gold); }
+ul.menu li:nth-child(4) a { color: var(--color-sage); }
+ul.menu li:nth-child(5) a { color: var(--color-sky); }
+ul.menu li:nth-child(6) a { color: var(--color-periwinkle); }
+ul.menu li:nth-child(7) a { color: var(--color-lavender); }
 ul.menu li a:hover { opacity: 0.75; text-shadow: none; }
 
-/* Section headings — primary hue per section */
-#about-me h1.section-head { color: var(--color-rose); }
-#skills h1.section-head { color: var(--color-salmon); }
-#projects h1.section-head { color: var(--color-coral); }
-#resume h1.section-head { color: var(--color-sky); }
-#research h1.section-head { color: var(--color-sage); }
-#courses h1.section-head { color: var(--color-gold); }
-#contact h1.section-head { color: var(--color-periwinkle); }
+/* Section headings — match exact 7-section rainbow order */
+#about-me h1.section-head { color: var(--color-salmon); }
+#skills h1.section-head { color: var(--color-coral); }
+#projects h1.section-head { color: var(--color-gold); }
+#resume h1.section-head { color: var(--color-sage); }
+#research h1.section-head { color: var(--color-sky); }
+#courses h1.section-head { color: var(--color-periwinkle); }
+#contact h1.section-head { color: var(--color-lavender); }
 
-/* Hero — rose + sage + gold (the pairing that flows into About Me) */
+/* Hero badge & image container accents */
 .hire-badge { color: var(--color-gold) !important; border-color: var(--color-gold-border) !important; }
 .image-container { border-color: var(--color-sage) !important; }
 
-/* Journey — sky + gold + salmon */
+/* Journey — Sage Green section theme & Peach/Coral cert action buttons */
 .work-experience-block h2,
-.education-block h2 { color: var(--color-sky); }
+.education-block h2 { color: var(--color-sage); }
+.timeline-dot { background: var(--color-sage) !important; }
+.journey-stack .cert-card-action { color: var(--color-coral) !important; }
 
-.timeline-dot { background: var(--color-gold) !important; }
+/* Research — Sky Blue section theme */
+.research-card-icon { color: var(--color-sky); }
 
-/* Research — sage + rose + amethyst */
-.research-card-icon { color: var(--color-sage); }
-.status-pill { background-color: var(--color-accent-faint); border-color: var(--color-accent-border); color: var(--color-rose); }
+/* Projects — Under Development status pill in Green */
+.status-pill,
+.project-card .status-pill {
+    background-color: var(--color-primary-faint) !important;
+    border: 1px solid var(--color-primary-border) !important;
+    color: var(--color-sage) !important;
+}
 
-/* Skills — full rainbow walk, one distinct hue per category, no repeats */
+/* Skills — Category-wise Rainbow Walk (Pink -> Red-Salmon -> Orange -> Yellow -> Green -> Blue) */
 .skills-category:nth-of-type(1) .prompt { color: var(--color-rose); }
 .skills-category:nth-of-type(1) .skill-tag { background-color: var(--color-accent-faint); border-color: var(--color-accent-border); }
 .skills-category:nth-of-type(1) .skill-tag:hover { border-color: var(--color-rose); background-color: var(--color-accent-dim); }
 
 .skills-category:nth-of-type(2) .prompt { color: var(--color-salmon); }
 .skills-category:nth-of-type(2) .skill-tag { background-color: var(--color-salmon-faint); border-color: var(--color-salmon-border); }
-.skills-category:nth-of-type(2) .skill-tag:hover { border-color: var(--color-salmon); background-color: var(--color-salmon-faint); }
+.skills-category:nth-of-type(2) .skill-tag:hover { border-color: var(--color-salmon); background-color: var(--color-salmon-border); }
 
 .skills-category:nth-of-type(3) .prompt { color: var(--color-coral); }
 .skills-category:nth-of-type(3) .skill-tag { background-color: var(--color-coral-faint); border-color: var(--color-coral-border); }
-.skills-category:nth-of-type(3) .skill-tag:hover { border-color: var(--color-coral); background-color: var(--color-coral-faint); }
+.skills-category:nth-of-type(3) .skill-tag:hover { border-color: var(--color-coral); background-color: var(--color-coral-border); }
 
 .skills-category:nth-of-type(4) .prompt { color: var(--color-gold); }
 .skills-category:nth-of-type(4) .skill-tag { background-color: var(--color-gold-faint); border-color: var(--color-gold-border); }
-.skills-category:nth-of-type(4) .skill-tag:hover { border-color: var(--color-gold); background-color: var(--color-gold-faint); }
+.skills-category:nth-of-type(4) .skill-tag:hover { border-color: var(--color-gold); background-color: var(--color-gold-border); }
 
 .skills-category:nth-of-type(5) .prompt { color: var(--color-sage); }
 .skills-category:nth-of-type(5) .skill-tag { background-color: var(--color-primary-faint); border-color: var(--color-primary-border); }
@@ -1926,20 +1920,17 @@ ul.menu li a:hover { opacity: 0.75; text-shadow: none; }
 .skills-category:nth-of-type(6) .skill-tag { background-color: var(--color-secondary-dim); border-color: var(--color-secondary-border); }
 .skills-category:nth-of-type(6) .skill-tag:hover { border-color: var(--color-sky); background-color: var(--color-secondary-dim); }
 
-/* Projects — title (h2) and stat use one consistent color across every
-   card (sky + gold, set in the base rules above); eyebrow is plain white.
-   No per-card cycling here anymore. */
+/* Courses & Hackathons — Gold metadata & Peach/Coral View Certificate buttons */
+.cert-grid .cert-card .cert-card-meta { color: var(--color-gold); }
+.cert-grid .cert-card .cert-card-action { color: var(--color-coral) !important; }
 
-/* Courses & Hackathons — one consistent gold accent across every card */
-.cert-grid .cert-card .cert-card-action { color: var(--color-gold); }
-
-/* Contact — brand-inspired colors, one per card, consistent on hover too */
+/* Contact — Brand-inspired card colors (GitHub in Sage Green) */
 .connect-links .connect-card:nth-child(1) .connect-icon,
 .connect-links .connect-card:nth-child(1) .connect-label { color: var(--color-gold); }
 .connect-links .connect-card:nth-child(2) .connect-icon,
 .connect-links .connect-card:nth-child(2) .connect-label { color: var(--color-sky); }
 .connect-links .connect-card:nth-child(3) .connect-icon,
-.connect-links .connect-card:nth-child(3) .connect-label { color: var(--color-periwinkle); }
+.connect-links .connect-card:nth-child(3) .connect-label { color: var(--color-sage); }
 .connect-links .connect-card:nth-child(4) .connect-icon,
 .connect-links .connect-card:nth-child(4) .connect-label { color: var(--color-rose); }
 
@@ -1947,11 +1938,11 @@ ul.menu li a:hover { opacity: 0.75; text-shadow: none; }
 .connect-links .connect-card:nth-child(1):hover .connect-icon { border-color: var(--color-gold) !important; }
 .connect-links .connect-card:nth-child(2):hover { border-color: var(--color-secondary-border) !important; }
 .connect-links .connect-card:nth-child(2):hover .connect-icon { border-color: var(--color-sky) !important; }
-.connect-links .connect-card:nth-child(3):hover { border-color: var(--color-lavender-border) !important; }
-.connect-links .connect-card:nth-child(3):hover .connect-icon { border-color: var(--color-periwinkle) !important; }
+.connect-links .connect-card:nth-child(3):hover { border-color: var(--color-primary-border) !important; }
+.connect-links .connect-card:nth-child(3):hover .connect-icon { border-color: var(--color-sage) !important; }
 .connect-links .connect-card:nth-child(4):hover { border-color: var(--color-accent-border) !important; }
 .connect-links .connect-card:nth-child(4):hover .connect-icon { border-color: var(--color-rose) !important; }
 
-/* Back-to-top — periwinkle to rose, echoing the Contact pairing */
+/* Back-to-top — periwinkle to rose */
 .back-to-top { background: var(--color-periwinkle) !important; }
 .back-to-top:hover { background: var(--color-rose) !important; }
