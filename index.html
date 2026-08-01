@@ -51,6 +51,15 @@
     <nav class="navbar">
       <h1 class="nav-head"><a href="#" style="text-decoration:none;color:inherit;"><span class="gradient-text">Cherish
             Vasant</span></a></h1>
+      <ul class="menu">
+        <li><a href="#about-me">About Me</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#courses">Courses</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#resume">Journey</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
       <div style="display: flex; align-items: center; gap: 10px;">
         <button type="button" class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Light and Dark Mode" title="Toggle Theme">
           <i class="fa-solid fa-moon" id="themeIcon"></i>
@@ -61,15 +70,6 @@
           <span></span>
         </button>
       </div>
-      <ul class="menu">
-        <li><a href="#about-me">About Me</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#courses">Courses</a></li>
-        <li><a href="#research">Research</a></li>
-        <li><a href="#resume">Resume</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
     </nav>
   </header>
 
@@ -119,21 +119,13 @@
         </div>
 
         <div class="about-me-content">
-          <p class="about-quote">"Coding or crafting, I love turning problems into masterpieces."</p>
-
-          <p class="about-text">
-            I'm a final-year <span class="highlight-accent highlight-italic">CSE student</span>, interested in
-            <span class="highlight-primary highlight-italic">AI, ML, Deep Learning, NLP, Generative AI, and Agentic AI systems</span>.
-            I enjoy understanding how these models work and how they can be used to solve real-world problems.
-            I love problem solving, and I learn best by <span class="highlight-accent highlight-italic">building projects and experimenting
-              with ideas</span>. I'm always trying to go deeper, improve my skills, and turn what I learn into
-            something practical.
-          </p>
-          <p class="about-text">
-            Beyond development, I enjoy <span class="highlight-primary highlight-italic">playing the piano, reading, and crafting handmade
-              clay charms</span>, balancing my technical engineering focus with creative design. Let's connect
-            and build something amazing!
-          </p>
+          <ul class="about-list">
+            <li>I'm a final-year <span class="highlight-accent highlight-italic">CSE student</span>, interested in
+              <span class="highlight-primary highlight-italic">AI, ML, Deep Learning, NLP, Generative AI, and Agentic AI systems</span>.</li>
+            <li>I enjoy understanding how these models work and how they can be used to solve real-world problems.</li>
+            <li>I love problem solving, and I learn best by <span class="highlight-accent highlight-italic">building projects and experimenting with ideas</span>.</li>
+            <li>I'm always trying to go deeper, improve my skills, and turn what I learn into something practical.</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -402,7 +394,7 @@
 
     <!-- ═══════════════ COURSES & CERTIFICATIONS ═══════════════ -->
     <div class="component comp2 fade-in" id="courses">
-      <h1 class="section-head">Courses &amp; Certifications</h1>
+      <h1 class="section-head">Courses &amp; Hackathons</h1>
 
       <div class="cert-grid">
         <a class="cert-card" href="documents/Smartbridge/CompletionCertificateSmartBridge.pdf" target="_blank">
@@ -461,9 +453,12 @@
                 <div class="timeline-header">
                   <div class="timeline-title-group">
                     <p class="role">AI Intern</p>
-                    <p class="institute">Linaius — Remote</p>
+                    <p class="institute">Linaius</p>
                   </div>
-                  <p class="year">May 2026 – June 2026</p>
+                  <div class="timeline-date-group">
+                    <p class="year">May 2026 – June 2026</p>
+                    <p class="location-tag">Remote</p>
+                  </div>
                 </div>
                 <p class="cont" style="font-size: 0.95rem; opacity: 0.85; line-height: 1.5; margin-top: 8px;">
                   • Built hybrid <span class="highlight-accent highlight-italic">NLP + LLM text segmentation</span> pipelines and multi-method document retrieval (<span class="highlight-accent highlight-italic">BM25, tag-based, and LLM-based matching</span>), evaluated against the public <span class="highlight-accent highlight-italic">LongBench</span> benchmark.<br>
@@ -482,7 +477,10 @@
                     <p class="role">Research Intern</p>
                     <p class="institute">Indian Space Academy (ISA)</p>
                   </div>
-                  <p class="year">June 2025 – July 2025</p>
+                  <div class="timeline-date-group">
+                    <p class="year">June 2025 – July 2025</p>
+                    <p class="location-tag">Remote</p>
+                  </div>
                 </div>
                 <p class="cont" style="font-size: 0.95rem; opacity: 0.85; line-height: 1.5; margin-top: 8px;">
                   • Developed the <span class="highlight-accent highlight-italic">Age of the Universe Estimation project</span> using the <span class="highlight-accent highlight-italic">Pantheon+SH0ES Type Ia Supernova dataset</span> to estimate the Hubble parameter and compute the age of the universe through cosmological data analysis and numerical methods.<br>
@@ -501,7 +499,10 @@
                     <p class="role">AI Content Intern</p>
                     <p class="institute">FlyBrand Digital Solutions</p>
                   </div>
-                  <p class="year">May 2025 – June 2025</p>
+                  <div class="timeline-date-group">
+                    <p class="year">May 2025 – June 2025</p>
+                    <p class="location-tag">Remote</p>
+                  </div>
                 </div>
                 <p class="cont" style="font-size: 0.95rem; opacity: 0.85; line-height: 1.5; margin-top: 8px;">
                   • Explored AI model development workflows using <span class="highlight-accent highlight-italic">Google Teachable Machine</span> and <span class="highlight-accent highlight-italic">Roboflow</span> by creating image, audio, and computer vision models for posture recognition, voice-command classification, and <span class="highlight-accent highlight-italic">PCB defect detection</span>.<br>
@@ -515,9 +516,9 @@
           </div>
         </div>
 
-        <!-- Academic History -->
+        <!-- Education -->
         <div class="education-block">
-          <h2>Academic History</h2>
+          <h2>Education</h2>
           <div class="timeline">
             <div class="timeline-item">
               <div class="timeline-dot"></div>
