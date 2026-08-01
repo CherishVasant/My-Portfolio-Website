@@ -74,7 +74,7 @@
       <h2>Agentic Tutor (LLM + LangChain ReAct)</h2>
       <p>
         TrebleAI's AI-powered tutor is built around a custom <strong>Reasoning-Action (ReAct)</strong> loop implemented with <strong>LangChain</strong>.
-        Rather than functioning as a standard conversational chatbot, the tutor acts as an orchestration engine. It retrieves structural attributes from the deterministic music engine and binds to external tools, choosing when to query the local SQLite/PostgreSQL relational database for definitions versus executing fallback searches on the web.
+        Rather than functioning as a standard conversational chatbot, the tutor acts as an orchestration engine. It retrieves structural attributes from the deterministic music engine and binds to external tools, choosing when to query the local PostgreSQL-backed reference library for definitions versus executing fallback searches on the web.
       </p>
 
       <div class="agent-trace-box">
@@ -474,7 +474,7 @@
           <strong>LLM Structured Parsing Failures:</strong> Under complex multi-tool execution paths, LLM engines sometimes violate structured output schemas. We resolved this by building a custom regex fallback parser in <code>agent.py</code> to extract valid JSON blocks from unstructured message streams.
         </li>
         <li>
-          <strong>FluidSynth Audio Generation Latency:</strong> Synthesizing WAV files from MusicXML streams can block the main request thread. To resolve this, we offloaded audio rendering to FastAPI background threads and implemented a key-based caching mechanism to bypass synthesis for identical scores.
+          <strong>FluidSynth Audio Generation Latency:</strong> Synthesizing WAV files from MusicXML streams can block the main request thread. To resolve this, we offloaded audio rendering to FastAPI background tasks and cached the generated analysis report per session so repeat requests are served without reprocessing.
         </li>
       </ul>
     </section>
@@ -488,18 +488,6 @@
         The resulting pipeline enables students to receive reliable, context-aware instruction based directly on their uploaded sheet music.
       </p>
     </section>
-
-    <!-- Footer Section -->
-    <footer>
-      <p>TrebleAI Portfolio Project Report — Built with FastAPI, Next.js, LangChain, and Chart.js</p>
-      <p class="mono">&copy; 2026 Cherish Vasant. All rights reserved.</p>
-      <div class="mono-links">
-        <a href="../index.html">Portfolio</a>
-        <a href="https://github.com/CherishVasant/Treble-AI" target="_blank">GitHub Repository</a>
-      </div>
-    </footer>
-
-  </div>
 
   <!-- Inline report data structure -->
   <script id="report-data" type="application/json">
@@ -632,12 +620,12 @@
           label: 'Deterministic Engine Extraction Profile',
           data: [33, 99.4, 24.8, 50, 64.6, 40],
           fill: true,
-          backgroundColor: 'rgba(152, 143, 187, 0.25)',
-          borderColor: '#988FBB',
-          pointBackgroundColor: '#D997A4',
+          backgroundColor: 'rgba(110, 231, 183, 0.25)',
+          borderColor: '#6EE7B7',
+          pointBackgroundColor: '#F9A8D4',
           pointBorderColor: '#fff',
           pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: '#988FBB'
+          pointHoverBorderColor: '#7DD3FC'
         }]
       };
 

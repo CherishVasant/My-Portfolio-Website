@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age of the Universe Estimation — Technical Report</title>
+    <meta name="description" content="Technical report on measuring the Hubble constant and estimating the age of the universe from Type Ia supernova data using a flat ΛCDM cosmological model.">
+
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baumans&family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="reports.css">
+    <script src="report.js" defer></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_upward" />
+</head>
+<body class="report-page">
+    <canvas id="starfield" aria-hidden="true"></canvas>
+    <header>
+        <nav class="navbar report-navbar">
+            <a href="../index.html" class="nav-head"><span class="gradient-text">Cherish Vasant</span></a>
+            <div class="report-nav-actions">
+                <a href="../index.html" class="report-nav-link back-link">← Portfolio</a>
+                <a href="https://github.com/CherishVasant/Age-Of-Universe-Estimation" class="report-nav-link github-link" target="_blank" rel="noopener">GitHub</a>
+            </div>
+        </nav>
+    </header>
+    <div class="report-layout">
+        <nav class="section-nav-desktop" id="sectionNavDesktop" aria-label="Section navigation"></nav>
+        <main class="report-main">
+
+            <header class="report-hero">
+                <span class="report-eyebrow">Technical Report</span>
+                <h1 class="report-title">Age of the Universe Estimation</h1>
+                <p class="report-intro">Measuring the Hubble constant and the matter density parameter from Type Ia supernova distance moduli, and deriving the age of the universe under a flat &Lambda;CDM cosmological model.</p>
+                <div class="report-tags">
+                    <span class="tag">Astropy</span>
+                    <span class="tag">SciPy</span>
+                    <span class="tag">NumPy</span>
+                    <span class="tag">Cosmology</span>
+                    <span class="tag">Nonlinear Curve Fitting</span>
+                    <span class="tag">Pantheon+SH0ES</span>
+                </div>
+            </header>
+
+            <section class="report-section card" id="research-question">
+                <h2 class="section-header">Research Question</h2>
+                <p>
+                    This project analyzes observational data from the <span class="bold-text">Pantheon+SH0ES</span> Type Ia supernova sample to measure the Hubble constant (H&#8320;), estimate the matter density parameter (&Omega;<sub>m</sub>), and derive an estimate of the age of the universe, by fitting a flat &Lambda;CDM cosmological model to redshift and distance-modulus data.
+                </p>
+                <p>
+                    The work was completed as "Project 2: Supernova Cosmology," a submission for the Summer School 2025 Astronomy &amp; Astrophysics program at the Indian Space Academy, and is documented in <code>hubble_parameter.ipynb</code> and <code>Report_SupernovaCosmology_677170.pdf</code>.
+                </p>
+            </section>
+
+            <section class="report-section card" id="methodology">
+                <h2 class="section-header">Methodology</h2>
+                <p>As implemented in <code>hubble_parameter.ipynb</code>:</p>
+                <ul>
+                    <li><span class="bold-text">Flat &Lambda;CDM dimensionless Hubble parameter:</span> E(z) = &radic;(&Omega;<sub>m</sub>(1+z)&sup3; + (1 &minus; &Omega;<sub>m</sub>))</li>
+                    <li><span class="bold-text">Luminosity distance</span> (Mpc), by numerically integrating 1/E(z) with <code>scipy.integrate.quad</code>: d<sub>L</sub>(z) = (1+z) &middot; (c / H&#8320;) &middot; &int;&#8320;<sup>z</sup> dz&prime; / E(z&prime;)</li>
+                    <li><span class="bold-text">Theoretical distance modulus:</span> &mu;(z) = 5&middot;log&#8321;&#8320;(d<sub>L</sub> [Mpc]) + 25</li>
+                    <li><span class="bold-text">Model fitting:</span> non-linear least squares fit of &mu;(z) to the observed (z, &mu;, &mu;<sub>err</sub>) data via <code>scipy.optimize.curve_fit</code>, initial guess H&#8320; = 70 km/s/Mpc, &Omega;<sub>m</sub> = 0.3. Fit twice: once with both H&#8320; and &Omega;<sub>m</sub> free, once with &Omega;<sub>m</sub> fixed at 0.3.</li>
+                    <li><span class="bold-text">Age of the universe:</span> t&#8320; = &int;&#8320;<sup>&infin;</sup> dz / [(1+z)&middot;H(z)], computed numerically via <code>quad</code>, with H&#8320; converted to SI units via <code>astropy.units</code> and the result converted to gigayears.</li>
+                    <li><span class="bold-text">&chi;&sup2; statistic</span> used to build a parameter-space contour (H&#8320; vs. &Omega;<sub>m</sub>) with 1&sigma;/2&sigma; confidence regions: &chi;&sup2; = &Sigma; [(&mu;<sub>obs</sub> &minus; &mu;<sub>model</sub>) / &mu;<sub>err</sub>]&sup2;</li>
+                    <li><span class="bold-text">Residual analysis:</span> raw residuals plotted vs. redshift; normalized residuals plotted as a histogram with a Gaussian KDE overlay (<code>scipy.stats.gaussian_kde</code>).</li>
+                    <li><span class="bold-text">Sample split test:</span> dataset split at z = 0.1 into low-z and high-z subsamples, each independently fit for H&#8320; with &Omega;<sub>m</sub> fixed at 0.3, to check for redshift-dependent variation in H&#8320;.</li>
+                </ul>
+                <p>
+                    Additional relations were computed in an appendix but explicitly noted in the notebook as not directly related to the core project: lookback time vs. redshift, angular diameter distance (d<sub>A</sub> = d<sub>L</sub>/(1+z)&sup2;), H(z) = H&#8320;&middot;E(z) evolution, and scale factor a(t) = 1/(1+z) vs. lookback time.
+                </p>
+                <div class="alert">
+                    <div class="alert-title">Model assumptions</div>
+                    <div class="alert-text">Spatial flatness (&Omega;<sub>k</sub> = 0), dark energy modeled as a cosmological constant with fixed equation-of-state w = &minus;1, and large-scale homogeneity/isotropy &mdash; as stated in the accompanying report (Q6).</div>
+                </div>
+            </section>
+
+            <section class="report-section card" id="data-sources">
+                <h2 class="section-header">Data Sources</h2>
+                <p>
+                    <span class="bold-text">Dataset:</span> Pantheon+SH0ES Type Ia supernova sample, loaded from the local file <code>Pantheon+SH0ES.dat</code> (space-delimited, 1,701 rows &times; 47 columns). Downloaded from the Pantheon+ GitHub data release (<code>PantheonPlusSH0ES/DataRelease</code>, <code>4_DISTANCES_AND_COVAR/Pantheon+SH0ES.dat</code>).
+                </p>
+                <p>
+                    <span class="bold-text">Columns used for fitting:</span> <code>zHD</code> (Hubble diagram redshift), <code>MU_SH0ES</code> (distance modulus, SH0ES calibration), <code>MU_SH0ES_ERR_DIAG</code> (uncertainty in distance modulus). The notebook verified 0 missing values and 0 duplicate rows.
+                </p>
+                <p>
+                    <span class="bold-text">Reference paper cited for comparison:</span> Hu, J. P., Wang, Y. Y., Hu, J., &amp; Wang, F. Y. (2023). "Testing the cosmological principle with the Pantheon+ sample and the region-fitting method." <em>Astronomy &amp; Astrophysics</em>.
+                </p>
+            </section>
+
+            <section class="report-section card" id="tools-used">
+                <h2 class="section-header">Tools Used</h2>
+                <div class="report-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">NumPy</span>
+                    <span class="tag">Pandas</span>
+                    <span class="tag">Matplotlib</span>
+                    <span class="tag">SciPy (optimize.curve_fit)</span>
+                    <span class="tag">SciPy (integrate.quad)</span>
+                    <span class="tag">SciPy (stats.gaussian_kde)</span>
+                    <span class="tag">Astropy (constants, units)</span>
+                    <span class="tag">Seaborn</span>
+                </div>
+                <p style="margin-top: var(--space-5);">
+                    No <code>requirements.txt</code> or environment file is present in the project, so exact package versions are not recorded.
+                </p>
+            </section>
+
+            <section class="report-section card" id="results">
+                <h2 class="section-header">Final Results</h2>
+                <p>All values below are taken directly from printed notebook output, also reproduced in the PDF report.</p>
+
+                <h3>Full-sample fit (H&#8320; and &Omega;<sub>m</sub> both free)</h3>
+                <div class="metrics-summary-grid" style="margin-bottom: var(--space-6);">
+                    <div class="metric-card">
+                        <div class="metric-val">72.97 &plusmn; 0.26</div>
+                        <div class="metric-lbl">H&#8320; (km/s/Mpc)</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-val">0.351 &plusmn; 0.019</div>
+                        <div class="metric-lbl">&Omega;<sub>m</sub></div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-val">12.36 Gyr</div>
+                        <div class="metric-lbl">Age of universe</div>
+                    </div>
+                </div>
+
+                <h3>Fit with &Omega;<sub>m</sub> fixed at 0.3</h3>
+                <div class="metrics-summary-grid" style="margin-bottom: var(--space-6);">
+                    <div class="metric-card">
+                        <div class="metric-val">73.53 &plusmn; 0.17</div>
+                        <div class="metric-lbl">H&#8320; (km/s/Mpc)</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-val">12.82 Gyr</div>
+                        <div class="metric-lbl">Age of universe</div>
+                    </div>
+                </div>
+
+                <h3>Low-z vs. high-z split (&Omega;<sub>m</sub> fixed at 0.3, split at z = 0.1)</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr><th>Subsample</th><th>H&#8320; (km/s/Mpc)</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Low-z (z &lt; 0.1)</td><td>73.01 &plusmn; 0.28</td></tr>
+                            <tr><td>High-z (z &ge; 0.1)</td><td>73.85 &plusmn; 0.22</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Comparison with external reference values</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr><th>Reference</th><th>H&#8320; (km/s/Mpc)</th><th>&Omega;<sub>m</sub></th><th>Comparison to this project</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>SH0ES local measurement</td><td>73.04 &plusmn; 1.04</td><td>&mdash;</td><td>Fitted H&#8320; is very close</td></tr>
+                            <tr><td>Planck 2018 (CMB)</td><td>67.4 &plusmn; 0.5</td><td>0.315 &plusmn; 0.007</td><td>Fitted H&#8320; is higher &mdash; reflects the "Hubble tension"</td></tr>
+                            <tr><td>Planck 2018 age of universe</td><td colspan="2">13.787 Gyr</td><td>This project's 12.36 Gyr is lower by ~1.4 Gyr</td></tr>
+                            <tr><td>Hu et al. (2023), global fit</td><td>72.83 &plusmn; 0.23</td><td>0.36 &plusmn; 0.02</td><td>Closely matches this project's full-sample fit</td></tr>
+                            <tr><td>Hu et al. (2023), low-z (z&lt;0.3) subset</td><td>72.43 &plusmn; 0.30</td><td>0.44 &plusmn; 0.04</td><td>Quoted for comparison</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="alert alert-tip">
+                    <div class="alert-title">Not computed</div>
+                    <div class="alert-text">
+                        No single scalar goodness-of-fit statistic (minimum &chi;&sup2;, reduced &chi;&sup2;, degrees of freedom) is printed in the notebook, despite the &chi;&sup2; contour plot. No numerical uncertainty is propagated onto the age estimate t&#8320; itself. The "Gaussian-like" residual distribution is based on visual inspection of the histogram/KDE only &mdash; no formal normality test (e.g. Shapiro&ndash;Wilk) was run.
+                    </div>
+                </div>
+            </section>
+
+            <section class="report-section card" id="assumptions-limitations">
+                <h2 class="section-header">Assumptions &amp; Limitations</h2>
+                <ul>
+                    <li>Flat spatial geometry is assumed (&Omega;<sub>k</sub> = 0); relaxing this would introduce an additional curvature parameter and could change the fitted H&#8320; and &Omega;<sub>m</sub>.</li>
+                    <li>Dark energy is modeled as a cosmological constant with constant equation-of-state w = &minus;1; a dynamical dark-energy model would require more parameters and could shift the fitted age and H&#8320;.</li>
+                    <li>The universe is assumed homogeneous and isotropic at large scales; the report notes this could explain observed variation in H&#8320; across regions or redshifts, citing a directionally higher H&#8320; of 74.26 &plusmn; 0.39 km/s/Mpc reported by Hu et al. (2023).</li>
+                    <li>&Omega;<sub>m</sub> was fixed at 0.3 in parts of the analysis to reduce parameter degeneracy, which directly affects the resulting H&#8320; estimate.</li>
+                    <li>The low-z vs. high-z H&#8320; difference (73.01 vs. 73.85 km/s/Mpc) "may suggest" redshift-dependent effects, supernova population evolution, calibration differences, or local structure &mdash; stated as a possible implication in the notebook, not a conclusion.</li>
+                    <li>Most supernovae in the sample lie at z &lt; 0.1 (local universe), since these are brighter and easier to detect.</li>
+                </ul>
+            </section>
+
+            <section class="report-section card" id="quantifiable-scope">
+                <h2 class="section-header">Quantifiable Scope</h2>
+                <ul>
+                    <li>Dataset: 1 file (<code>Pantheon+SH0ES.dat</code>), 1,701 supernova records &times; 47 columns; 3 columns used directly in the fits.</li>
+                    <li>1 notebook (<code>hubble_parameter.ipynb</code>) producing 12 plots: redshift histogram, 2 Hubble diagrams (log and linear), model-fit overlay, &chi;&sup2; contour plot, residual scatter plot, residual distribution histogram, low-z/high-z comparison plot, plus 4 appendix plots.</li>
+                    <li>4 cosmological parameter fits performed: full-sample free fit, fixed-&Omega;<sub>m</sub> fit, low-z subset fit, high-z subset fit.</li>
+                    <li>2 age-of-universe values computed: 12.36 Gyr (full-sample fit) and 12.82 Gyr (fixed-&Omega;<sub>m</sub> fit).</li>
+                    <li>5 external reference values cited for comparison (SH0ES H&#8320;, Planck 2018 H&#8320;, Planck 2018 &Omega;<sub>m</sub>, Planck 2018 age, and Hu et al. 2023's full parameter set).</li>
+                </ul>
+            </section>
+
+            <footer class="report-footer">
+                <p>Age of the Universe Estimation Project Report. Part of the portfolio website.</p>
+                <p>
+                    Built with Python, Astropy, and SciPy.
+                    <a href="../index.html">Back to Portfolio</a> |
+                    <a href="https://github.com/CherishVasant/Age-Of-Universe-Estimation" target="_blank" rel="noopener">View on GitHub</a>
+                </p>
+            </footer>
+
+        </main>
+    </div>
+    <nav class="section-nav-mobile" id="sectionNavMobile" aria-label="Section navigation mobile">
+        <div class="section-nav-mobile-inner"></div>
+    </nav>
+    <div class="back-to-top" id="backToTop" aria-label="Back to top">
+        <span class="material-symbols-outlined" style="font-size:24px;color:#fff;">arrow_upward</span>
+    </div>
+</body>
+</html>

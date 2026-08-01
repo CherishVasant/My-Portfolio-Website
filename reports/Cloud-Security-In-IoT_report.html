@@ -72,13 +72,13 @@
         <!-- Preprocessing -->
         <section class="report-section" id="preprocessing">
             <h2>Data & Preprocessing</h2>
-            <p>The pipeline processes traffic data from the <strong>Edge-IIoTset dataset</strong>, specifically tailored for IoT security benchmarks. The dataset is balanced to prevent model bias across classes, securing equal representation for all traffic types.</p>
+            <p>The pipeline processes traffic data from the <strong>Edge-IIoTset dataset</strong>, specifically tailored for IoT security benchmarks. The raw dataset is heavily imbalanced across classes (ranging from roughly 1,001 to 24,301 samples per class); SMOTE oversampling is applied to the training split only to correct this imbalance, while the held-out test set is left untouched to preserve a realistic evaluation.</p>
             
             <div class="alert alert-tip">
                 <strong>💡 Preprocessing Highlight:</strong> Real-world network metrics often contain missing (NaN) or infinite values (e.g. rate fields calculated during division by zero). These are resolved by zero-filling missing entries, replacing infinite values with large finite bounds, and clipping extreme outliers to secure numerical stability during gradient calculations.
             </div>
 
-            <p>The dataset includes the following 15 balanced classes (14 cyberattack categories + normal traffic):</p>
+            <p>The dataset includes the following 15 classes (14 cyberattack categories + normal traffic):</p>
             <ul>
                 <li><strong>Malware & Entry</strong>: Backdoor, Vulnerability Scanner, OS Fingerprinting, Uploading Attacks, Ransomware.</li>
                 <li><strong>Denial of Service (DoS)</strong>: DDoS (HTTP, ICMP, TCP, UDP).</li>
@@ -116,9 +116,9 @@
             
             <p><strong>Key Hyperparameters and Setup:</strong></p>
             <ul>
-                <li><strong>Random Forest</strong>: 100 estimators, Gini impurity, max depth bootstrap trees.</li>
-                <li><strong>XGBoost</strong>: Max depth of 6, learning rate of 0.1, 100 trees, multi-class softprob objective.</li>
-                <li><strong>CatBoost</strong>: 500 iterations, learning rate of 0.1, multi-class log-loss objective.</li>
+                <li><strong>Random Forest</strong>: 100 estimators (<code>n_estimators=100</code>); remaining parameters left at scikit-learn defaults (Gini impurity criterion).</li>
+                <li><strong>XGBoost</strong>: Trained with library default hyperparameters; multi-class softprob objective inferred automatically for the 15-class target.</li>
+                <li><strong>CatBoost</strong>: Trained with library default hyperparameters (silent training mode); no manual tuning applied.</li>
                 <li><strong>Stacking Classifier</strong>: Meta-model: Logistic Regression; base estimators: Random Forest, XGBoost, and CatBoost.</li>
             </ul>
 
@@ -140,10 +140,10 @@
                 </div>
                 <div class="metric-card">
                     <div class="metric-val" id="top-f1">99.02%</div>
-                    <div class="metric-lbl">Macro F1-Score</div>
+                    <div class="metric-lbl">Weighted F1-Score</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-val" id="feature-count">30</div>
+                    <div class="metric-val" id="feature-count">40</div>
                     <div class="metric-lbl">Selected Features</div>
                 </div>
                 <div class="metric-card">
@@ -205,15 +205,15 @@
             <ul>
                 <li><strong>Network Topology Overfitting</strong>: Standard network captures include IP address and MAC ranges. Dropping these during preprocessing is critical to prevent models from learning the topology of the training network instead of general traffic anomalies.</li>
                 <li><strong>Handling Protocol Anomalies</strong>: Feature distributions in cybersecurity datasets exhibit huge variance (e.g. packet rates jumping from 0 to millions in microseconds). Scaling these using <code>StandardScaler</code> or log transformations is required to stabilize model coefficients.</li>
-                <li><strong>Model Latency vs Accuracy Trade-off</strong>: While Stacking and Voting classifiers offer the highest accuracy (99.02%), their model sizes (exceeding 250MB) and inference latencies make them unsuitable for real-time edge deployment. Single estimators like XGBoost (2.3MB) achieve a virtually identical accuracy (99.01%) with a fraction of the computational footprint.</li>
+                <li><strong>Model Latency vs Accuracy Trade-off</strong>: While the Stacking Classifier offers the highest accuracy (99.02%), its model size (exceeding 250MB) and inference latency make it unsuitable for real-time edge deployment. Single estimators like XGBoost (2.3MB) achieve a virtually identical accuracy (99.01%) with a fraction of the computational footprint.</li>
             </ul>
         </section>
 
         <!-- Final Summary -->
         <section class="report-section summary-section" id="summary">
             <h2>Summary</h2>
-            <p><strong>Final Chosen Model:</strong> XGBoost Classifier (Tuned & scaled to 30 protocol features).</p>
-            <p><strong>Headline Result:</strong> Achieved 99.01% multi-class classification accuracy (99.00% precision, recall, and macro F1-score) on network-level intrusion detection, classifying normal traffic alongside 14 threat types with minor performance overhead.</p>
+            <p><strong>Final Chosen Model:</strong> Stacking Classifier (base estimators: Random Forest, XGBoost, CatBoost; meta-learner: Logistic Regression).</p>
+            <p><strong>Headline Result:</strong> Achieved 99.02% multi-class classification accuracy (99.02% precision, recall, and F1-score) on network-level intrusion detection, classifying normal traffic alongside 14 threat types with minor performance overhead.</p>
             <p><strong>Real-world Relevance:</strong> This lightweight tree ensemble can be deployed directly onto edge nodes or gateways in remote patient monitoring systems, monitoring incoming and outgoing network frames in real-time to detect security breaches before patient health telemetry is compromised.</p>
         </section>
 
@@ -221,7 +221,7 @@
         <footer class="report-footer">
             <p>Cloud Security Intrusion Detection System Report | Created in 2026</p>
             <p style="margin-top: 10px; font-size: 0.8rem;">
-                Built with Python, Scikit-Learn, XGBoost, CatBoost, Optuna, and Chart.js. 
+                Built with Python, Scikit-Learn, XGBoost, CatBoost, and Chart.js.
                 <a href="../index.html">Back to Portfolio</a> | <a href="https://github.com/CherishVasant/Cloud-Security-In-IoT" target="_blank" rel="noopener">View on GitHub</a>
             </p>
         </footer>
@@ -290,16 +290,16 @@
                     {
                         label: 'Accuracy (%)',
                         data: accuracies,
-                        backgroundColor: 'rgba(152, 143, 187, 0.75)',
-                        borderColor: '#988FBB',
+                        backgroundColor: 'rgba(110, 231, 183, 0.75)',
+                        borderColor: '#6EE7B7',
                         borderWidth: 1,
                         borderRadius: 4
                     },
                     {
                         label: 'F1-Score (%)',
                         data: f1Scores,
-                        backgroundColor: 'rgba(217, 151, 164, 0.75)',
-                        borderColor: '#D997A4',
+                        backgroundColor: 'rgba(249, 168, 212, 0.75)',
+                        borderColor: '#F9A8D4',
                         borderWidth: 1,
                         borderRadius: 4
                     }
@@ -349,8 +349,8 @@
                 datasets: [{
                     label: 'Feature Importance',
                     data: featureValues,
-                    backgroundColor: 'rgba(152, 143, 187, 0.75)',
-                    borderColor: '#988FBB',
+                    backgroundColor: 'rgba(110, 231, 183, 0.75)',
+                    borderColor: '#6EE7B7',
                     borderWidth: 1,
                     borderRadius: 4
                 }]

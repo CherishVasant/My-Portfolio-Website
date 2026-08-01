@@ -46,9 +46,10 @@ function initStarfield() {
         }
       }
 
+      const isLight = document.documentElement.getAttribute("data-theme") === "light";
       ctx.beginPath();
       ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+      ctx.fillStyle = isLight ? `rgba(15, 23, 42, ${star.alpha * 0.35})` : `rgba(255, 255, 255, ${star.alpha})`;
       ctx.fill();
     });
 
@@ -156,8 +157,41 @@ function openCertificate(url) {
   window.open(url, "_blank");
 }
 
+// Theme Toggle Functionality (Aurora Light & Dark Mode)
+function initThemeToggle() {
+  const themeToggleBtn = document.getElementById("themeToggle");
+  const themeIcon = document.getElementById("themeIcon");
+  if (!themeToggleBtn) return;
+
+  const savedTheme = localStorage.getItem("theme") || "dark";
+  setTheme(savedTheme);
+
+  themeToggleBtn.addEventListener("click", () => {
+    const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+    const nextTheme = currentTheme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+  });
+
+  function setTheme(theme) {
+    if (theme === "light") {
+      document.documentElement.setAttribute("data-theme", "light");
+      localStorage.setItem("theme", "light");
+      if (themeIcon) {
+        themeIcon.className = "fa-solid fa-sun";
+      }
+    } else {
+      document.documentElement.setAttribute("data-theme", "dark");
+      localStorage.setItem("theme", "dark");
+      if (themeIcon) {
+        themeIcon.className = "fa-solid fa-moon";
+      }
+    }
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   initStarfield();
+  initThemeToggle();
 });
 
 // Formspree Integration Contact Form Handler

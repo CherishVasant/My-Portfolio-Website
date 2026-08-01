@@ -51,15 +51,22 @@
     <nav class="navbar">
       <h1 class="nav-head"><a href="#" style="text-decoration:none;color:inherit;"><span class="gradient-text">Cherish
             Vasant</span></a></h1>
-      <button type="button" class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button type="button" class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Light and Dark Mode" title="Toggle Theme">
+          <i class="fa-solid fa-moon" id="themeIcon"></i>
+        </button>
+        <button type="button" class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
       <ul class="menu">
         <li><a href="#about-me">About Me</a></li>
-        <li><a href="#projects">Projects</a></li>
         <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#courses">Courses</a></li>
+        <li><a href="#research">Research</a></li>
         <li><a href="#resume">Resume</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
@@ -127,148 +134,6 @@
               clay charms</span>, balancing my technical engineering focus with creative design. Let's connect
             and build something amazing!
           </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- ═══════════════ PROJECTS ═══════════════ -->
-    <div class="component comp fade-in" id="projects">
-      <h1 class="section-head">Projects</h1>
-
-      <div class="projects-grid">
-        <!-- Project: Northbound AI -->
-        <div class="project-card">
-          <div class="project-card-content">
-            <div class="project-eyebrow">
-              <i class="fa-solid fa-compass"></i>
-              <span>CAREER AI</span>
-            </div>
-            <h2>Northbound AI | Placement Preparation Tracker</h2>
-            <p>A unified, high-performance web dashboard that centralizes coding preparation (DSA tracker), theoretical computer science notes, job application pipelines, and mock HR interview answers, supported by an interactive AI Copilot.</p>
-            <div class="project-stat">→ 100% local-first offline state persistence</div>
-            <hr class="card-divider">
-            <div class="tech-tags">
-              <span class="tech-tag">Next.js</span>
-              <span class="tech-tag">Tailwind CSS v4</span>
-              <span class="tech-tag">TypeScript</span>
-              <span class="tech-tag">AI Copilot</span>
-              <span class="tech-tag">shadcn/ui</span>
-              <span class="tech-tag">FastAPI Sync</span>
-            </div>
-            <hr class="card-divider">
-            <div class="project-ctas">
-              <a class="project-cta" href="https://northbound-ai-seven.vercel.app/" target="_blank">Try It <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-              <a class="project-cta secondary" href="https://github.com/CherishVasant/Northbound-AI" target="_blank">View Code <i class="fa-brands fa-github"></i></a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 1: TrebleAI -->
-        <div class="project-card">
-          <div class="project-card-content">
-            <div class="project-eyebrow">
-              <i class="fa-solid fa-music"></i>
-              <span>MUSIC AI</span>
-            </div>
-            <h2>TrebleAI | AI-Powered Music Platform</h2>
-            <p>Designed and developed TrebleAI, an AI-powered self-learning music platform that enables users to independently learn and practice sheet music through intelligent automation, reducing reliance on instructors and tutorial videos.</p>
-            <div class="project-stat">→ 89.6% diatonicity ratio · Audiveris OMR pipeline</div>
-            <hr class="card-divider">
-            <div class="tech-tags">
-              <span class="tech-tag">LangChain</span>
-              <span class="tech-tag">FastAPI</span>
-              <span class="tech-tag">Next.js</span>
-              <span class="tech-tag">TypeScript</span>
-              <span class="tech-tag">music21</span>
-              <span class="tech-tag">PostgreSQL</span>
-            </div>
-            <hr class="card-divider">
-            <div class="project-ctas">
-              <a class="project-cta" href="reports/TrebleAI_report.html">View Report</a>
-              <a class="project-cta secondary" href="https://github.com/CherishVasant/Treble-AI" target="_blank">View Code <i class="fa-brands fa-github"></i></a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 2: Cloud Security IoT -->
-        <div class="project-card">
-          <div class="project-card-content">
-            <div class="project-eyebrow">
-              <i class="fa-solid fa-shield-halved"></i>
-              <span>CYBERSECURITY AI</span>
-            </div>
-            <h2>Cloud Security for IoT Health Systems</h2>
-            <p>Developed a multi-class intrusion detection system using the Edge-IIoTset dataset to classify normal traffic and 14 cyberattack categories. Benchmarked XGBoost and CatBoost to select best model.</p>
-            <div class="project-stat">→ 98.89% multi-class accuracy · Edge-IIoTset benchmark</div>
-            <hr class="card-divider">
-            <div class="tech-tags">
-              <span class="tech-tag">Machine Learning</span>
-              <span class="tech-tag">Cybersecurity</span>
-              <span class="tech-tag">IoT</span>
-              <span class="tech-tag">XGBoost</span>
-              <span class="tech-tag">CatBoost</span>
-              <span class="tech-tag">scikit-learn</span>
-            </div>
-            <hr class="card-divider">
-            <div class="project-ctas">
-              <a class="project-cta" href="reports/Cloud-Security-In-IoT_report.html">View Report</a>
-              <a class="project-cta secondary" href="https://github.com/CherishVasant/Cloud-Security-In-IoT" target="_blank">View Code <i class="fa-brands fa-github"></i></a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 3: ECG AF Detection -->
-        <div class="project-card">
-          <div class="project-card-content">
-            <div class="project-eyebrow">
-              <i class="fa-solid fa-heart-pulse"></i>
-              <span>BIOMEDICAL AI</span>
-            </div>
-            <h2>Atrial Fibrillation ECG Detection</h2>
-            <p>Developed a hierarchical deep learning pipeline using the PhysioNet/CinC 2017 Challenge dataset to classify signals into Normal, Atrial Fibrillation, Other Arrhythmias, and Noisy classes despite class imbalance.</p>
-            <div class="project-stat">→ 95.8% F1-score · PhysioNet dataset</div>
-            <hr class="card-divider">
-            <div class="tech-tags">
-              <span class="tech-tag">Deep Learning</span>
-              <span class="tech-tag">PyTorch</span>
-              <span class="tech-tag">EfficientNet</span>
-              <span class="tech-tag">TCN</span>
-              <span class="tech-tag">Time Series</span>
-              <span class="tech-tag">Biomedical AI</span>
-            </div>
-            <hr class="card-divider">
-            <div class="project-ctas">
-              <a class="project-cta" href="reports/Atrial-Fibrillation-Detection_report.html">View Report</a>
-              <a class="project-cta secondary" href="https://github.com/CherishVasant/Atrial-Fibrillation-Detection" target="_blank">View Code <i class="fa-brands fa-github"></i></a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 4: CKD Prediction -->
-        <div class="project-card">
-          <div class="project-card-content">
-            <div class="project-eyebrow">
-              <i class="fa-solid fa-stethoscope"></i>
-              <span>HEALTHCARE AI</span>
-            </div>
-            <h2>Chronic Kidney Disease Prediction</h2>
-            <p>Developed a machine learning pipeline for early CKD prediction using the UCI CKD dataset, applying MICE imputation, clinical range engineering, model risk selection, and a Flask deployment framework.</p>
-            <div class="project-stat">→ 97.5% early prediction accuracy · UCI CKD dataset</div>
-            <hr class="card-divider">
-            <div class="tech-tags">
-              <span class="tech-tag">Machine Learning</span>
-              <span class="tech-tag">Healthcare AI</span>
-              <span class="tech-tag">XGBoost</span>
-              <span class="tech-tag">Flask</span>
-              <span class="tech-tag">Clinical DSS</span>
-              <span class="tech-tag">Team</span>
-            </div>
-            <hr class="card-divider">
-            <div class="project-ctas">
-              <a class="project-cta" href="reports/CKD_Prediction_report.html">View Report</a>
-              <a class="project-cta secondary" href="https://github.com/CherishVasant/Chronic-Kidney-Disease-Prediction" target="_blank">View Code <i class="fa-brands fa-github"></i></a>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -365,15 +230,250 @@
       </div>
     </div>
 
+    <!-- ═══════════════ PROJECTS ═══════════════ -->
+    <div class="component comp fade-in" id="projects">
+      <h1 class="section-head">Projects</h1>
+
+      <div class="projects-grid">
+        <!-- Project 1: TrebleAI -->
+        <div class="project-card">
+          <div class="project-card-content">
+            <div class="project-eyebrow">
+              <i class="fa-solid fa-music"></i>
+              <span>MUSIC AI</span>
+            </div>
+            <h2>TrebleAI | AI-Powered Music Platform</h2>
+            <p>Designed and developed TrebleAI, an AI-powered self-learning music platform that enables users to independently learn and practice sheet music through intelligent automation, reducing reliance on instructors and tutorial videos.</p>
+            <div class="project-stat">→ 89.6% diatonicity ratio · Audiveris OMR pipeline</div>
+            <hr class="card-divider">
+            <div class="tech-tags">
+              <span class="tech-tag">LangChain</span>
+              <span class="tech-tag">FastAPI</span>
+              <span class="tech-tag">Next.js</span>
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">music21</span>
+              <span class="tech-tag">PostgreSQL</span>
+            </div>
+            <hr class="card-divider">
+            <div class="project-ctas">
+              <a class="project-cta" href="reports/TrebleAI_report.html">View Report</a>
+              <a class="project-cta secondary" href="https://github.com/CherishVasant/Treble-AI" target="_blank">View Code <i class="fa-brands fa-github"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2: Cloud Security IoT -->
+        <div class="project-card">
+          <div class="project-card-content">
+            <div class="project-eyebrow">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span>CYBERSECURITY AI</span>
+            </div>
+            <h2>Cloud Security for IoT Health Systems</h2>
+            <p>Developed a multi-class intrusion detection system using the Edge-IIoTset dataset to classify normal traffic and 14 cyberattack categories. Benchmarked 8 classifiers, including XGBoost, CatBoost, and a Stacking ensemble, to select the best model.</p>
+            <div class="project-stat">→ 99.02% multi-class accuracy · Edge-IIoTset benchmark</div>
+            <hr class="card-divider">
+            <div class="tech-tags">
+              <span class="tech-tag">Machine Learning</span>
+              <span class="tech-tag">Cybersecurity</span>
+              <span class="tech-tag">IoT</span>
+              <span class="tech-tag">XGBoost</span>
+              <span class="tech-tag">CatBoost</span>
+              <span class="tech-tag">scikit-learn</span>
+            </div>
+            <hr class="card-divider">
+            <div class="project-ctas">
+              <a class="project-cta" href="reports/Cloud-Security-In-IoT_report.html">View Report</a>
+              <a class="project-cta secondary" href="https://github.com/CherishVasant/Cloud-Security-In-IoT" target="_blank">View Code <i class="fa-brands fa-github"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3: ECG AF Detection -->
+        <div class="project-card">
+          <div class="project-card-content">
+            <div class="project-eyebrow">
+              <i class="fa-solid fa-heart-pulse"></i>
+              <span>BIOMEDICAL AI</span>
+            </div>
+            <h2>Atrial Fibrillation ECG Detection</h2>
+            <p>Developed a hierarchical deep learning pipeline using the PhysioNet/CinC 2017 Challenge dataset to classify signals into Normal, Atrial Fibrillation, Other Arrhythmias, and Noisy classes despite class imbalance.</p>
+            <div class="project-stat">→ 85.98% accuracy · PhysioNet dataset</div>
+            <hr class="card-divider">
+            <div class="tech-tags">
+              <span class="tech-tag">Deep Learning</span>
+              <span class="tech-tag">PyTorch</span>
+              <span class="tech-tag">EfficientNet</span>
+              <span class="tech-tag">TCN</span>
+              <span class="tech-tag">Time Series</span>
+              <span class="tech-tag">Biomedical AI</span>
+            </div>
+            <hr class="card-divider">
+            <div class="project-ctas">
+              <a class="project-cta" href="reports/Atrial-Fibrillation-Detection_report.html">View Report</a>
+              <a class="project-cta secondary" href="https://github.com/CherishVasant/Atrial-Fibrillation-Detection" target="_blank">View Code <i class="fa-brands fa-github"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 4: CKD Prediction -->
+        <div class="project-card">
+          <div class="project-card-content">
+            <div class="project-eyebrow">
+              <i class="fa-solid fa-stethoscope"></i>
+              <span>HEALTHCARE AI</span>
+            </div>
+            <h2>Chronic Kidney Disease Prediction</h2>
+            <p>Developed a machine learning pipeline for early CKD prediction using the UCI CKD dataset, applying MICE imputation, clinical range engineering, model risk selection, and a Flask deployment framework.</p>
+            <div class="project-stat">→ 98.75% early prediction accuracy · UCI CKD dataset</div>
+            <hr class="card-divider">
+            <div class="tech-tags">
+              <span class="tech-tag">Machine Learning</span>
+              <span class="tech-tag">Healthcare AI</span>
+              <span class="tech-tag">XGBoost</span>
+              <span class="tech-tag">Flask</span>
+              <span class="tech-tag">Clinical DSS</span>
+              <span class="tech-tag">Team</span>
+            </div>
+            <hr class="card-divider">
+            <div class="project-ctas">
+              <a class="project-cta" href="reports/CKD_Prediction_report.html">View Report</a>
+              <a class="project-cta secondary" href="https://github.com/CherishVasant/Chronic-Kidney-Disease-Prediction" target="_blank">View Code <i class="fa-brands fa-github"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 5: Age of the Universe Estimation -->
+        <div class="project-card">
+          <div class="project-card-content">
+            <div class="project-eyebrow">
+              <i class="fa-solid fa-meteor"></i>
+              <span>ASTROPHYSICS</span>
+            </div>
+            <h2>Age of the Universe Estimation</h2>
+            <p>Measured the Hubble constant and matter density parameter by fitting a flat &Lambda;CDM cosmological model to Type Ia supernova distance moduli from the Pantheon+SH0ES sample, then derived the age of the universe via numerical integration.</p>
+            <div class="project-stat">→ H&#8320; = 72.97 km/s/Mpc · Age &asymp; 12.36 Gyr</div>
+            <hr class="card-divider">
+            <div class="tech-tags">
+              <span class="tech-tag">Astropy</span>
+              <span class="tech-tag">SciPy</span>
+              <span class="tech-tag">NumPy</span>
+              <span class="tech-tag">Cosmology</span>
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">Pantheon+SH0ES</span>
+            </div>
+            <hr class="card-divider">
+            <div class="project-ctas">
+              <a class="project-cta" href="reports/Age-Of-Universe-Estimation_report.html">View Report</a>
+              <a class="project-cta secondary" href="https://github.com/CherishVasant/Age-Of-Universe-Estimation" target="_blank">View Code <i class="fa-brands fa-github"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project: Northbound AI -->
+        <div class="project-card">
+          <div class="project-card-content">
+            <div class="project-eyebrow">
+              <i class="fa-solid fa-compass"></i>
+              <span>CAREER AI</span>
+              <span class="status-pill">Under Development</span>
+            </div>
+            <h2>Northbound AI | Placement Preparation Tracker</h2>
+            <p>A unified, high-performance web dashboard that centralizes coding preparation (DSA tracker), theoretical computer science notes, job application pipelines, and mock HR interview answers, supported by an interactive AI Copilot.</p>
+            <div class="project-stat">→ 100% local-first offline state persistence</div>
+            <hr class="card-divider">
+            <div class="tech-tags">
+              <span class="tech-tag">Next.js</span>
+              <span class="tech-tag">Tailwind CSS v4</span>
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">AI Copilot</span>
+              <span class="tech-tag">shadcn/ui</span>
+              <span class="tech-tag">FastAPI Sync</span>
+            </div>
+            <hr class="card-divider">
+            <div class="project-ctas">
+              <a class="project-cta" href="https://northbound-ai-seven.vercel.app/" target="_blank">Try It <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+              <a class="project-cta secondary" href="https://github.com/CherishVasant/Northbound-AI" target="_blank">View Code <i class="fa-brands fa-github"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ COURSES & CERTIFICATIONS ═══════════════ -->
+    <div class="component comp2 fade-in" id="courses">
+      <h1 class="section-head">Courses &amp; Certifications</h1>
+
+      <div class="cert-grid">
+        <a class="cert-card" href="documents/Smartbridge/CompletionCertificateSmartBridge.pdf" target="_blank">
+          <i class="fa-solid fa-certificate cert-card-icon"></i>
+          <p class="cert-card-title">Machine Learning</p>
+          <p class="cert-card-meta">SmartBridge × Google for Developers<br>May 2025 – Jun 2025</p>
+          <span class="cert-card-action"><i class="fa-solid fa-file-contract"></i> View Certificate</span>
+        </a>
+        <a class="cert-card" href="documents/Certificate - Data Quest '24. 2 Days Event.pdf" target="_blank">
+          <i class="fa-solid fa-certificate cert-card-icon"></i>
+          <p class="cert-card-title">Data Quest '24 — Hackathon Participation</p>
+          <p class="cert-card-meta">technoVIT'24, SCOPE-Qubit, VIT Chennai<br>Sep 2024</p>
+          <span class="cert-card-action"><i class="fa-solid fa-file-contract"></i> View Certificate</span>
+        </a>
+        <a class="cert-card" href="documents/CHERISH-VASANT-C.pdf" target="_blank">
+          <i class="fa-solid fa-certificate cert-card-icon"></i>
+          <p class="cert-card-title">C Training</p>
+          <p class="cert-card-meta">Spoken Tutorial Project, IIT Bombay<br>Apr 2024 · Score: 90%</p>
+          <span class="cert-card-action"><i class="fa-solid fa-file-contract"></i> View Certificate</span>
+        </a>
+        <a class="cert-card" href="documents/CHERISH-VASANT-Cpp.pdf" target="_blank">
+          <i class="fa-solid fa-certificate cert-card-icon"></i>
+          <p class="cert-card-title">C++ Training</p>
+          <p class="cert-card-meta">Spoken Tutorial Project, IIT Bombay<br>Apr 2024 · Score: 80%</p>
+          <span class="cert-card-action"><i class="fa-solid fa-file-contract"></i> View Certificate</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ═══════════════ RESEARCH & PUBLICATIONS ═══════════════ -->
+    <div class="component comp fade-in" id="research">
+      <h1 class="section-head">Research &amp; Publications</h1>
+
+      <div class="research-card">
+        <div class="research-card-header">
+          <i class="fa-solid fa-file-signature research-card-icon"></i>
+          <span class="status-pill">Patent Pending</span>
+        </div>
+        <p class="research-card-title">Automatic Speech Recognition and Translation System for the Toda Language leveraging Pretrained Models</p>
+        <p class="research-card-meta">Patent application filed. Full technical details are withheld until publication.</p>
+      </div>
+    </div>
+
     <!-- ═══════════════ MY JOURNEY (Resume) ═══════════════ -->
     <div class="component comp2 fade-in" id="resume">
       <h1 class="section-head">My Journey</h1>
 
       <div class="journey-stack">
-        <!-- Work Experience -->
+        <!-- Internships -->
         <div class="work-experience-block">
-          <h2>Work Experience</h2>
+          <h2>Internships</h2>
           <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <div class="timeline-header">
+                  <div class="timeline-title-group">
+                    <p class="role">AI Intern</p>
+                    <p class="institute">Linaius — Remote</p>
+                  </div>
+                  <p class="year">May 2026 – June 2026</p>
+                </div>
+                <p class="cont" style="font-size: 0.95rem; opacity: 0.85; line-height: 1.5; margin-top: 8px;">
+                  • Built hybrid <span class="highlight-accent highlight-italic">NLP + LLM text segmentation</span> pipelines and multi-method document retrieval (<span class="highlight-accent highlight-italic">BM25, tag-based, and LLM-based matching</span>), evaluated against the public <span class="highlight-accent highlight-italic">LongBench</span> benchmark.<br>
+                  • Designed prompting strategies (task decomposition, two-stage extraction, neutral framing) and made programmatic LLM calls through <span class="highlight-accent highlight-italic">AWS Bedrock</span>, with cost tracking and performance optimizations like caching, streaming, and concurrency.
+                </p>
+                <a class="cert-card cert-card-compact" style="margin-top: 10px;" href="documents/Linaius_Letter_of_Experience.pdf" target="_blank">
+                  <span class="cert-card-action"><i class="fa-solid fa-file-contract"></i> View Certificate</span>
+                </a>
+              </div>
+            </div>
             <div class="timeline-item">
               <div class="timeline-dot"></div>
               <div class="timeline-content">
@@ -388,8 +488,8 @@
                   • Developed the <span class="highlight-accent highlight-italic">Age of the Universe Estimation project</span> using the <span class="highlight-accent highlight-italic">Pantheon+SH0ES Type Ia Supernova dataset</span> to estimate the Hubble parameter and compute the age of the universe through cosmological data analysis and numerical methods.<br>
                   • Worked extensively with astronomical datasets, FITS files, data cubes, and the <span class="highlight-accent highlight-italic">Astropy ecosystem</span> for scientific data processing, visualization, and analysis in Python.
                 </p>
-                <a class="resume-download-btn" style="margin-top: 10px; padding: 6px 12px; font-size: 0.85rem;" href="documents/ISAInternship.pdf" target="_blank">
-                  <i class="fa-solid fa-file-contract"></i> View Certificate
+                <a class="cert-card cert-card-compact" style="margin-top: 10px;" href="documents/ISAInternship.pdf" target="_blank">
+                  <span class="cert-card-action"><i class="fa-solid fa-file-contract"></i> View Certificate</span>
                 </a>
               </div>
             </div>
@@ -407,8 +507,8 @@
                   • Explored AI model development workflows using <span class="highlight-accent highlight-italic">Google Teachable Machine</span> and <span class="highlight-accent highlight-italic">Roboflow</span> by creating image, audio, and computer vision models for posture recognition, voice-command classification, and <span class="highlight-accent highlight-italic">PCB defect detection</span>.<br>
                   • Produced technical training demonstrations documenting model creation, dataset preparation, training, evaluation, and deployment workflows for educational AI content.
                 </p>
-                <a class="resume-download-btn" style="margin-top: 10px; padding: 6px 12px; font-size: 0.85rem;" href="documents/flybrandInternshipCertificate.pdf" target="_blank">
-                  <i class="fa-solid fa-file-contract"></i> View Certificate
+                <a class="cert-card cert-card-compact" style="margin-top: 10px;" href="documents/flybrandInternshipCertificate.pdf" target="_blank">
+                  <span class="cert-card-action"><i class="fa-solid fa-file-contract"></i> View Certificate</span>
                 </a>
               </div>
             </div>

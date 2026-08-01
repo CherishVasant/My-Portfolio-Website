@@ -4,16 +4,19 @@
 
 /* Legacy aliases — keeps migrated report markup on-brand */
 .report-page {
-    --accent-pink: var(--color-accent);
-    --accent-purple: var(--color-primary);
+    --accent-mint: var(--color-mint);
+    --accent-sky: var(--color-sky);
+    --accent-lavender: var(--color-lavender);
+    --accent-pink: var(--color-pink);
+    --accent-purple: var(--color-lavender);
     --bg-tertiary: var(--bg-card);
     --text-muted: var(--text-secondary);
     --monospace-font: var(--font-mono);
     --success: var(--color-success);
-    --color-json-text: #e2e8f0;
-    --react-observation-bg: rgba(52, 211, 153, 0.15);
-    --react-observation-text: #34d399;
-    --react-observation-border: rgba(52, 211, 153, 0.30);
+    --color-json-text: var(--color-mint);
+    --react-observation-bg: rgba(110, 231, 183, 0.15);
+    --react-observation-text: var(--color-mint);
+    --react-observation-border: rgba(110, 231, 183, 0.30);
 }
 
 .report-page {

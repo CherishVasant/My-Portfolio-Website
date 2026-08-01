@@ -101,7 +101,7 @@ function applyNumberedHeadings(sections) {
     if (!heading || heading.querySelector(".section-number")) return;
 
     const num = formatSectionNumber(index);
-    const titleText = heading.textContent.replace(/^\d+\.?\s*/, "").trim();
+    const titleText = heading.textContent.replace(/^\d+\.\s+/, "").trim();
 
     heading.classList.add("report-section-heading");
     heading.innerHTML = `<span class="section-number">${num}</span><span class="section-title-text">${titleText}</span>`;
