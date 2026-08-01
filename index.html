@@ -55,9 +55,9 @@
         <li><a href="#about-me">About Me</a></li>
         <li><a href="#skills">Skills</a></li>
         <li><a href="#projects">Projects</a></li>
-        <li><a href="#courses">Courses</a></li>
-        <li><a href="#research">Research</a></li>
         <li><a href="#resume">Journey</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#courses">Courses</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
       <div style="display: flex; align-items: center; gap: 10px;">
@@ -76,7 +76,11 @@
   <!-- ═══════════════ HERO ═══════════════ -->
   <div class="hero">
     <div class="cosmic-dust"></div>
-    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-clouds" aria-hidden="true">
+      <div class="hero-cloud hero-cloud-1"></div>
+      <div class="hero-cloud hero-cloud-2"></div>
+      <div class="hero-cloud hero-cloud-3"></div>
+    </div>
 
     <div class="hero-content">
       <div class="hire-badge">✨ Available for Hire</div>
@@ -392,52 +396,6 @@
       </div>
     </div>
 
-    <!-- ═══════════════ COURSES & CERTIFICATIONS ═══════════════ -->
-    <div class="component comp2 fade-in" id="courses">
-      <h1 class="section-head">Courses &amp; Hackathons</h1>
-
-      <div class="cert-grid">
-        <a class="cert-card" href="documents/Smartbridge/CompletionCertificateSmartBridge.pdf" target="_blank">
-          <i class="fa-solid fa-certificate cert-card-icon"></i>
-          <p class="cert-card-title">Machine Learning</p>
-          <p class="cert-card-meta">SmartBridge × Google for Developers<br>May 2025 – Jun 2025</p>
-          <span class="cert-card-action"><i class="fa-solid fa-file-contract"></i> View Certificate</span>
-        </a>
-        <a class="cert-card" href="documents/Certificate - Data Quest '24. 2 Days Event.pdf" target="_blank">
-          <i class="fa-solid fa-certificate cert-card-icon"></i>
-          <p class="cert-card-title">Data Quest '24 — Hackathon Participation</p>
-          <p class="cert-card-meta">technoVIT'24, SCOPE-Qubit, VIT Chennai<br>Sep 2024</p>
-          <span class="cert-card-action"><i class="fa-solid fa-file-contract"></i> View Certificate</span>
-        </a>
-        <a class="cert-card" href="documents/CHERISH-VASANT-C.pdf" target="_blank">
-          <i class="fa-solid fa-certificate cert-card-icon"></i>
-          <p class="cert-card-title">C Training</p>
-          <p class="cert-card-meta">Spoken Tutorial Project, IIT Bombay<br>Apr 2024 · Score: 90%</p>
-          <span class="cert-card-action"><i class="fa-solid fa-file-contract"></i> View Certificate</span>
-        </a>
-        <a class="cert-card" href="documents/CHERISH-VASANT-Cpp.pdf" target="_blank">
-          <i class="fa-solid fa-certificate cert-card-icon"></i>
-          <p class="cert-card-title">C++ Training</p>
-          <p class="cert-card-meta">Spoken Tutorial Project, IIT Bombay<br>Apr 2024 · Score: 80%</p>
-          <span class="cert-card-action"><i class="fa-solid fa-file-contract"></i> View Certificate</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- ═══════════════ RESEARCH & PUBLICATIONS ═══════════════ -->
-    <div class="component comp fade-in" id="research">
-      <h1 class="section-head">Research &amp; Publications</h1>
-
-      <div class="research-card">
-        <div class="research-card-header">
-          <i class="fa-solid fa-file-signature research-card-icon"></i>
-          <span class="status-pill">Patent Pending</span>
-        </div>
-        <p class="research-card-title">Automatic Speech Recognition and Translation System for the Toda Language leveraging Pretrained Models</p>
-        <p class="research-card-meta">Patent application filed. Full technical details are withheld until publication.</p>
-      </div>
-    </div>
-
     <!-- ═══════════════ MY JOURNEY (Resume) ═══════════════ -->
     <div class="component comp2 fade-in" id="resume">
       <h1 class="section-head">My Journey</h1>
@@ -561,6 +519,52 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ RESEARCH & PUBLICATIONS ═══════════════ -->
+    <div class="component comp fade-in" id="research">
+      <h1 class="section-head">Research &amp; Publications</h1>
+
+      <div class="research-card">
+        <div class="research-card-header">
+          <i class="fa-solid fa-file-signature research-card-icon"></i>
+          <span class="status-pill">Patent Pending</span>
+        </div>
+        <p class="research-card-title">Automatic Speech Recognition and Translation System for the Toda Language leveraging Pretrained Models</p>
+        <p class="research-card-meta">Patent application filed. Full technical details are withheld until publication.</p>
+      </div>
+    </div>
+
+    <!-- ═══════════════ COURSES & CERTIFICATIONS ═══════════════ -->
+    <div class="component comp2 fade-in" id="courses">
+      <h1 class="section-head">Courses &amp; Hackathons</h1>
+
+      <div class="cert-grid">
+        <a class="cert-card" href="documents/Smartbridge/CompletionCertificateSmartBridge.pdf" target="_blank">
+          <i class="fa-solid fa-certificate cert-card-icon"></i>
+          <p class="cert-card-title">Machine Learning</p>
+          <p class="cert-card-meta">SmartBridge × Google for Developers<br>May 2025 – Jun 2025</p>
+          <span class="cert-card-action"><i class="fa-solid fa-file-contract"></i> View Certificate</span>
+        </a>
+        <a class="cert-card" href="documents/Certificate - Data Quest '24. 2 Days Event.pdf" target="_blank">
+          <i class="fa-solid fa-certificate cert-card-icon"></i>
+          <p class="cert-card-title">Data Quest '24 — Hackathon Participation</p>
+          <p class="cert-card-meta">technoVIT'24, SCOPE-Qubit, VIT Chennai<br>Sep 2024</p>
+          <span class="cert-card-action"><i class="fa-solid fa-file-contract"></i> View Certificate</span>
+        </a>
+        <a class="cert-card" href="documents/CHERISH-VASANT-C.pdf" target="_blank">
+          <i class="fa-solid fa-certificate cert-card-icon"></i>
+          <p class="cert-card-title">C Training</p>
+          <p class="cert-card-meta">Spoken Tutorial Project, IIT Bombay<br>Apr 2024 · Score: 90%</p>
+          <span class="cert-card-action"><i class="fa-solid fa-file-contract"></i> View Certificate</span>
+        </a>
+        <a class="cert-card" href="documents/CHERISH-VASANT-Cpp.pdf" target="_blank">
+          <i class="fa-solid fa-certificate cert-card-icon"></i>
+          <p class="cert-card-title">C++ Training</p>
+          <p class="cert-card-meta">Spoken Tutorial Project, IIT Bombay<br>Apr 2024 · Score: 80%</p>
+          <span class="cert-card-action"><i class="fa-solid fa-file-contract"></i> View Certificate</span>
+        </a>
       </div>
     </div>
 

@@ -1,11 +1,30 @@
-/* Performant Canvas Starfield Background */
+/* Performant Canvas "Rainbow Twinkle" Background */
 function initStarfield() {
   const canvas = document.getElementById("starfield");
   if (!canvas) return;
   const ctx = canvas.getContext("2d");
 
   let stars = [];
+  let rainbowRgb = [];
   const numStars = 150; // Plenty of stars, very cheap on Canvas
+
+  function hexToRgb(hex) {
+    const clean = hex.trim().replace("#", "");
+    const r = parseInt(clean.substring(0, 2), 16);
+    const g = parseInt(clean.substring(2, 4), 16);
+    const b = parseInt(clean.substring(4, 6), 16);
+    return [r, g, b];
+  }
+
+  function readRainbowPalette() {
+    const style = getComputedStyle(document.documentElement);
+    const tokens = [
+      "--color-rose", "--color-salmon", "--color-coral", "--color-gold",
+      "--color-sage", "--color-sky", "--color-periwinkle", "--color-lavender",
+      "--color-amethyst"
+    ];
+    rainbowRgb = tokens.map(t => hexToRgb(style.getPropertyValue(t) || "#F5EDE3"));
+  }
 
   function resizeStarfield() {
     canvas.width = window.innerWidth;
@@ -14,15 +33,17 @@ function initStarfield() {
   }
 
   function initStars() {
+    readRainbowPalette();
     stars = [];
     for (let i = 0; i < numStars; i++) {
       stars.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        radius: Math.random() * 1.5,
+        radius: 1 + Math.random() * 1.6,
         twinkleSpeed: 0.005 + Math.random() * 0.015,
         alpha: Math.random(),
-        increasing: Math.random() > 0.5
+        increasing: Math.random() > 0.5,
+        color: rainbowRgb[i % rainbowRgb.length]
       });
     }
   }
@@ -47,9 +68,11 @@ function initStarfield() {
       }
 
       const isLight = document.documentElement.getAttribute("data-theme") === "light";
+      const [r, g, b] = star.color;
+      const opacity = isLight ? star.alpha * 0.55 : star.alpha * 0.85;
       ctx.beginPath();
       ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-      ctx.fillStyle = isLight ? `rgba(15, 23, 42, ${star.alpha * 0.35})` : `rgba(255, 255, 255, ${star.alpha})`;
+      ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${opacity})`;
       ctx.fill();
     });
 
@@ -57,6 +80,7 @@ function initStarfield() {
   }
 
   window.addEventListener("resize", resizeStarfield);
+  window.addEventListener("themechange", initStars);
   resizeStarfield();
   draw();
 }
@@ -186,6 +210,7 @@ function initThemeToggle() {
         themeIcon.className = "fa-solid fa-moon";
       }
     }
+    window.dispatchEvent(new Event("themechange"));
   }
 }
 

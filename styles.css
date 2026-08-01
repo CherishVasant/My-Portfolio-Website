@@ -62,14 +62,15 @@
     --gradient-aurora-btn: linear-gradient(135deg, rgba(218,111,137,0.15) 0%, rgba(243,170,124,0.15) 25%, rgba(147,190,125,0.15) 50%, rgba(128,203,226,0.15) 75%, rgba(182,133,225,0.15) 100%);
 
     /* ── Backgrounds (Warm Dark Default) ─────── */
-    --bg-dark: #1E1712;
-    --bg-dark-alpha: rgba(30, 23, 18, 0.45);
-    --bg-dark-alpha-heavy: rgba(30, 23, 18, 0.85);
-    --bg-card: #2A2019;
+    --bg-dark: #26180C;
+    --bg-dark-alpha: rgba(38, 24, 12, 0.45);
+    --bg-dark-alpha-heavy: rgba(38, 24, 12, 0.85);
+    --bg-card: #342414;
     --bg-card-hover: rgba(255, 255, 255, 0.05);
-    --bg-mobile-menu: rgba(30, 23, 18, 0.98);
-    --bg-mobile-menu-blur: rgba(30, 23, 18, 0.85);
-    --bg-social-icon: rgba(30, 23, 18, 0.60);
+    --bg-mobile-menu: rgba(38, 24, 12, 0.98);
+    --bg-mobile-menu-blur: rgba(38, 24, 12, 0.85);
+    --bg-social-icon: rgba(38, 24, 12, 0.60);
+    --hero-cloud-color: rgba(245, 237, 227, 0.07);
 
     /* ── Borders ──────────────────────────────────────── */
     --border-color: rgba(255,241,224,0.08);
@@ -240,6 +241,7 @@
     --bg-mobile-menu: rgba(239, 230, 216, 0.98);
     --bg-mobile-menu-blur: rgba(239, 230, 216, 0.90);
     --bg-social-icon: rgba(251, 246, 236, 0.90);
+    --hero-cloud-color: rgba(255, 255, 255, 0.75);
 
     --border-color: rgba(58, 46, 34, 0.12);
     --border-subtle: rgba(58, 46, 34, 0.08);
@@ -505,17 +507,105 @@ a.selected {
     box-sizing: border-box;
 }
 
-.hero-glow {
+.hero-clouds {
     position: absolute;
-    top: -15%;
-    left: -12%;
-    width: 65%;
-    height: 70%;
-    background: radial-gradient(circle at 30% 30%, var(--color-primary-glow) 0%, var(--color-secondary-dim) 35%, var(--color-lavender-dim) 65%, transparent 85%);
-    filter: blur(80px);
-    opacity: 0.85;
+    inset: 0;
+    overflow: hidden;
     pointer-events: none;
-    z-index: 1;
+    z-index: 2;
+}
+
+.hero-cloud {
+    position: absolute;
+    background: var(--hero-cloud-color);
+    border-radius: 100px;
+    transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.1s ease;
+}
+
+.hero-cloud::before,
+.hero-cloud::after {
+    content: "";
+    position: absolute;
+    background: inherit;
+    border-radius: 50%;
+}
+
+.hero-cloud-1 {
+    width: 170px;
+    height: 56px;
+    top: 12%;
+    left: 6%;
+}
+
+.hero-cloud-1::before {
+    width: 80px;
+    height: 80px;
+    top: -40px;
+    left: 18px;
+}
+
+.hero-cloud-1::after {
+    width: 60px;
+    height: 60px;
+    top: -30px;
+    left: 84px;
+}
+
+.hero-cloud-2 {
+    width: 130px;
+    height: 42px;
+    top: 24%;
+    right: 8%;
+}
+
+.hero-cloud-2::before {
+    width: 60px;
+    height: 60px;
+    top: -30px;
+    left: 14px;
+}
+
+.hero-cloud-2::after {
+    width: 46px;
+    height: 46px;
+    top: -22px;
+    left: 62px;
+}
+
+.hero-cloud-3 {
+    width: 110px;
+    height: 36px;
+    bottom: 14%;
+    left: 18%;
+}
+
+.hero-cloud-3::before {
+    width: 50px;
+    height: 50px;
+    top: -25px;
+    left: 12px;
+}
+
+.hero-cloud-3::after {
+    width: 38px;
+    height: 38px;
+    top: -18px;
+    left: 52px;
+}
+
+.hero:hover .hero-cloud-1 {
+    transform: translate(-140px, -70px);
+    opacity: 0;
+}
+
+.hero:hover .hero-cloud-2 {
+    transform: translate(160px, -50px);
+    opacity: 0;
+}
+
+.hero:hover .hero-cloud-3 {
+    transform: translate(-110px, 90px);
+    opacity: 0;
 }
 
 .cosmic-dust {
@@ -1728,105 +1818,109 @@ footer p {
     }
 }
 
+
 /* ═══════════════════════════════════════════════════════════
-   RAINBOW DISTRIBUTION — each section gets its own hue from the
-   9-color palette, in order. No single color is used everywhere.
-   Placed last so it wins any same-specificity cascade ties.
+   RAINBOW DISTRIBUTION — each section has its own curated
+   3-color palette (a primary + 2 harmonious supporting hues,
+   not necessarily rainbow-adjacent) rather than one flat cycle.
+   Anchored on the rose + sage pairing used in the About Me
+   highlight spans. Placed last so it wins same-specificity ties.
 ═══════════════════════════════════════════════════════════ */
 
-/* Nav links — one hue per section link, matches that section's heading */
+/* Nav links — one primary hue per section link, matches that section's heading */
 ul.menu li:nth-child(1) a { color: var(--color-rose); }
 ul.menu li:nth-child(2) a { color: var(--color-salmon); }
 ul.menu li:nth-child(3) a { color: var(--color-coral); }
-ul.menu li:nth-child(4) a { color: var(--color-gold); }
+ul.menu li:nth-child(4) a { color: var(--color-sky); }
 ul.menu li:nth-child(5) a { color: var(--color-sage); }
-ul.menu li:nth-child(6) a { color: var(--color-sky); }
+ul.menu li:nth-child(6) a { color: var(--color-gold); }
 ul.menu li:nth-child(7) a { color: var(--color-periwinkle); }
 ul.menu li a:hover { opacity: 0.75; text-shadow: none; }
 
-/* Section headings — same order as the nav */
+/* Section headings — primary hue per section */
 #about-me h1.section-head { color: var(--color-rose); }
 #skills h1.section-head { color: var(--color-salmon); }
 #projects h1.section-head { color: var(--color-coral); }
-#courses h1.section-head { color: var(--color-gold); }
-#research h1.section-head { color: var(--color-sage); }
 #resume h1.section-head { color: var(--color-sky); }
+#research h1.section-head { color: var(--color-sage); }
+#courses h1.section-head { color: var(--color-gold); }
 #contact h1.section-head { color: var(--color-periwinkle); }
 
-/* Journey subsections + Research card */
-.work-experience-block h2 { color: var(--color-amethyst); }
-.education-block h2 { color: var(--color-lavender); }
+/* Hero — rose + sage + gold (the pairing that flows into About Me) */
+.greeting { color: var(--color-rose) !important; }
+.hire-badge { color: var(--color-gold) !important; }
+.image-container { border-color: var(--color-sage) !important; }
+
+/* Journey — sky + gold + salmon */
+.work-experience-block h2 { color: var(--color-gold); }
+.education-block h2 { color: var(--color-salmon); }
+
+.work-experience-block .timeline-item:nth-child(1) .timeline-dot { background: var(--color-sky); }
+.work-experience-block .timeline-item:nth-child(2) .timeline-dot { background: var(--color-gold); }
+.work-experience-block .timeline-item:nth-child(3) .timeline-dot { background: var(--color-salmon); }
+.education-block .timeline-item:nth-child(1) .timeline-dot { background: var(--color-salmon); }
+.education-block .timeline-item:nth-child(2) .timeline-dot { background: var(--color-gold); }
+.education-block .timeline-item:nth-child(3) .timeline-dot { background: var(--color-sky); }
+
+/* Research — sage + rose + amethyst */
 .research-card-icon { color: var(--color-sage); }
-.status-pill { background-color: var(--color-gold-faint); border-color: var(--color-gold-border); color: var(--color-gold); }
+.status-pill { background-color: var(--color-accent-faint); border-color: var(--color-accent-border); color: var(--color-rose); }
 
-/* Timeline dots — cycle per entry within each timeline */
-.work-experience-block .timeline-item:nth-child(1) .timeline-dot { background: var(--color-rose); }
-.work-experience-block .timeline-item:nth-child(2) .timeline-dot { background: var(--color-coral); }
-.work-experience-block .timeline-item:nth-child(3) .timeline-dot { background: var(--color-sky); }
-.education-block .timeline-item:nth-child(1) .timeline-dot { background: var(--color-amethyst); }
-.education-block .timeline-item:nth-child(2) .timeline-dot { background: var(--color-lavender); }
-.education-block .timeline-item:nth-child(3) .timeline-dot { background: var(--color-salmon); }
+/* Skills — salmon + sky + amethyst, repeating across the 5 categories */
+.skills-category:nth-of-type(1) .prompt { color: var(--color-salmon); }
+.skills-category:nth-of-type(1) .skill-tag { background-color: var(--color-salmon-faint); border-color: var(--color-salmon-border); }
+.skills-category:nth-of-type(1) .skill-tag:hover { border-color: var(--color-salmon); background-color: var(--color-salmon-faint); }
 
-/* Skills — one hue per category ($ prompt + its tags) */
-.skills-category:nth-of-type(1) .prompt { color: var(--color-rose); }
-.skills-category:nth-of-type(1) .skill-tag { background-color: var(--color-accent-faint); border-color: var(--color-accent-border); }
-.skills-category:nth-of-type(1) .skill-tag:hover { border-color: var(--color-rose); background-color: var(--color-accent-dim); }
+.skills-category:nth-of-type(2) .prompt { color: var(--color-sky); }
+.skills-category:nth-of-type(2) .skill-tag { background-color: var(--color-secondary-dim); border-color: var(--color-secondary-border); }
+.skills-category:nth-of-type(2) .skill-tag:hover { border-color: var(--color-sky); background-color: var(--color-secondary-dim); }
 
-.skills-category:nth-of-type(2) .prompt { color: var(--color-coral); }
-.skills-category:nth-of-type(2) .skill-tag { background-color: var(--color-coral-faint); border-color: var(--color-coral-border); }
-.skills-category:nth-of-type(2) .skill-tag:hover { border-color: var(--color-coral); background-color: var(--color-coral-faint); }
+.skills-category:nth-of-type(3) .prompt { color: var(--color-amethyst); }
+.skills-category:nth-of-type(3) .skill-tag { background-color: var(--color-amethyst-faint); border-color: var(--color-amethyst-border); }
+.skills-category:nth-of-type(3) .skill-tag:hover { border-color: var(--color-amethyst); background-color: var(--color-amethyst-faint); }
 
-.skills-category:nth-of-type(3) .prompt { color: var(--color-sage); }
-.skills-category:nth-of-type(3) .skill-tag { background-color: var(--color-primary-faint); border-color: var(--color-primary-border); }
-.skills-category:nth-of-type(3) .skill-tag:hover { border-color: var(--color-sage); background-color: var(--color-primary-dim); }
+.skills-category:nth-of-type(4) .prompt { color: var(--color-salmon); }
+.skills-category:nth-of-type(4) .skill-tag { background-color: var(--color-salmon-faint); border-color: var(--color-salmon-border); }
+.skills-category:nth-of-type(4) .skill-tag:hover { border-color: var(--color-salmon); background-color: var(--color-salmon-faint); }
 
-.skills-category:nth-of-type(4) .prompt { color: var(--color-sky); }
-.skills-category:nth-of-type(4) .skill-tag { background-color: var(--color-secondary-dim); border-color: var(--color-secondary-border); }
-.skills-category:nth-of-type(4) .skill-tag:hover { border-color: var(--color-sky); background-color: var(--color-secondary-dim); }
+.skills-category:nth-of-type(5) .prompt { color: var(--color-sky); }
+.skills-category:nth-of-type(5) .skill-tag { background-color: var(--color-secondary-dim); border-color: var(--color-secondary-border); }
+.skills-category:nth-of-type(5) .skill-tag:hover { border-color: var(--color-sky); background-color: var(--color-secondary-dim); }
 
-.skills-category:nth-of-type(5) .prompt { color: var(--color-amethyst); }
-.skills-category:nth-of-type(5) .skill-tag { background-color: var(--color-amethyst-faint); border-color: var(--color-amethyst-border); }
-.skills-category:nth-of-type(5) .skill-tag:hover { border-color: var(--color-amethyst); background-color: var(--color-amethyst-faint); }
-
-/* Hero accents */
-.greeting { color: var(--color-sky) !important; }
-.hire-badge { color: var(--color-amethyst) !important; }
-.image-container { border-color: var(--color-coral) !important; }
-
-/* Project cards — one hue per card (icon + headline stat) */
+/* Projects — coral + periwinkle + rose, repeating across the 6 cards */
 .projects-grid .project-card:nth-child(1) .project-eyebrow i,
-.projects-grid .project-card:nth-child(1) .project-stat { color: var(--color-rose); }
+.projects-grid .project-card:nth-child(1) .project-stat { color: var(--color-coral); }
 .projects-grid .project-card:nth-child(2) .project-eyebrow i,
-.projects-grid .project-card:nth-child(2) .project-stat { color: var(--color-coral); }
+.projects-grid .project-card:nth-child(2) .project-stat { color: var(--color-periwinkle); }
 .projects-grid .project-card:nth-child(3) .project-eyebrow i,
-.projects-grid .project-card:nth-child(3) .project-stat { color: var(--color-gold); }
+.projects-grid .project-card:nth-child(3) .project-stat { color: var(--color-rose); }
 .projects-grid .project-card:nth-child(4) .project-eyebrow i,
-.projects-grid .project-card:nth-child(4) .project-stat { color: var(--color-sage); }
+.projects-grid .project-card:nth-child(4) .project-stat { color: var(--color-coral); }
 .projects-grid .project-card:nth-child(5) .project-eyebrow i,
-.projects-grid .project-card:nth-child(5) .project-stat { color: var(--color-sky); }
+.projects-grid .project-card:nth-child(5) .project-stat { color: var(--color-periwinkle); }
 .projects-grid .project-card:nth-child(6) .project-eyebrow i,
-.projects-grid .project-card:nth-child(6) .project-stat { color: var(--color-amethyst); }
+.projects-grid .project-card:nth-child(6) .project-stat { color: var(--color-rose); }
 
-/* Courses & Hackathons cards — cycle per card */
+/* Courses & Hackathons — gold + lavender + sage */
 .cert-grid .cert-card:nth-child(1) .cert-card-icon,
-.cert-grid .cert-card:nth-child(1) .cert-card-action { color: var(--color-coral); }
+.cert-grid .cert-card:nth-child(1) .cert-card-action { color: var(--color-gold); }
 .cert-grid .cert-card:nth-child(2) .cert-card-icon,
-.cert-grid .cert-card:nth-child(2) .cert-card-action { color: var(--color-gold); }
+.cert-grid .cert-card:nth-child(2) .cert-card-action { color: var(--color-lavender); }
 .cert-grid .cert-card:nth-child(3) .cert-card-icon,
 .cert-grid .cert-card:nth-child(3) .cert-card-action { color: var(--color-sage); }
 .cert-grid .cert-card:nth-child(4) .cert-card-icon,
-.cert-grid .cert-card:nth-child(4) .cert-card-action { color: var(--color-periwinkle); }
+.cert-grid .cert-card:nth-child(4) .cert-card-action { color: var(--color-gold); }
 
-/* Connect cards (footer) — cycle per card */
-.connect-links .connect-card:nth-child(1) .connect-icon { color: var(--color-rose); }
-.connect-links .connect-card:nth-child(2) .connect-icon { color: var(--color-coral); }
-.connect-links .connect-card:nth-child(3) .connect-icon { color: var(--color-sage); }
+/* Contact — periwinkle + rose + gold */
+.connect-links .connect-card:nth-child(1) .connect-icon { color: var(--color-periwinkle); }
+.connect-links .connect-card:nth-child(2) .connect-icon { color: var(--color-rose); }
+.connect-links .connect-card:nth-child(3) .connect-icon { color: var(--color-gold); }
 .connect-links .connect-card:nth-child(4) .connect-icon { color: var(--color-periwinkle); }
-.connect-links .connect-card:nth-child(1) .connect-label { color: var(--color-rose); }
-.connect-links .connect-card:nth-child(2) .connect-label { color: var(--color-coral); }
-.connect-links .connect-card:nth-child(3) .connect-label { color: var(--color-sage); }
+.connect-links .connect-card:nth-child(1) .connect-label { color: var(--color-periwinkle); }
+.connect-links .connect-card:nth-child(2) .connect-label { color: var(--color-rose); }
+.connect-links .connect-card:nth-child(3) .connect-label { color: var(--color-gold); }
 .connect-links .connect-card:nth-child(4) .connect-label { color: var(--color-periwinkle); }
 
-/* Back-to-top */
+/* Back-to-top — periwinkle to rose, echoing the Contact pairing */
 .back-to-top { background: var(--color-periwinkle) !important; }
 .back-to-top:hover { background: var(--color-rose) !important; }
