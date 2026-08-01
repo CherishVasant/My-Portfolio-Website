@@ -62,14 +62,14 @@
     --gradient-aurora-btn: linear-gradient(135deg, rgba(218,111,137,0.15) 0%, rgba(243,170,124,0.15) 25%, rgba(147,190,125,0.15) 50%, rgba(128,203,226,0.15) 75%, rgba(182,133,225,0.15) 100%);
 
     /* ── Backgrounds (Warm Dark Default) ─────── */
-    --bg-dark: #26180C;
-    --bg-dark-alpha: rgba(38, 24, 12, 0.45);
-    --bg-dark-alpha-heavy: rgba(38, 24, 12, 0.85);
-    --bg-card: #342414;
+    --bg-dark: #221A15;
+    --bg-dark-alpha: rgba(34, 26, 21, 0.45);
+    --bg-dark-alpha-heavy: rgba(34, 26, 21, 0.85);
+    --bg-card: #2E2318;
     --bg-card-hover: rgba(255, 255, 255, 0.05);
-    --bg-mobile-menu: rgba(38, 24, 12, 0.98);
-    --bg-mobile-menu-blur: rgba(38, 24, 12, 0.85);
-    --bg-social-icon: rgba(38, 24, 12, 0.60);
+    --bg-mobile-menu: rgba(34, 26, 21, 0.98);
+    --bg-mobile-menu-blur: rgba(34, 26, 21, 0.85);
+    --bg-social-icon: rgba(34, 26, 21, 0.60);
     --hero-cloud-color: rgba(245, 237, 227, 0.07);
 
     /* ── Borders ──────────────────────────────────────── */
