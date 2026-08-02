@@ -29,6 +29,19 @@
     padding-bottom: calc(var(--space-16) + 60px);
 }
 
+/* Sprinkles background layer — a handful of drifting, tinted capsule
+   shapes standing in for the old plain starfield */
+#sprinkles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    background-color: var(--bg-dark);
+}
+
 .report-page a {
     color: var(--color-primary);
     text-decoration: none;

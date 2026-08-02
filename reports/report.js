@@ -1,55 +1,122 @@
-/* Shared report page behavior: starfield, section navigator, scroll spy */
+/* Shared report page behavior: theme sync, sprinkles, section navigator, scroll spy */
 
-function initStarfield() {
-  const canvas = document.getElementById("starfield");
+function initSprinkles() {
+  const canvas = document.getElementById("sprinkles");
   if (!canvas) return;
   const ctx = canvas.getContext("2d");
-  let stars = [];
-  const numStars = 150;
+  let sprinkles = [];
+  const numSprinkles = 100;
 
-  function resizeStarfield() {
+  const rootStyles = getComputedStyle(document.documentElement);
+  const paletteVars = [
+    "--color-rose",
+    "--color-coral",
+    "--color-gold",
+    "--color-sage",
+    "--color-sky",
+    "--color-periwinkle",
+    "--color-lavender",
+    "--color-amethyst"
+  ];
+
+  const hexToRgb = (hex) => {
+    const clean = hex.trim().replace("#", "");
+    const num = parseInt(clean, 16);
+    return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
+  };
+
+  const palette = paletteVars
+    .map((name) => rootStyles.getPropertyValue(name))
+    .filter(Boolean)
+    .map(hexToRgb);
+
+  if (!palette.length) palette.push({ r: 245, g: 237, b: 227 });
+
+  function resizeSprinkles() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    stars = [];
-    for (let i = 0; i < numStars; i++) {
-      stars.push({
+    sprinkles = [];
+    for (let i = 0; i < numSprinkles; i++) {
+      sprinkles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        radius: Math.random() * 1.5,
-        twinkleSpeed: 0.005 + Math.random() * 0.015,
-        alpha: Math.random(),
+        length: 10 + Math.random() * 10,
+        width: 4 + Math.random() * 3,
+        angle: Math.random() * Math.PI * 2,
+        color: palette[Math.floor(Math.random() * palette.length)],
+        twinkleSpeed: 0.004 + Math.random() * 0.01,
+        alpha: 0.15 + Math.random() * 0.4,
         increasing: Math.random() > 0.5
       });
     }
   }
 
+  function drawSprinkle(s) {
+    const r = s.width / 2;
+    const half = s.length / 2;
+
+    ctx.save();
+    ctx.translate(s.x, s.y);
+    ctx.rotate(s.angle);
+    ctx.fillStyle = `rgba(${s.color.r}, ${s.color.g}, ${s.color.b}, ${s.alpha})`;
+
+    ctx.beginPath();
+    ctx.moveTo(-half + r, -r);
+    ctx.lineTo(half - r, -r);
+    ctx.arc(half - r, 0, r, -Math.PI / 2, Math.PI / 2);
+    ctx.lineTo(-half + r, r);
+    ctx.arc(-half + r, 0, r, Math.PI / 2, -Math.PI / 2);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    stars.forEach((star) => {
-      if (star.increasing) {
-        star.alpha += star.twinkleSpeed;
-        if (star.alpha >= 1) {
-          star.alpha = 1;
-          star.increasing = false;
+    sprinkles.forEach((s) => {
+      if (s.increasing) {
+        s.alpha += s.twinkleSpeed;
+        if (s.alpha >= 0.65) {
+          s.alpha = 0.65;
+          s.increasing = false;
         }
       } else {
-        star.alpha -= star.twinkleSpeed;
-        if (star.alpha <= 0.1) {
-          star.alpha = 0.1;
-          star.increasing = true;
+        s.alpha -= s.twinkleSpeed;
+        if (s.alpha <= 0.12) {
+          s.alpha = 0.12;
+          s.increasing = true;
         }
       }
-      ctx.beginPath();
-      ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
-      ctx.fill();
+      drawSprinkle(s);
     });
     requestAnimationFrame(draw);
   }
 
-  window.addEventListener("resize", resizeStarfield);
-  resizeStarfield();
+  window.addEventListener("resize", resizeSprinkles);
+  resizeSprinkles();
   draw();
+}
+
+function initReportTheme() {
+  const toggleBtn = document.getElementById("themeToggle");
+  const themeIcon = document.getElementById("themeIcon");
+
+  function setTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+    if (themeIcon) {
+      themeIcon.className = theme === "light" ? "fa-solid fa-sun" : "fa-solid fa-moon";
+    }
+  }
+
+  setTheme(localStorage.getItem("theme") || "dark");
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", () => {
+      const current = document.documentElement.getAttribute("data-theme") || "dark";
+      setTheme(current === "dark" ? "light" : "dark");
+    });
+  }
 }
 
 function getReportSections() {
@@ -249,7 +316,8 @@ function initBackToTop() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  initStarfield();
+  initReportTheme();
+  initSprinkles();
   initReportNavbar();
   initBackToTop();
 

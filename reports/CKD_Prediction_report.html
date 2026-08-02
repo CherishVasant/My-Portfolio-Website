@@ -16,21 +16,22 @@
 
 
 
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../styles.css?v=5">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Baumans&family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="reports.css">
-    <script src="report.js" defer></script>
+    <link rel="stylesheet" href="reports.css?v=3">
+    <script src="report.js?v=4" defer></script>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_upward" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 
 </head>
 
 <body class="report-page">
-    <canvas id="starfield" aria-hidden="true"></canvas>
+    <canvas id="sprinkles" aria-hidden="true"></canvas>
     <header>
         <nav class="navbar report-navbar">
             <a href="../index.html" class="nav-head"><span class="gradient-text">Cherish Vasant</span></a>
@@ -38,6 +39,9 @@
                 <a href="../index.html" class="report-nav-link back-link">← Portfolio</a>
                 <a href="https://github.com/CherishVasant/Chronic-Kidney-Disease-Prediction"
                     class="report-nav-link github-link" target="_blank" rel="noopener">GitHub</a>
+                <button type="button" class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Light and Dark Mode" title="Toggle Theme">
+                    <i class="fa-solid fa-moon" id="themeIcon"></i>
+                </button>
             </div>
         </nav>
     </header>
@@ -2581,24 +2585,24 @@
                             {
                                 label: 'Accuracy',
                                 data: topAccs,
-                                backgroundColor: 'rgba(110, 231, 183, 0.75)',
-                                borderColor: '#6EE7B7',
+                                backgroundColor: 'rgba(147, 190, 125, 0.75)',
+                                borderColor: '#93BE7D',
                                 borderWidth: 1,
                                 borderRadius: 4
                             },
                             {
                                 label: 'Recall',
                                 data: topRecalls,
-                                backgroundColor: 'rgba(125, 211, 252, 0.75)',
-                                borderColor: '#7DD3FC',
+                                backgroundColor: 'rgba(128, 203, 226, 0.75)',
+                                borderColor: '#80CBE2',
                                 borderWidth: 1,
                                 borderRadius: 4
                             },
                             {
                                 label: 'F1 Score',
                                 data: topF1s,
-                                backgroundColor: 'rgba(249, 168, 212, 0.75)',
-                                borderColor: '#F9A8D4',
+                                backgroundColor: 'rgba(218, 111, 137, 0.75)',
+                                borderColor: '#DA6F89',
                                 borderWidth: 1,
                                 borderRadius: 4
                             }
@@ -2610,7 +2614,7 @@
                         plugins: {
                             legend: {
                                 labels: {
-                                    color: '#9ca3af',
+                                    color: 'rgba(245, 237, 227, 0.6)',
                                     font: { family: 'Share Tech Mono' }
                                 }
                             },
@@ -2625,18 +2629,18 @@
                         },
                         scales: {
                             x: {
-                                grid: { color: 'rgba(255, 255, 255, 0.08)' },
+                                grid: { color: 'rgba(255, 241, 224, 0.08)' },
                                 ticks: {
-                                    color: '#9ca3af',
+                                    color: 'rgba(245, 237, 227, 0.6)',
                                     font: { family: 'Share Tech Mono', size: 10 }
                                 }
                             },
                             y: {
                                 min: 0.90,
                                 max: 1.0,
-                                grid: { color: 'rgba(255, 255, 255, 0.08)' },
+                                grid: { color: 'rgba(255, 241, 224, 0.08)' },
                                 ticks: {
-                                    color: '#9ca3af',
+                                    color: 'rgba(245, 237, 227, 0.6)',
                                     font: { family: 'Share Tech Mono' }
                                 }
                             }
@@ -2689,8 +2693,8 @@
                             {
                                 label: 'Average F1 Score',
                                 data: avgF1s,
-                                borderColor: '#6EE7B7',
-                                backgroundColor: 'rgba(110, 231, 183, 0.15)',
+                                borderColor: '#93BE7D',
+                                backgroundColor: 'rgba(147, 190, 125, 0.15)',
                                 borderWidth: 2,
                                 tension: 0.1,
                                 fill: true
@@ -2698,7 +2702,7 @@
                             {
                                 label: 'Best Model F1 Score',
                                 data: bestF1s,
-                                borderColor: '#F9A8D4',
+                                borderColor: '#DA6F89',
                                 backgroundColor: 'transparent',
                                 borderWidth: 2,
                                 borderDash: [5, 5],
@@ -2712,7 +2716,7 @@
                         plugins: {
                             legend: {
                                 labels: {
-                                    color: '#9ca3af',
+                                    color: 'rgba(245, 237, 227, 0.6)',
                                     font: { family: 'Share Tech Mono' }
                                 }
                             },
@@ -2727,18 +2731,18 @@
                         },
                         scales: {
                             x: {
-                                grid: { color: 'rgba(255, 255, 255, 0.08)' },
+                                grid: { color: 'rgba(255, 241, 224, 0.08)' },
                                 ticks: {
-                                    color: '#9ca3af',
+                                    color: 'rgba(245, 237, 227, 0.6)',
                                     font: { family: 'Share Tech Mono' }
                                 }
                             },
                             y: {
                                 min: 0.85,
                                 max: 1.02,
-                                grid: { color: 'rgba(255, 255, 255, 0.08)' },
+                                grid: { color: 'rgba(255, 241, 224, 0.08)' },
                                 ticks: {
-                                    color: '#9ca3af',
+                                    color: 'rgba(245, 237, 227, 0.6)',
                                     font: { family: 'Share Tech Mono' }
                                 }
                             }
@@ -2752,7 +2756,7 @@
         <div class="section-nav-mobile-inner"></div>
     </nav>
     <div class="back-to-top" id="backToTop" aria-label="Back to top">
-        <span class="material-symbols-outlined" style="font-size:24px;color:#fff;">arrow_upward</span>
+        <span class="material-symbols-outlined" style="font-size:24px;">arrow_upward</span>
     </div>
 
 </body>
