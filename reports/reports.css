@@ -17,7 +17,101 @@
     --react-observation-bg: rgba(110, 231, 183, 0.15);
     --react-observation-text: var(--color-mint);
     --react-observation-border: rgba(110, 231, 183, 0.30);
+
+    /* Rainbow rotation — spreads the full site palette across repeating
+       report UI (section numbers, nav dots, tags, metrics, timeline)
+       instead of leaning on sage green for everything */
+    --rainbow-1: var(--color-rose);
+    --rainbow-2: var(--color-coral);
+    --rainbow-3: var(--color-gold);
+    --rainbow-4: var(--color-sage);
+    --rainbow-5: var(--color-sky);
+    --rainbow-6: var(--color-periwinkle);
+    --rainbow-7: var(--color-lavender);
+    --rainbow-8: var(--color-amethyst);
 }
+
+.section-number.accent-1,
+.section-nav-item.accent-1 { color: var(--rainbow-1); }
+.section-number.accent-2,
+.section-nav-item.accent-2 { color: var(--rainbow-2); }
+.section-number.accent-3,
+.section-nav-item.accent-3 { color: var(--rainbow-3); }
+.section-number.accent-4,
+.section-nav-item.accent-4 { color: var(--rainbow-4); }
+.section-number.accent-5,
+.section-nav-item.accent-5 { color: var(--rainbow-5); }
+.section-number.accent-6,
+.section-nav-item.accent-6 { color: var(--rainbow-6); }
+.section-number.accent-7,
+.section-nav-item.accent-7 { color: var(--rainbow-7); }
+.section-number.accent-8,
+.section-nav-item.accent-8 { color: var(--rainbow-8); }
+
+.section-nav-item.accent-1.active { background: var(--rainbow-1); border-color: var(--rainbow-1); color: var(--text-white); }
+.section-nav-item.accent-2.active { background: var(--rainbow-2); border-color: var(--rainbow-2); color: var(--text-white); }
+.section-nav-item.accent-3.active { background: var(--rainbow-3); border-color: var(--rainbow-3); color: var(--text-white); }
+.section-nav-item.accent-4.active { background: var(--rainbow-4); border-color: var(--rainbow-4); color: var(--text-white); }
+.section-nav-item.accent-5.active { background: var(--rainbow-5); border-color: var(--rainbow-5); color: var(--text-white); }
+.section-nav-item.accent-6.active { background: var(--rainbow-6); border-color: var(--rainbow-6); color: var(--text-white); }
+.section-nav-item.accent-7.active { background: var(--rainbow-7); border-color: var(--rainbow-7); color: var(--text-white); }
+.section-nav-item.accent-8.active { background: var(--rainbow-8); border-color: var(--rainbow-8); color: var(--text-white); }
+
+.section-nav-item.accent-1:hover { border-color: var(--rainbow-1); color: var(--rainbow-1); }
+.section-nav-item.accent-2:hover { border-color: var(--rainbow-2); color: var(--rainbow-2); }
+.section-nav-item.accent-3:hover { border-color: var(--rainbow-3); color: var(--rainbow-3); }
+.section-nav-item.accent-4:hover { border-color: var(--rainbow-4); color: var(--rainbow-4); }
+.section-nav-item.accent-5:hover { border-color: var(--rainbow-5); color: var(--rainbow-5); }
+.section-nav-item.accent-6:hover { border-color: var(--rainbow-6); color: var(--rainbow-6); }
+.section-nav-item.accent-7:hover { border-color: var(--rainbow-7); color: var(--rainbow-7); }
+.section-nav-item.accent-8:hover { border-color: var(--rainbow-8); color: var(--rainbow-8); }
+
+.section-nav-item.accent-1.active:hover { color: var(--text-white); }
+.section-nav-item.accent-2.active:hover { color: var(--text-white); }
+.section-nav-item.accent-3.active:hover { color: var(--text-white); }
+.section-nav-item.accent-4.active:hover { color: var(--text-white); }
+.section-nav-item.accent-5.active:hover { color: var(--text-white); }
+.section-nav-item.accent-6.active:hover { color: var(--text-white); }
+.section-nav-item.accent-7.active:hover { color: var(--text-white); }
+.section-nav-item.accent-8.active:hover { color: var(--text-white); }
+
+/* Rainbow rotation for repeating content blocks: tags, metric numbers,
+   timeline steps, and matrix stat badges */
+.report-tags .tag:nth-child(8n+1), .tech-stack .tag:nth-child(8n+1), .tech-tags .tech-tag:nth-child(8n+1), .tags .tag:nth-child(8n+1), .tag-container .tag:nth-child(8n+1) { color: var(--rainbow-1); border-color: var(--rainbow-1); }
+.report-tags .tag:nth-child(8n+2), .tech-stack .tag:nth-child(8n+2), .tech-tags .tech-tag:nth-child(8n+2), .tags .tag:nth-child(8n+2), .tag-container .tag:nth-child(8n+2) { color: var(--rainbow-2); border-color: var(--rainbow-2); }
+.report-tags .tag:nth-child(8n+3), .tech-stack .tag:nth-child(8n+3), .tech-tags .tech-tag:nth-child(8n+3), .tags .tag:nth-child(8n+3), .tag-container .tag:nth-child(8n+3) { color: var(--rainbow-3); border-color: var(--rainbow-3); }
+.report-tags .tag:nth-child(8n+4), .tech-stack .tag:nth-child(8n+4), .tech-tags .tech-tag:nth-child(8n+4), .tags .tag:nth-child(8n+4), .tag-container .tag:nth-child(8n+4) { color: var(--rainbow-4); border-color: var(--rainbow-4); }
+.report-tags .tag:nth-child(8n+5), .tech-stack .tag:nth-child(8n+5), .tech-tags .tech-tag:nth-child(8n+5), .tags .tag:nth-child(8n+5), .tag-container .tag:nth-child(8n+5) { color: var(--rainbow-5); border-color: var(--rainbow-5); }
+.report-tags .tag:nth-child(8n+6), .tech-stack .tag:nth-child(8n+6), .tech-tags .tech-tag:nth-child(8n+6), .tags .tag:nth-child(8n+6), .tag-container .tag:nth-child(8n+6) { color: var(--rainbow-6); border-color: var(--rainbow-6); }
+.report-tags .tag:nth-child(8n+7), .tech-stack .tag:nth-child(8n+7), .tech-tags .tech-tag:nth-child(8n+7), .tags .tag:nth-child(8n+7), .tag-container .tag:nth-child(8n+7) { color: var(--rainbow-7); border-color: var(--rainbow-7); }
+.report-tags .tag:nth-child(8n+8), .tech-stack .tag:nth-child(8n+8), .tech-tags .tech-tag:nth-child(8n+8), .tags .tag:nth-child(8n+8), .tag-container .tag:nth-child(8n+8) { color: var(--rainbow-8); border-color: var(--rainbow-8); }
+
+.metric-card:nth-of-type(8n+1) .metric-val { color: var(--rainbow-1); }
+.metric-card:nth-of-type(8n+2) .metric-val { color: var(--rainbow-2); }
+.metric-card:nth-of-type(8n+3) .metric-val { color: var(--rainbow-3); }
+.metric-card:nth-of-type(8n+4) .metric-val { color: var(--rainbow-4); }
+.metric-card:nth-of-type(8n+5) .metric-val { color: var(--rainbow-5); }
+.metric-card:nth-of-type(8n+6) .metric-val { color: var(--rainbow-6); }
+.metric-card:nth-of-type(8n+7) .metric-val { color: var(--rainbow-7); }
+.metric-card:nth-of-type(8n+8) .metric-val { color: var(--rainbow-8); }
+
+.timeline-step:nth-of-type(8n+1) .timeline-number { color: var(--rainbow-1); }
+.timeline-step:nth-of-type(8n+2) .timeline-number { color: var(--rainbow-2); }
+.timeline-step:nth-of-type(8n+3) .timeline-number { color: var(--rainbow-3); }
+.timeline-step:nth-of-type(8n+4) .timeline-number { color: var(--rainbow-4); }
+.timeline-step:nth-of-type(8n+5) .timeline-number { color: var(--rainbow-5); }
+.timeline-step:nth-of-type(8n+6) .timeline-number { color: var(--rainbow-6); }
+.timeline-step:nth-of-type(8n+7) .timeline-number { color: var(--rainbow-7); }
+.timeline-step:nth-of-type(8n+8) .timeline-number { color: var(--rainbow-8); }
+
+.matrix-stats .stat-badge:nth-of-type(8n+1) .stat-badge-value { color: var(--rainbow-1); }
+.matrix-stats .stat-badge:nth-of-type(8n+2) .stat-badge-value { color: var(--rainbow-2); }
+.matrix-stats .stat-badge:nth-of-type(8n+3) .stat-badge-value { color: var(--rainbow-3); }
+.matrix-stats .stat-badge:nth-of-type(8n+4) .stat-badge-value { color: var(--rainbow-4); }
+.matrix-stats .stat-badge:nth-of-type(8n+5) .stat-badge-value { color: var(--rainbow-5); }
+.matrix-stats .stat-badge:nth-of-type(8n+6) .stat-badge-value { color: var(--rainbow-6); }
+.matrix-stats .stat-badge:nth-of-type(8n+7) .stat-badge-value { color: var(--rainbow-7); }
+.matrix-stats .stat-badge:nth-of-type(8n+8) .stat-badge-value { color: var(--rainbow-8); }
 
 .report-page {
     background-color: transparent;
@@ -29,18 +123,7 @@
     padding-bottom: calc(var(--space-16) + 60px);
 }
 
-/* Sprinkles background layer — a handful of drifting, tinted capsule
-   shapes standing in for the old plain starfield */
-#sprinkles {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
-    pointer-events: none;
-    background-color: var(--bg-dark);
-}
+/* #sprinkles background layer is defined once in ../styles.css (shared with the main site) */
 
 .report-page a {
     color: var(--color-primary);
@@ -140,10 +223,15 @@
     font-family: var(--font-heading);
     font-size: clamp(1.75rem, 4vw, var(--text-4xl));
     font-weight: 700;
-    color: var(--color-primary);
     margin: 0 0 var(--space-4);
     line-height: var(--leading-tight);
     letter-spacing: -0.02em;
+    background: var(--gradient-aurora-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: var(--color-primary);
+    display: inline-block;
 }
 
 .report-intro,
@@ -152,7 +240,7 @@
 .subtitle,
 .problem-statement {
     font-size: var(--text-lg);
-    color: var(--text-secondary);
+    color: var(--text-body);
     max-width: 720px;
     margin: 0 0 var(--space-6);
     line-height: var(--leading-relaxed);
@@ -271,7 +359,7 @@
 
 .report-section p,
 .report-page section p {
-    color: var(--text-secondary);
+    color: var(--text-body);
     font-size: var(--text-base);
     line-height: var(--leading-relaxed);
     margin-bottom: var(--space-4);
@@ -280,7 +368,7 @@
 .report-section ol,
 .report-section ul {
     margin: 0 0 var(--space-4) var(--space-6);
-    color: var(--text-secondary);
+    color: var(--text-body);
 }
 
 .report-section li {
@@ -490,7 +578,7 @@
 .alert-body,
 .alert-text {
     margin: 0;
-    color: var(--text-secondary);
+    color: var(--text-body);
     font-size: var(--text-sm);
     line-height: var(--leading-normal);
 }
@@ -731,7 +819,7 @@
 }
 
 .timeline-desc {
-    color: var(--text-secondary);
+    color: var(--text-body);
     font-size: var(--text-sm);
     margin: var(--space-1) 0 0 var(--space-6);
 }

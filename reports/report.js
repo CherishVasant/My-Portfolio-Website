@@ -1,101 +1,5 @@
-/* Shared report page behavior: theme sync, sprinkles, section navigator, scroll spy */
-
-function initSprinkles() {
-  const canvas = document.getElementById("sprinkles");
-  if (!canvas) return;
-  const ctx = canvas.getContext("2d");
-  let sprinkles = [];
-  const numSprinkles = 100;
-
-  const rootStyles = getComputedStyle(document.documentElement);
-  const paletteVars = [
-    "--color-rose",
-    "--color-coral",
-    "--color-gold",
-    "--color-sage",
-    "--color-sky",
-    "--color-periwinkle",
-    "--color-lavender",
-    "--color-amethyst"
-  ];
-
-  const hexToRgb = (hex) => {
-    const clean = hex.trim().replace("#", "");
-    const num = parseInt(clean, 16);
-    return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
-  };
-
-  const palette = paletteVars
-    .map((name) => rootStyles.getPropertyValue(name))
-    .filter(Boolean)
-    .map(hexToRgb);
-
-  if (!palette.length) palette.push({ r: 245, g: 237, b: 227 });
-
-  function resizeSprinkles() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    sprinkles = [];
-    for (let i = 0; i < numSprinkles; i++) {
-      sprinkles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        length: 10 + Math.random() * 10,
-        width: 4 + Math.random() * 3,
-        angle: Math.random() * Math.PI * 2,
-        color: palette[Math.floor(Math.random() * palette.length)],
-        twinkleSpeed: 0.004 + Math.random() * 0.01,
-        alpha: 0.15 + Math.random() * 0.4,
-        increasing: Math.random() > 0.5
-      });
-    }
-  }
-
-  function drawSprinkle(s) {
-    const r = s.width / 2;
-    const half = s.length / 2;
-
-    ctx.save();
-    ctx.translate(s.x, s.y);
-    ctx.rotate(s.angle);
-    ctx.fillStyle = `rgba(${s.color.r}, ${s.color.g}, ${s.color.b}, ${s.alpha})`;
-
-    ctx.beginPath();
-    ctx.moveTo(-half + r, -r);
-    ctx.lineTo(half - r, -r);
-    ctx.arc(half - r, 0, r, -Math.PI / 2, Math.PI / 2);
-    ctx.lineTo(-half + r, r);
-    ctx.arc(-half + r, 0, r, Math.PI / 2, -Math.PI / 2);
-    ctx.closePath();
-    ctx.fill();
-    ctx.restore();
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    sprinkles.forEach((s) => {
-      if (s.increasing) {
-        s.alpha += s.twinkleSpeed;
-        if (s.alpha >= 0.65) {
-          s.alpha = 0.65;
-          s.increasing = false;
-        }
-      } else {
-        s.alpha -= s.twinkleSpeed;
-        if (s.alpha <= 0.12) {
-          s.alpha = 0.12;
-          s.increasing = true;
-        }
-      }
-      drawSprinkle(s);
-    });
-    requestAnimationFrame(draw);
-  }
-
-  window.addEventListener("resize", resizeSprinkles);
-  resizeSprinkles();
-  draw();
-}
+/* Shared report page behavior: theme sync, section navigator, scroll spy.
+   Sprinkles background is handled by ../sprinkles.js (shared with the main site). */
 
 function initReportTheme() {
   const toggleBtn = document.getElementById("themeToggle");
@@ -158,8 +62,14 @@ function getReportSections() {
   return sections;
 }
 
+const RAINBOW_ACCENT_COUNT = 8;
+
 function formatSectionNumber(index) {
   return String(index + 1).padStart(2, "0");
+}
+
+function accentClassFor(index) {
+  return `accent-${(index % RAINBOW_ACCENT_COUNT) + 1}`;
 }
 
 function applyNumberedHeadings(sections) {
@@ -171,7 +81,7 @@ function applyNumberedHeadings(sections) {
     const titleText = heading.textContent.replace(/^\d+\.\s+/, "").trim();
 
     heading.classList.add("report-section-heading");
-    heading.innerHTML = `<span class="section-number">${num}</span><span class="section-title-text">${titleText}</span>`;
+    heading.innerHTML = `<span class="section-number ${accentClassFor(index)}">${num}</span><span class="section-title-text">${titleText}</span>`;
   });
 }
 
@@ -184,7 +94,7 @@ function buildSectionNavigator(sections) {
     const num = formatSectionNumber(index);
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "section-nav-item";
+    btn.className = `section-nav-item ${accentClassFor(index)}`;
     btn.textContent = num;
     btn.setAttribute("data-target", section.id);
     btn.setAttribute("aria-label", `Go to section ${num}`);
@@ -317,7 +227,6 @@ function initBackToTop() {
 
 document.addEventListener("DOMContentLoaded", () => {
   initReportTheme();
-  initSprinkles();
   initReportNavbar();
   initBackToTop();
 
