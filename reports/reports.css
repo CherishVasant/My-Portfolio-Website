@@ -593,12 +593,6 @@
     color: var(--color-accent);
 }
 
-.report-footer .footer-text {
-    font-size: var(--text-xs);
-    color: var(--text-secondary);
-    opacity: 0.8;
-}
-
 /* Back-to-top offset above mobile section nav */
 .report-page .back-to-top {
     z-index: 94;
@@ -734,11 +728,30 @@
     width: 100%;
     height: clamp(240px, 40vw, 320px);
     margin: var(--space-5) 0;
+    /* Grid items default to min-width:auto, which lets a canvas's locked
+       intrinsic size fight the track's 1fr share and produce wildly
+       unequal columns (or a table's natural width blow out a track).
+       min-width:0 makes this element only ever take its assigned space. */
+    min-width: 0;
 }
 
 .chart-box canvas,
 .chart-container canvas {
     max-width: 100%;
+}
+
+/* A 30-category horizontal bar chart needs real vertical room — the
+   generic ~320px cap crowds every bar into a sliver. */
+.chart-box-tall {
+    height: 560px;
+}
+
+/* The confusion matrix is a real <table>, not a canvas — it should size
+   to its own content instead of being clipped/overflowing a fixed
+   canvas-oriented height. */
+.chart-box-auto {
+    height: auto;
+    min-height: 0;
 }
 
 /* Timeline */
@@ -876,7 +889,13 @@
     max-width: 100%;
 }
 
-.matrix-cell {
+/* Scoped to .matrix-grid-container specifically (CKD's small binary
+   confusion-matrix widget) — NOT a bare .matrix-cell selector, because
+   Cloud Security's 15x15 matrix reuses the same class name on real
+   <td> cells inside <table class="matrix-table">. A bare rule here
+   would force display:flex onto those <td>s and break the table's
+   native row/column layout into a single stacked column. */
+.matrix-grid-container .matrix-cell {
     background: var(--bg-card-hover);
     border: 1px solid var(--border-color);
     border-radius: 6px;
@@ -888,14 +907,14 @@
     cursor: help;
 }
 
-.matrix-cell.tp,
-.matrix-cell.tn {
+.matrix-grid-container .matrix-cell.tp,
+.matrix-grid-container .matrix-cell.tn {
     background: var(--color-success-bg);
     border-color: var(--color-success-border);
 }
 
-.matrix-cell.fn,
-.matrix-cell.fp {
+.matrix-grid-container .matrix-cell.fn,
+.matrix-grid-container .matrix-cell.fp {
     background: var(--color-error-bg);
     border-color: var(--color-error-border);
 }

@@ -550,7 +550,7 @@ a.selected {
 
 .hero-visual svg {
     width: 100%;
-    max-width: 480px;
+    max-width: 580px;
     height: auto;
 }
 
@@ -2246,9 +2246,9 @@ ul.menu li a:hover { opacity: 0.75; text-shadow: none; }
 .connect-links .connect-card:nth-child(3) .connect-icon,
 .connect-links .connect-card:nth-child(3) .connect-label { color: var(--color-sage); }
 .connect-links .connect-card:nth-child(4) .connect-icon,
-.connect-links .connect-card:nth-child(4) .connect-label { color: var(--color-rose); }
+.connect-links .connect-card:nth-child(4) .connect-label { color: var(--color-amethyst); }
 .connect-links .connect-card:nth-child(5) .connect-icon,
-.connect-links .connect-card:nth-child(5) .connect-label { color: var(--color-amethyst); }
+.connect-links .connect-card:nth-child(5) .connect-label { color: var(--color-rose); }
 
 .connect-links .connect-card:nth-child(1):hover { border-color: var(--color-gold-border) !important; }
 .connect-links .connect-card:nth-child(1):hover .connect-icon { border-color: var(--color-gold) !important; }
@@ -2256,19 +2256,10 @@ ul.menu li a:hover { opacity: 0.75; text-shadow: none; }
 .connect-links .connect-card:nth-child(2):hover .connect-icon { border-color: var(--color-sky) !important; }
 .connect-links .connect-card:nth-child(3):hover { border-color: var(--color-primary-border) !important; }
 .connect-links .connect-card:nth-child(3):hover .connect-icon { border-color: var(--color-sage) !important; }
-.connect-links .connect-card:nth-child(4):hover { border-color: var(--color-accent-border) !important; }
-.connect-links .connect-card:nth-child(4):hover .connect-icon { border-color: var(--color-rose) !important; }
-.connect-links .connect-card:nth-child(5):hover { border-color: var(--color-amethyst-border) !important; }
-.connect-links .connect-card:nth-child(5):hover .connect-icon { border-color: var(--color-amethyst) !important; }
-
-/* 5 cards in a 2-column grid leaves the last one alone on its own
-   row — center it instead of letting it hug the left edge. */
-.connect-links .connect-card:nth-child(5) {
-    grid-column: 1 / -1;
-    max-width: 320px;
-    margin: 0 auto;
-    width: 100%;
-}
+.connect-links .connect-card:nth-child(4):hover { border-color: var(--color-amethyst-border) !important; }
+.connect-links .connect-card:nth-child(4):hover .connect-icon { border-color: var(--color-amethyst) !important; }
+.connect-links .connect-card:nth-child(5):hover { border-color: var(--color-accent-border) !important; }
+.connect-links .connect-card:nth-child(5):hover .connect-icon { border-color: var(--color-rose) !important; }
 
 /* Back-to-top — periwinkle to rose */
 .back-to-top { background: var(--color-periwinkle) !important; }

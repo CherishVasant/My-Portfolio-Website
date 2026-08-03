@@ -16,9 +16,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baumans&family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="reports.css?v=8">
-    <script src="report.js?v=8"></script>
-    <script src="../sprinkles.js?v=1" defer></script>
+    <link rel="stylesheet" href="reports.css?v=11">
+    <script src="report.js?v=9"></script>
+    <script src="../sprinkles.js?v=2" defer></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_upward" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 
@@ -157,26 +157,24 @@
                 </div>
             </div>
 
-            <!-- Interactive Charts Grid -->
-            <div class="charts-container">
-                <div class="chart-box">
-                    <h3>Model Performance Benchmarking</h3>
-                    <canvas id="comparisonChart"></canvas>
-                </div>
-                
-                <div class="chart-box">
-                    <h3>Top 30 Feature Importances (RFE Selection)</h3>
-                    <canvas id="featuresChart"></canvas>
-                </div>
+            <!-- Interactive Charts -->
+            <div class="chart-box">
+                <h3>Model Performance Benchmarking</h3>
+                <canvas id="comparisonChart"></canvas>
+            </div>
 
-                <div class="chart-box">
-                    <h3>XGBoost Cyberattack Classification Heatmap (Confusion Matrix)</h3>
-                    <p style="text-align: center; font-size: 0.9rem; margin-bottom: 15px; color: var(--text-secondary);">
-                        Hover over any grid cell to view the true class, predicted class, and classification count.
-                    </p>
-                    <div class="confusion-matrix-wrapper">
-                        <div id="matrix-container"></div>
-                    </div>
+            <div class="chart-box chart-box-tall">
+                <h3>Top 30 Feature Importances (RFE Selection)</h3>
+                <canvas id="featuresChart"></canvas>
+            </div>
+
+            <div class="chart-box chart-box-auto">
+                <h3>XGBoost Cyberattack Classification Heatmap (Confusion Matrix)</h3>
+                <p style="text-align: center; font-size: 0.9rem; margin-bottom: 15px; color: var(--text-secondary);">
+                    Hover over any grid cell to view the true class, predicted class, and classification count.
+                </p>
+                <div class="confusion-matrix-wrapper">
+                    <div id="matrix-container"></div>
                 </div>
             </div>
 
@@ -224,11 +222,10 @@
 
         <!-- Footer -->
         <footer class="report-footer">
-            <p>Cloud Security Intrusion Detection System Report | Created in 2026</p>
-            <p style="margin-top: 10px; font-size: 0.8rem;">
-                Built with Python, Scikit-Learn, XGBoost, CatBoost, and Chart.js.
-                <a href="../index.html">Back to Portfolio</a> | <a href="https://github.com/CherishVasant/Cloud-Security-In-IoT" target="_blank" rel="noopener">View on GitHub</a>
-            </p>
+            <div class="footer-links">
+                <a href="../index.html" class="footer-link">← Back to Portfolio</a>
+                <a href="https://github.com/CherishVasant/Cloud-Security-In-IoT" class="footer-link" target="_blank" rel="noopener">View on GitHub</a>
+            </div>
         </footer>
 
     <!-- Tooltip for Heatmap -->

@@ -6,7 +6,24 @@
     const canvas = document.getElementById("sprinkles");
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
-    const numSprinkles = 100;
+
+    // 100 sprinkles was tuned for a large monitor (~1920x1080). Scale the
+    // count by viewport area so smaller screens get proportionally fewer
+    // instead of the same fixed count, which read as cluttered there.
+    const REFERENCE_AREA = 1920 * 1080;
+    const MAX_SPRINKLES = 100;
+    const MIN_SPRINKLES = 20;
+
+    function getSprinkleCount(width, height) {
+      const scaled = Math.round(MAX_SPRINKLES * (width * height) / REFERENCE_AREA);
+      return Math.max(MIN_SPRINKLES, Math.min(MAX_SPRINKLES, scaled));
+    }
+
+    // Sprinkles are a light-theme-only flourish — they read as clutter/haze
+    // against the dark theme's background.
+    function isSprinklesTheme() {
+      return document.documentElement.getAttribute("data-theme") === "light";
+    }
 
     const rootStyles = getComputedStyle(document.documentElement);
     const paletteVars = [
@@ -56,7 +73,11 @@
     function render() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+      if (!isSprinklesTheme()) return;
+
+      const numSprinkles = getSprinkleCount(canvas.width, canvas.height);
       const sprinkles = [];
       for (let i = 0; i < numSprinkles; i++) {
         sprinkles.push({
@@ -70,7 +91,6 @@
         });
       }
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
       sprinkles.forEach(drawSprinkle);
     }
 
@@ -79,6 +99,10 @@
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(render, 150);
     });
+
+    // Re-render immediately when the theme is toggled live (script.js /
+    // report.js both dispatch this on their theme-toggle button click).
+    window.addEventListener("themechange", render);
 
     render();
   }

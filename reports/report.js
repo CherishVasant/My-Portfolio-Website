@@ -80,6 +80,18 @@ function refreshReportChartsForTheme() {
 
 window.addEventListener("themechange", refreshReportChartsForTheme);
 
+// Chart.js measures its container's size once at creation time to set the
+// canvas's inline pixel width/height. If that happens before a CSS Grid
+// (e.g. a 2-column .charts-container) has settled its final track widths —
+// or before web fonts finish loading and reflow the page — the chart can
+// lock in a too-small size and never self-correct, since Chart.js doesn't
+// re-measure on its own. Forcing one resize() pass per chart after the
+// window's "load" event (fonts + layout fully settled) fixes that for
+// every chart across every report.
+window.addEventListener("load", () => {
+  reportChartRegistry.forEach((chart) => chart.resize());
+});
+
 function getReportSections() {
   const main = document.querySelector(".report-main");
   if (!main) return [];

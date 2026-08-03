@@ -13,10 +13,10 @@
     .filter(Boolean);
 
   const layers = [
-    [[40, 90], [40, 190], [40, 290]],
-    [[150, 50], [150, 150], [150, 250], [150, 330]],
-    [[260, 120], [260, 220], [260, 300]],
-    [[350, 190]]
+    [[40, 40], [40, 140], [40, 240], [40, 340]],
+    [[175, 20], [175, 120], [175, 220], [175, 320], [175, 380]],
+    [[310, 60], [310, 160], [310, 260], [310, 340]],
+    [[420, 140], [420, 260]]
   ];
   const allNodes = [];
   layers.forEach(layer => layer.forEach(point => allNodes.push(point)));
@@ -39,14 +39,14 @@
     const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     circle.setAttribute("cx", p[0]);
     circle.setAttribute("cy", p[1]);
-    circle.setAttribute("r", 6);
+    circle.setAttribute("r", 5);
     const col = colors[i % colors.length];
     circle.setAttribute("fill", col);
     circle.style.filter = `drop-shadow(0 0 6px ${col}99)`;
 
     const animate = document.createElementNS("http://www.w3.org/2000/svg", "animate");
     animate.setAttribute("attributeName", "r");
-    animate.setAttribute("values", "6;8.5;6");
+    animate.setAttribute("values", "5;7;5");
     animate.setAttribute("dur", `${2 + Math.random() * 2}s`);
     animate.setAttribute("repeatCount", "indefinite");
     animate.setAttribute("begin", `${Math.random() * 2}s`);
