@@ -102,9 +102,9 @@
     --bg-mobile-menu-near: rgba(20, 18, 31, 0.95);
 
     /* ── Intensity scale ─────────────────────────────── */
-    --intensity-high: rgba(110, 231, 183, 0.85);
-    --intensity-medium: rgba(110, 231, 183, 0.55);
-    --intensity-low: rgba(110, 231, 183, 0.25);
+    --intensity-high: rgba(147, 190, 125, 0.85);
+    --intensity-medium: rgba(147, 190, 125, 0.55);
+    --intensity-low: rgba(147, 190, 125, 0.25);
 
     /* ── Report / data UI (semantic) ─────────────────── */
     --color-success: #34d399;
@@ -123,15 +123,15 @@
     --color-primary-chat-bg: rgba(110, 231, 183, 0.08);
     --color-primary-chat-border: rgba(110, 231, 183, 0.25);
 
-    --react-thought-bg: rgba(59, 130, 246, 0.20);
-    --react-thought-text: #60a5fa;
-    --react-thought-border: rgba(59, 130, 246, 0.30);
-    --react-action-bg: rgba(234, 179, 8, 0.20);
-    --react-action-text: #facc15;
-    --react-action-border: rgba(234, 179, 8, 0.30);
-    --react-observation-bg: rgba(34, 197, 94, 0.20);
-    --react-observation-text: #4ade80;
-    --react-observation-border: rgba(34, 197, 94, 0.30);
+    --react-thought-bg: rgba(140, 164, 236, 0.20);
+    --react-thought-text: #7B94E0;
+    --react-thought-border: rgba(140, 164, 236, 0.30);
+    --react-action-bg: rgba(238, 200, 136, 0.20);
+    --react-action-text: #C99A3E;
+    --react-action-border: rgba(238, 200, 136, 0.30);
+    --react-observation-bg: rgba(147, 190, 125, 0.20);
+    --react-observation-text: #7FA968;
+    --react-observation-border: rgba(147, 190, 125, 0.30);
 
     --color-json-text: #34d399;
 
@@ -171,7 +171,7 @@
     --space-16: 4rem;
 
     /* ── Layout ──────────────────────────────────────── */
-    --container-max: 1120px;
+    --container-max: 1320px;
     --navbar-height: 52px;
     --section-pad-x: clamp(1.25rem, 4vw, 5rem);
     --section-pad-y: clamp(2rem, 5vw, 4rem);
@@ -263,6 +263,13 @@
     --text-white-muted: rgba(58, 46, 34, 0.55);
     --text-white-soft: #55442F;
     --text-body: #55442F;
+
+    /* React-trace badge text — darker than the dark-theme shades above so
+       small badge text stays readable against the light cream background
+       instead of washing out. */
+    --react-thought-text: #4C63B6;
+    --react-action-text: #8F6A1F;
+    --react-observation-text: #4F6E3E;
 }
 
 
@@ -515,15 +522,48 @@ a.selected {
     pointer-events: none;
 }
 
-.hero-content {
+.hero-grid {
     position: relative;
     z-index: 5;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: clamp(24px, 5vw, 56px);
+    align-items: center;
+    width: 100%;
+    max-width: 1380px;
+}
+
+.hero-content {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
-    max-width: 850px;
+    max-width: 640px;
     width: 100%;
+}
+
+.hero-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-visual svg {
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+}
+
+.hero-visual #heroNodes circle {
+    transition: r 0.3s ease;
+}
+
+.hero-hi {
+    font-family: var(--font-mono);
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    color: var(--text-primary);
+    letter-spacing: 0.5px;
+    margin: 0 0 var(--space-2);
 }
 
 .hire-badge {
@@ -596,14 +636,14 @@ a.selected {
 
 .contact-info-header {
     font-family: var(--font-mono);
-    font-size: clamp(0.9rem, 2vw, 1.05rem);
-    color: var(--color-sky) !important;
+    font-size: clamp(1rem, 2.2vw, 1.15rem);
+    color: var(--text-white) !important;
     margin: 0 0 var(--space-8);
     letter-spacing: 0.5px;
 }
 
 .contact-info-header a {
-    color: var(--color-sky) !important;
+    color: var(--text-white) !important;
     text-decoration: none;
 }
 
@@ -740,74 +780,202 @@ a.selected {
     transform: translateY(-2px);
 }
 
-.cert-grid {
+/* ═══════════════════════════════════════════════════════════
+   COURSES — bento grid, arranged for a bit of visual play: the
+   Machine Learning card (3 items) anchors the left column and
+   spans all 3 rows; Core Languages and Web Development sit beside
+   it as wide horizontal cards (their items placed side by side);
+   Data Quest closes out the bottom row. Each row is itself a link
+   showing the real certificate-image thumbnail (from
+   images/CertificatePics/) that opens the full certificate — the
+   PDF where one exists, otherwise the image itself — in a new tab.
+═══════════════════════════════════════════════════════════ */
+.bento {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
     margin-top: 12px;
 }
 
-.cert-card {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+/* Row 1: Machine Learning (single certificate) beside Core Languages.
+   Row 2: Web Development beside Data Quest — mirrored so each row
+   pairs one narrow single-item card with one wide two-item card. */
+.bcard.bcard-ml {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.bcard.bcard-languages {
+    grid-column: 2 / span 2;
+    grid-row: 1;
+}
+
+.bcard.bcard-webdev {
+    grid-column: 1 / span 2;
+    grid-row: 2;
+}
+
+.bcard.bcard-hackathon {
+    grid-column: 3;
+    grid-row: 2;
+}
+
+@media (max-width: 900px) {
+    .bento {
+        grid-template-columns: 1fr;
+    }
+
+    .bcard.bcard-ml,
+    .bcard.bcard-languages,
+    .bcard.bcard-webdev,
+    .bcard.bcard-hackathon {
+        grid-column: 1;
+        grid-row: auto;
+    }
+}
+
+.bcard {
+    position: relative;
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 14px 16px;
-    text-decoration: none;
-    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-}
-
-.cert-card:hover {
-    transform: translateY(-3px);
-    border-color: var(--color-primary-border);
-    box-shadow: 0 8px 20px var(--shadow-md);
-}
-
-.cert-card-icon {
-    color: var(--color-primary);
-    font-size: 1.1rem;
-}
-
-.cert-card-title {
-    color: var(--text-primary);
-    font-weight: 600;
-    font-size: 0.88rem;
-    line-height: 1.35;
-}
-
-.cert-card-meta {
-    color: var(--text-secondary);
-    font-size: 0.75rem;
-    line-height: 1.4;
-}
-
-.cert-card-action {
-    margin-top: auto;
-    padding-top: 4px;
-    color: var(--color-primary);
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
+    border-top: 3px solid var(--bc, var(--color-primary));
+    border-radius: 12px;
+    padding: 22px;
     display: flex;
+    flex-direction: column;
+}
+
+.bcard-type {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--color-primary-faint);
+    border: 1px solid var(--color-primary-border);
+    color: var(--color-primary);
+}
+
+.bcard-type.hackathon {
+    background: var(--color-gold-faint);
+    border-color: var(--color-gold-border);
+    color: var(--color-gold);
+}
+
+.blabel {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-white-muted);
+    padding-right: 70px;
+}
+
+.bhead {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--text-primary);
+    margin-top: 8px;
+}
+
+.bitems {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.bitems.bitems-row {
+    flex-direction: row;
+    align-items: stretch;
+}
+
+.bitems.bitems-row .bitem {
+    flex: 1 1 0;
+}
+
+@media (max-width: 900px) {
+    .bitems.bitems-row {
+        flex-direction: column;
+    }
+}
+
+.bitem {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    margin: 0 -10px;
+    text-decoration: none;
+    border-radius: 12px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.bitem:hover {
+    background-color: var(--bg-card-hover);
+    transform: translateY(-2px);
+}
+
+.bitem-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 8px;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.bitem-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.bitem-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.bitem-text {
+    flex-grow: 1;
+    font-size: 0.85rem;
+    color: var(--text-white-soft);
+}
+
+.badge2 {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    padding: 2px 9px;
+    border-radius: 10px;
+    background: var(--bg-dark);
+    color: var(--text-white-muted);
+    border: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.bitem-view {
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.78rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+    display: inline-flex;
     align-items: center;
     gap: 6px;
 }
 
-.cert-card.cert-card-compact {
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
-    width: fit-content;
-}
-
-.cert-card.cert-card-compact .cert-card-action {
-    margin-top: 0;
-    padding-top: 0;
-}
 
 .research-card {
     background-color: var(--bg-card);
@@ -1045,6 +1213,49 @@ h1.section-head {
     padding-bottom: 10px;
 }
 
+/* ═══════════════════════════════════════════════════════════
+   SECTION HEADLINES — small colored eyebrow label + a big
+   statement with 1-2 key phrases underlined in a hand-drawn
+   squiggle. Applied to About Me, Skills, Projects, Journey,
+   Research, Courses only (added via the extra .eyebrow class on
+   their h1.section-head) — Contact keeps its original plain
+   section-head treatment untouched.
+═══════════════════════════════════════════════════════════ */
+h1.section-head.eyebrow {
+    font-size: 0.78rem;
+    font-family: var(--font-mono);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: var(--space-3);
+}
+
+.section-headline {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: clamp(1.4rem, 3.2vw, 2.1rem);
+    line-height: 1.35;
+    max-width: 840px;
+    color: var(--text-primary);
+    margin: 0 0 var(--space-8);
+}
+
+.u {
+    position: relative;
+    white-space: nowrap;
+}
+
+.u svg {
+    position: absolute;
+    left: -3%;
+    bottom: -8px;
+    width: 106%;
+    height: 12px;
+    overflow: visible;
+}
+
 p,
 .project-card p,
 .timeline-content p,
@@ -1071,6 +1282,115 @@ table {
 /* ═══════════════════════════════════════════════════════════
    PROJECTS GRID
 ═══════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════
+   PROJECTS SPECTRUM — rainbow track with 4 category stops;
+   dragging/clicking the marker filters the grid below to that
+   discipline. "All Projects" toggles back to the full grid.
+═══════════════════════════════════════════════════════════ */
+.projects-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.section-lead {
+    color: var(--text-white-soft);
+    font-size: 0.92rem;
+    margin: 0;
+    max-width: 46ch;
+}
+
+.all-projects-btn {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.88rem;
+    padding: 10px 22px;
+    border-radius: 999px;
+    border: 2px solid var(--color-gold);
+    background: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.all-projects-btn:hover {
+    background: var(--color-gold-faint);
+    transform: translateY(-2px);
+}
+
+.all-projects-btn.active {
+    background: var(--color-gold);
+    border-color: var(--color-gold);
+    color: #241811;
+}
+
+.spectrum-wrap {
+    margin-bottom: var(--space-10);
+}
+
+.spectrum-track {
+    position: relative;
+    height: 6px;
+    border-radius: 6px;
+    background: var(--gradient-aurora);
+    margin: 0 12px;
+}
+
+.spectrum-tick {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--bg-dark);
+    border: 2px solid var(--text-primary);
+    padding: 0;
+    cursor: pointer;
+    z-index: 3;
+    transition: transform 0.2s ease;
+}
+
+.spectrum-tick:hover {
+    transform: translate(-50%, -50%) scale(1.15);
+}
+
+.spectrum-tick.active {
+    background: var(--text-primary);
+}
+
+.spectrum-marker {
+    position: absolute;
+    top: 50%;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px var(--shadow-md), 0 4px 14px var(--shadow-lg);
+    transform: translate(-50%, -50%);
+    transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: grab;
+    z-index: 4;
+}
+
+.spectrum-marker:active {
+    cursor: grabbing;
+}
+
+.spectrum-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 18px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    color: var(--text-white-soft);
+}
+
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -1411,6 +1731,70 @@ table {
     padding: 0;
 }
 
+/* Internship entries with a certificate: text on the left, certificate
+   image + "View Certificate" button in its own column on the right —
+   the text column narrows to make room, which is what pulls the
+   date/location group in from the far edge. */
+.timeline-content-with-cert {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 28px;
+    align-items: start;
+}
+
+.timeline-body {
+    min-width: 0;
+}
+
+.timeline-cert {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 170px;
+    flex-shrink: 0;
+}
+
+.timeline-cert-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: contain;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.timeline-cert-btn {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    padding: 8px 0;
+    border-radius: 999px;
+    background: var(--color-coral);
+    color: #000000;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.timeline-cert-btn:hover {
+    opacity: 0.85;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .timeline-content-with-cert {
+        grid-template-columns: 1fr;
+    }
+
+    .timeline-cert {
+        width: 200px;
+        margin: 0 auto;
+    }
+}
+
 .timeline-header {
     display: flex;
     justify-content: space-between;
@@ -1596,6 +1980,14 @@ footer p {
    RESPONSIVE — BREAKPOINTS
 ═══════════════════════════════════════════════════════════ */
 @media (max-width: 992px) {
+    .hero-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-visual svg {
+        max-width: 320px;
+    }
+
     .name-line {
         font-size: 3rem;
     }
@@ -1781,17 +2173,34 @@ ul.menu li a:hover { opacity: 0.75; text-shadow: none; }
 #resume h1.section-head { color: var(--color-sage); }
 #research h1.section-head { color: var(--color-sky); }
 #courses h1.section-head { color: var(--color-periwinkle); }
-#contact h1.section-head { color: var(--color-lavender); }
+
+/* Contact deliberately does NOT follow the other sections' rainbow
+   title + underline treatment (or the eyebrow/headline component) —
+   centered, plain high-contrast text, no border-bottom. */
+#contact {
+    text-align: center;
+}
+
+#contact h1.section-head {
+    color: var(--text-primary);
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+/* The heading/intro above should center, but the card labels/values
+   inside each connect-card should stay left-aligned regardless. */
+#contact .connect-links {
+    text-align: left;
+}
 
 /* Hero badge & image container accents */
 .hire-badge { color: var(--color-gold) !important; border-color: var(--color-gold-border) !important; }
 .image-container { border-color: var(--color-sage) !important; }
 
-/* Journey — Sage Green section theme & Peach/Coral cert action buttons */
+/* Journey — Sage Green section theme */
 .work-experience-block h2,
 .education-block h2 { color: var(--color-sage); }
 .timeline-dot { background: var(--color-sage) !important; }
-.journey-stack .cert-card-action { color: var(--color-coral) !important; }
 
 /* Research — Sky Blue section theme */
 .research-card-icon { color: var(--color-sky); }
@@ -1829,10 +2238,6 @@ ul.menu li a:hover { opacity: 0.75; text-shadow: none; }
 .skills-category:nth-of-type(6) .skill-tag { background-color: var(--color-secondary-dim); border-color: var(--color-secondary-border); }
 .skills-category:nth-of-type(6) .skill-tag:hover { border-color: var(--color-sky); background-color: var(--color-secondary-dim); }
 
-/* Courses & Hackathons — Gold metadata & Peach/Coral View Certificate buttons */
-.cert-grid .cert-card .cert-card-meta { color: var(--color-gold); }
-.cert-grid .cert-card .cert-card-action { color: var(--color-coral) !important; }
-
 /* Contact — Brand-inspired card colors (GitHub in Sage Green) */
 .connect-links .connect-card:nth-child(1) .connect-icon,
 .connect-links .connect-card:nth-child(1) .connect-label { color: var(--color-gold); }
@@ -1842,6 +2247,8 @@ ul.menu li a:hover { opacity: 0.75; text-shadow: none; }
 .connect-links .connect-card:nth-child(3) .connect-label { color: var(--color-sage); }
 .connect-links .connect-card:nth-child(4) .connect-icon,
 .connect-links .connect-card:nth-child(4) .connect-label { color: var(--color-rose); }
+.connect-links .connect-card:nth-child(5) .connect-icon,
+.connect-links .connect-card:nth-child(5) .connect-label { color: var(--color-amethyst); }
 
 .connect-links .connect-card:nth-child(1):hover { border-color: var(--color-gold-border) !important; }
 .connect-links .connect-card:nth-child(1):hover .connect-icon { border-color: var(--color-gold) !important; }
@@ -1851,6 +2258,17 @@ ul.menu li a:hover { opacity: 0.75; text-shadow: none; }
 .connect-links .connect-card:nth-child(3):hover .connect-icon { border-color: var(--color-sage) !important; }
 .connect-links .connect-card:nth-child(4):hover { border-color: var(--color-accent-border) !important; }
 .connect-links .connect-card:nth-child(4):hover .connect-icon { border-color: var(--color-rose) !important; }
+.connect-links .connect-card:nth-child(5):hover { border-color: var(--color-amethyst-border) !important; }
+.connect-links .connect-card:nth-child(5):hover .connect-icon { border-color: var(--color-amethyst) !important; }
+
+/* 5 cards in a 2-column grid leaves the last one alone on its own
+   row — center it instead of letting it hug the left edge. */
+.connect-links .connect-card:nth-child(5) {
+    grid-column: 1 / -1;
+    max-width: 320px;
+    margin: 0 auto;
+    width: 100%;
+}
 
 /* Back-to-top — periwinkle to rose */
 .back-to-top { background: var(--color-periwinkle) !important; }

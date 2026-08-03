@@ -11,6 +11,7 @@ function initReportTheme() {
     if (themeIcon) {
       themeIcon.className = theme === "light" ? "fa-solid fa-sun" : "fa-solid fa-moon";
     }
+    window.dispatchEvent(new Event("themechange"));
   }
 
   setTheme(localStorage.getItem("theme") || "dark");
@@ -22,6 +23,62 @@ function initReportTheme() {
     });
   }
 }
+
+/* ------------------------------------------------------------------
+   Theme-aware Chart.js colors.
+   Chart.js paints text/gridlines straight onto a <canvas> — it does
+   NOT pick up CSS custom properties or re-render on a theme toggle by
+   itself. Every report's inline chart script should read tick/legend/
+   grid colors from these two functions (instead of hardcoding an rgba
+   string) and call registerReportChart(chart) right after creating
+   each Chart instance, so refreshReportChartsForTheme() can push the
+   new theme's colors into it and re-render on toggle.
+   ------------------------------------------------------------------ */
+function getChartTextColor() {
+  const isLight = document.documentElement.getAttribute("data-theme") === "light";
+  return isLight ? "rgba(58, 46, 34, 0.75)" : "rgba(245, 237, 227, 0.7)";
+}
+
+function getChartGridColor() {
+  const isLight = document.documentElement.getAttribute("data-theme") === "light";
+  return isLight ? "rgba(58, 46, 34, 0.10)" : "rgba(255, 241, 224, 0.08)";
+}
+
+const reportChartRegistry = [];
+
+function registerReportChart(chart) {
+  if (chart) reportChartRegistry.push(chart);
+}
+
+function refreshReportChartsForTheme() {
+  if (!reportChartRegistry.length) return;
+  const textColor = getChartTextColor();
+  const gridColor = getChartGridColor();
+
+  if (window.Chart) {
+    Chart.defaults.color = textColor;
+  }
+
+  reportChartRegistry.forEach((chart) => {
+    const opts = chart.options || {};
+
+    if (opts.plugins?.legend?.labels) opts.plugins.legend.labels.color = textColor;
+
+    if (opts.scales) {
+      Object.values(opts.scales).forEach((scale) => {
+        if (scale.ticks) scale.ticks.color = textColor;
+        if (scale.grid) scale.grid.color = gridColor;
+        if (scale.angleLines) scale.angleLines.color = gridColor;
+        if (scale.title) scale.title.color = textColor;
+        if (scale.pointLabels) scale.pointLabels.color = textColor;
+      });
+    }
+
+    chart.update();
+  });
+}
+
+window.addEventListener("themechange", refreshReportChartsForTheme);
 
 function getReportSections() {
   const main = document.querySelector(".report-main");
@@ -85,24 +142,52 @@ function applyNumberedHeadings(sections) {
   });
 }
 
+// While true, the scroll-driven scroll-spy skips its own recalculation —
+// set for a short window after a nav click so the smooth-scroll animation
+// (and any late layout shift from images loading mid-scroll) can't briefly
+// mark a different circle active than the one just clicked.
+let suppressScrollSpy = false;
+let suppressScrollSpyTimer = null;
+
 function buildSectionNavigator(sections) {
   const desktopNav = document.getElementById("sectionNavDesktop");
   const mobileNav = document.getElementById("sectionNavMobile");
   if (!desktopNav && !mobileNav) return null;
 
+  // Assigned once at the bottom of this function; the click handler below
+  // closes over this binding and reads its final value at click-time (well
+  // after this function has returned).
+  let navigatorItems;
+
   const createButton = (section, index) => {
     const num = formatSectionNumber(index);
+    const accentNum = (index % RAINBOW_ACCENT_COUNT) + 1;
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = `section-nav-item ${accentClassFor(index)}`;
+    // Drive hover/active color from this single inline custom property
+    // instead of a per-index CSS class, so there's no cascade/specificity
+    // fight that could ever recolor the wrong circle.
+    btn.style.setProperty("--nav-item-accent", `var(--rainbow-${accentNum})`);
     btn.textContent = num;
     btn.setAttribute("data-target", section.id);
     btn.setAttribute("aria-label", `Go to section ${num}`);
     btn.addEventListener("click", () => {
       const target = document.getElementById(section.id);
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
+      if (!target) return;
+
+      // Mark the clicked circle active immediately — don't wait for the
+      // scroll position to catch up and re-derive it, which is what let a
+      // stale/mid-animation scroll position highlight the wrong circle.
+      setActiveNavItem(navigatorItems, section.id);
+
+      suppressScrollSpy = true;
+      if (suppressScrollSpyTimer) clearTimeout(suppressScrollSpyTimer);
+      suppressScrollSpyTimer = setTimeout(() => {
+        suppressScrollSpy = false;
+      }, 800);
+
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
     });
     return btn;
   };
@@ -136,7 +221,8 @@ function buildSectionNavigator(sections) {
     });
   }
 
-  return { desktop: desktopItems, mobile: mobileItems };
+  navigatorItems = { desktop: desktopItems, mobile: mobileItems };
+  return navigatorItems;
 }
 
 function setActiveNavItem(navItems, activeId) {
@@ -171,6 +257,8 @@ function initSectionScrollSpy(sections, navItems) {
   };
 
   const updateActiveSection = () => {
+    if (suppressScrollSpy) return;
+
     const scrollPos = window.scrollY + getScrollOffset();
     let activeId = sections[0].id;
 

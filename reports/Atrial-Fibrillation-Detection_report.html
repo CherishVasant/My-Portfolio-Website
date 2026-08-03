@@ -14,12 +14,12 @@
     
     
 
-    <link rel="stylesheet" href="../styles.css?v=10">
+    <link rel="stylesheet" href="../styles.css?v=31">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baumans&family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="reports.css?v=6">
-    <script src="report.js?v=6" defer></script>
+    <link rel="stylesheet" href="reports.css?v=8">
+    <script src="report.js?v=8"></script>
     <script src="../sprinkles.js?v=1" defer></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_upward" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
@@ -653,13 +653,14 @@
   }
 };
 
-        // Initialize Chart.js styling configurations
-        Chart.defaults.color = 'rgba(255, 241, 224, 0.7)';
+        // Initialize Chart.js styling configurations (theme-aware — see
+        // getChartTextColor()/getChartGridColor()/registerReportChart() in report.js)
+        Chart.defaults.color = getChartTextColor();
         Chart.defaults.font.family = "'Inter', system-ui, -apple-system, sans-serif";
 
         // Baselines comparison bar chart
         const ctxBaselines = document.getElementById('baselinesChart').getContext('2d');
-        new Chart(ctxBaselines, {
+        const baselinesChart = new Chart(ctxBaselines, {
             type: 'bar',
             data: {
                 labels: ['MLP', 'Random Forest', 'Gradient Boosting', 'XGBoost', 'Hierarchical (Proposed)'],
@@ -667,15 +668,15 @@
                     {
                         label: 'Accuracy',
                         data: [0.6907, 0.7617, 0.7635, 0.7729, 0.8598],
-                        backgroundColor: 'rgba(147, 190, 125, 0.75)',
-                        borderColor: '#93BE7D',
+                        backgroundColor: 'rgba(238, 200, 136, 0.75)',
+                        borderColor: '#EEC888',
                         borderWidth: 1
                     },
                     {
                         label: 'Macro F1',
                         data: [0.6168, 0.6573, 0.6706, 0.6714, 0.7720],
-                        backgroundColor: 'rgba(218, 111, 137, 0.75)',
-                        borderColor: '#DA6F89',
+                        backgroundColor: 'rgba(140, 164, 236, 0.75)',
+                        borderColor: '#8CA4EC',
                         borderWidth: 1
                     }
                 ]
@@ -687,14 +688,16 @@
                     y: {
                         beginAtZero: true,
                         max: 1.0,
-                        grid: { color: 'rgba(255, 241, 224, 0.05)' }
+                        grid: { color: getChartGridColor() },
+                        ticks: { color: getChartTextColor() }
                     },
                     x: {
-                        grid: { display: false }
+                        grid: { display: false },
+                        ticks: { color: getChartTextColor() }
                     }
                 },
                 plugins: {
-                    legend: { position: 'top' },
+                    legend: { position: 'top', labels: { color: getChartTextColor() } },
                     tooltip: {
                         callbacks: {
                             label: function(context) {
@@ -705,10 +708,11 @@
                 }
             }
         });
+        registerReportChart(baselinesChart);
 
         // Per-class target evaluation bar chart
         const ctxPerClass = document.getElementById('perClassChart').getContext('2d');
-        new Chart(ctxPerClass, {
+        const perClassChart = new Chart(ctxPerClass, {
             type: 'bar',
             data: {
                 labels: ['Normal (N)', 'AF (A)', 'Other (O)', 'Noisy (~)'],
@@ -739,22 +743,25 @@
                     y: {
                         beginAtZero: true,
                         max: 1.0,
-                        grid: { color: 'rgba(255, 241, 224, 0.05)' }
+                        grid: { color: getChartGridColor() },
+                        ticks: { color: getChartTextColor() }
                     },
                     x: {
-                        grid: { display: false }
+                        grid: { display: false },
+                        ticks: { color: getChartTextColor() }
                     }
                 },
                 plugins: {
-                    legend: { position: 'top' }
+                    legend: { position: 'top', labels: { color: getChartTextColor() } }
                 }
             }
         });
+        registerReportChart(perClassChart);
 
         // MLP history training curves line chart
         const ctxCurves = document.getElementById('mlpCurvesChart').getContext('2d');
         const epochs = Array.from({length: reportData.mlp_history.train_loss.length}, (_, i) => i + 1);
-        new Chart(ctxCurves, {
+        const curvesChart = new Chart(ctxCurves, {
             type: 'line',
             data: {
                 labels: epochs,
@@ -762,7 +769,7 @@
                     {
                         label: 'Train Loss',
                         data: reportData.mlp_history.train_loss,
-                        borderColor: 'rgba(152, 143, 187, 0.75)',
+                        borderColor: 'rgba(182, 133, 225, 0.75)',
                         borderWidth: 1.5,
                         fill: false,
                         pointRadius: 1,
@@ -771,7 +778,7 @@
                     {
                         label: 'Val Loss',
                         data: reportData.mlp_history.val_loss,
-                        borderColor: 'rgba(217, 151, 164, 1)',
+                        borderColor: 'rgba(234, 147, 160, 1)',
                         borderWidth: 2,
                         fill: false,
                         pointRadius: 1,
@@ -780,7 +787,7 @@
                     {
                         label: 'Train Acc',
                         data: reportData.mlp_history.train_acc,
-                        borderColor: 'rgba(52, 211, 153, 0.75)',
+                        borderColor: 'rgba(147, 190, 125, 0.75)',
                         borderWidth: 1.5,
                         fill: false,
                         pointRadius: 1,
@@ -802,29 +809,33 @@
                 maintainAspectRatio: false,
                 scales: {
                     x: {
-                        grid: { color: 'rgba(255, 241, 224, 0.03)' },
-                        title: { display: true, text: 'Epochs' }
+                        grid: { color: getChartGridColor() },
+                        ticks: { color: getChartTextColor() },
+                        title: { display: true, text: 'Epochs', color: getChartTextColor() }
                     },
                     yLoss: {
                         type: 'linear',
                         position: 'left',
-                        grid: { color: 'rgba(255, 241, 224, 0.05)' },
-                        title: { display: true, text: 'Loss' }
+                        grid: { color: getChartGridColor() },
+                        ticks: { color: getChartTextColor() },
+                        title: { display: true, text: 'Loss', color: getChartTextColor() }
                     },
                     yAcc: {
                         type: 'linear',
                         position: 'right',
                         grid: { display: false },
-                        title: { display: true, text: 'Accuracy' },
+                        ticks: { color: getChartTextColor() },
+                        title: { display: true, text: 'Accuracy', color: getChartTextColor() },
                         min: 0.4,
                         max: 1.0
                     }
                 },
                 plugins: {
-                    legend: { position: 'top' }
+                    legend: { position: 'top', labels: { color: getChartTextColor() } }
                 }
             }
         });
+        registerReportChart(curvesChart);
     </script>
         </main>
     </div>

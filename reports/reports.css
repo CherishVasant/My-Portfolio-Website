@@ -31,49 +31,38 @@
     --rainbow-8: var(--color-amethyst);
 }
 
-.section-number.accent-1,
-.section-nav-item.accent-1 { color: var(--rainbow-1); }
-.section-number.accent-2,
-.section-nav-item.accent-2 { color: var(--rainbow-2); }
-.section-number.accent-3,
-.section-nav-item.accent-3 { color: var(--rainbow-3); }
-.section-number.accent-4,
-.section-nav-item.accent-4 { color: var(--rainbow-4); }
-.section-number.accent-5,
-.section-nav-item.accent-5 { color: var(--rainbow-5); }
-.section-number.accent-6,
-.section-nav-item.accent-6 { color: var(--rainbow-6); }
-.section-number.accent-7,
-.section-nav-item.accent-7 { color: var(--rainbow-7); }
-.section-number.accent-8,
-.section-nav-item.accent-8 { color: var(--rainbow-8); }
+.section-number.accent-1 { color: var(--rainbow-1); }
+.section-number.accent-2 { color: var(--rainbow-2); }
+.section-number.accent-3 { color: var(--rainbow-3); }
+.section-number.accent-4 { color: var(--rainbow-4); }
+.section-number.accent-5 { color: var(--rainbow-5); }
+.section-number.accent-6 { color: var(--rainbow-6); }
+.section-number.accent-7 { color: var(--rainbow-7); }
+.section-number.accent-8 { color: var(--rainbow-8); }
 
-.section-nav-item.accent-1.active { background: var(--rainbow-1); border-color: var(--rainbow-1); color: var(--text-white); }
-.section-nav-item.accent-2.active { background: var(--rainbow-2); border-color: var(--rainbow-2); color: var(--text-white); }
-.section-nav-item.accent-3.active { background: var(--rainbow-3); border-color: var(--rainbow-3); color: var(--text-white); }
-.section-nav-item.accent-4.active { background: var(--rainbow-4); border-color: var(--rainbow-4); color: var(--text-white); }
-.section-nav-item.accent-5.active { background: var(--rainbow-5); border-color: var(--rainbow-5); color: var(--text-white); }
-.section-nav-item.accent-6.active { background: var(--rainbow-6); border-color: var(--rainbow-6); color: var(--text-white); }
-.section-nav-item.accent-7.active { background: var(--rainbow-7); border-color: var(--rainbow-7); color: var(--text-white); }
-.section-nav-item.accent-8.active { background: var(--rainbow-8); border-color: var(--rainbow-8); color: var(--text-white); }
+/* Section-nav circles get their accent color from a single inline
+   custom property (--nav-item-accent, set per-button in report.js)
+   rather than 8 separate .accent-N cascade rules — this removes any
+   chance of a specificity fight ever recoloring the wrong circle. */
+.section-nav-item {
+    color: var(--nav-item-accent, var(--text-secondary));
+}
 
-.section-nav-item.accent-1:hover { border-color: var(--rainbow-1); color: var(--rainbow-1); }
-.section-nav-item.accent-2:hover { border-color: var(--rainbow-2); color: var(--rainbow-2); }
-.section-nav-item.accent-3:hover { border-color: var(--rainbow-3); color: var(--rainbow-3); }
-.section-nav-item.accent-4:hover { border-color: var(--rainbow-4); color: var(--rainbow-4); }
-.section-nav-item.accent-5:hover { border-color: var(--rainbow-5); color: var(--rainbow-5); }
-.section-nav-item.accent-6:hover { border-color: var(--rainbow-6); color: var(--rainbow-6); }
-.section-nav-item.accent-7:hover { border-color: var(--rainbow-7); color: var(--rainbow-7); }
-.section-nav-item.accent-8:hover { border-color: var(--rainbow-8); color: var(--rainbow-8); }
+.section-nav-item:hover {
+    border-color: var(--nav-item-accent, var(--color-primary-glow));
+    color: var(--nav-item-accent, var(--color-primary));
+}
 
-.section-nav-item.accent-1.active:hover { color: var(--text-white); }
-.section-nav-item.accent-2.active:hover { color: var(--text-white); }
-.section-nav-item.accent-3.active:hover { color: var(--text-white); }
-.section-nav-item.accent-4.active:hover { color: var(--text-white); }
-.section-nav-item.accent-5.active:hover { color: var(--text-white); }
-.section-nav-item.accent-6.active:hover { color: var(--text-white); }
-.section-nav-item.accent-7.active:hover { color: var(--text-white); }
-.section-nav-item.accent-8.active:hover { color: var(--text-white); }
+.section-nav-item.active {
+    background: var(--nav-item-accent, var(--color-primary));
+    border-color: var(--nav-item-accent, var(--color-primary));
+    color: var(--text-white);
+}
+
+.section-nav-item.active:hover {
+    background: var(--nav-item-accent, var(--color-primary));
+    color: var(--text-white);
+}
 
 /* Rainbow rotation for repeating content blocks: tags, metric numbers,
    timeline steps, and matrix stat badges */
@@ -415,7 +404,6 @@
     border: 1px solid var(--border-color);
     border-radius: 50%;
     background: transparent;
-    color: var(--text-secondary);
     font-family: var(--font-mono);
     font-size: var(--text-xs);
     font-weight: 600;
@@ -425,22 +413,6 @@
     align-items: center;
     justify-content: center;
     padding: 0;
-}
-
-.section-nav-item:hover {
-    border-color: var(--color-primary-glow);
-    color: var(--color-primary);
-}
-
-.section-nav-item.active {
-    background: var(--color-primary);
-    border-color: var(--color-primary);
-    color: var(--text-white);
-}
-
-.section-nav-item.active:hover {
-    background: var(--color-primary);
-    color: var(--text-white);
 }
 
 /* Chart panels */
@@ -1091,10 +1063,19 @@
 
 .react-text {
     font-size: var(--text-sm);
-    color: var(--text-secondary);
+    color: var(--text-primary);
     font-family: var(--font-mono);
     white-space: pre-line;
     line-height: 1.5;
+}
+
+.react-text strong {
+    color: var(--color-accent);
+    font-weight: 600;
+}
+
+.react-text code {
+    color: var(--color-primary);
 }
 
 .json-wrapper {
@@ -1398,4 +1379,50 @@
     .matrix-grid-container {
         transform: scale(0.92);
     }
+}
+
+/* ============================================================
+   Credential row — small certificate-image thumbnails paired
+   with their existing action buttons, matching the thumbnail
+   treatment used for certificates on the main site.
+   ============================================================ */
+.credential-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.credential-item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 200px;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 10px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.credential-item:hover {
+    background-color: var(--bg-card-hover);
+    transform: translateY(-2px);
+}
+
+.credential-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: contain;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.credential-label {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: var(--color-primary);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }

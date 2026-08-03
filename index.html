@@ -20,7 +20,7 @@
     static assets, so without this you can push a fix and still see the
     old broken version for a while.
   -->
-  <link rel="stylesheet" href="styles.css?v=18" />
+  <link rel="stylesheet" href="styles.css?v=32" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,7 +41,7 @@
   -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 
-  <script src="script.js?v=2" defer></script>
+  <script src="script.js?v=5" defer></script>
   <script src="sprinkles.js?v=1" defer></script>
 </head>
 
@@ -78,21 +78,30 @@
   <div class="hero">
     <div class="cosmic-dust"></div>
 
-    <div class="hero-content">
-      <div class="hire-badge">✨ Available for Hire</div>
-      <h1 class="name-line">
-        Hi, I'm <span class="accent">Cherish Vasant</span>
-      </h1>
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="hire-badge">✨ Available for Hire</div>
+        <p class="hero-hi">Hello, I'm</p>
+        <h1 class="name-line"><span class="accent">Cherish Vasant</span></h1>
+        <p class="tagline">Final-year CSE student interested in AI, ML, Deep Learning, NLP, Generative AI, and Agentic AI systems — I learn best by building things and experimenting with ideas.</p>
 
-      <p class="contact-info-header">
-        cherish.vasant@gmail.com
-        &nbsp;|&nbsp; Chennai, India
-      </p>
+        <p class="contact-info-header">
+          cherish.vasant@gmail.com
+          &nbsp;|&nbsp; Chennai, India
+        </p>
 
-      <div class="cta-group">
-        <a class="cta cta-outline-lavender" href="documents/Resume.pdf" target="_blank">Get Resume <i class="fa-solid fa-download"></i></a>
-        <a class="cta cta-outline-lavender" href="#contact">Contact Me</a>
-        <a class="cta cta-filled-pink" href="#projects">View Projects</a>
+        <div class="cta-group">
+          <a class="cta cta-outline-lavender" href="documents/Resume.pdf" target="_blank">Get Resume <i class="fa-solid fa-download"></i></a>
+          <a class="cta cta-outline-lavender" href="#contact">Contact Me</a>
+          <a class="cta cta-filled-pink" href="#projects">View Projects</a>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <svg viewBox="0 0 380 380">
+          <g id="heroEdges" stroke-width="1.3" fill="none" opacity=".5"></g>
+          <g id="heroNodes"></g>
+        </svg>
       </div>
     </div>
   </div>
@@ -105,7 +114,8 @@
 
     <!-- ═══════════════ ABOUT ME ═══════════════ -->
     <div class="component comp2 fade-in" id="about-me">
-      <h1 class="section-head">About Me</h1>
+      <h1 class="section-head eyebrow">About Me</h1>
+      <p class="section-headline">Cherish turns <span class="u" style="--u:var(--color-salmon)">research curiosity<svg viewBox="0 0 100 12" preserveAspectRatio="none"><path d="M2,8 Q25,12 50,7 T98,8" stroke="var(--u)" stroke-width="5" fill="none" stroke-linecap="round"/></svg></span> into <span class="u" style="--u:var(--color-sage)">real, working systems<svg viewBox="0 0 100 12" preserveAspectRatio="none"><path d="M2,8 Q25,12 50,7 T98,8" stroke="var(--u)" stroke-width="5" fill="none" stroke-linecap="round"/></svg></span>.</p>
 
       <div class="about-grid">
         <div class="about-media">
@@ -131,7 +141,8 @@
 
     <!-- ═══════════════ TECHNICAL SKILLS ═══════════════ -->
     <div class="component comp fade-in" id="skills">
-      <h1 class="section-head">Technical Skills</h1>
+      <h1 class="section-head eyebrow">Technical Skills</h1>
+      <p class="section-headline">Skills organized like a <span class="u" style="--u:var(--color-coral)">codebase<svg viewBox="0 0 100 12" preserveAspectRatio="none"><path d="M2,8 Q25,12 50,7 T98,8" stroke="var(--u)" stroke-width="5" fill="none" stroke-linecap="round"/></svg></span> — every <span class="u" style="--u:var(--color-periwinkle)">folder<svg viewBox="0 0 100 12" preserveAspectRatio="none"><path d="M2,8 Q25,12 50,7 T98,8" stroke="var(--u)" stroke-width="5" fill="none" stroke-linecap="round"/></svg></span> its own discipline.</p>
 
       <div class="terminal-bio-container skills-terminal">
         <div class="terminal-header">
@@ -216,6 +227,7 @@
               <span class="skill-tag">VS Code</span>
               <span class="skill-tag">Cursor</span>
               <span class="skill-tag">Claude Code</span>
+              <span class="skill-tag">AWS Bedrock</span>
               <span class="skill-tag">Antigravity</span>
             </div>
           </div>
@@ -225,11 +237,33 @@
 
     <!-- ═══════════════ PROJECTS ═══════════════ -->
     <div class="component comp fade-in" id="projects">
-      <h1 class="section-head">Projects</h1>
+      <h1 class="section-head eyebrow">Projects</h1>
+      <p class="section-headline">One <span class="u" style="--u:var(--color-gold)">spectrum<svg viewBox="0 0 100 12" preserveAspectRatio="none"><path d="M2,8 Q25,12 50,7 T98,8" stroke="var(--u)" stroke-width="5" fill="none" stroke-linecap="round"/></svg></span>, many disciplines — from a first ML model to a working <span class="u" style="--u:var(--color-amethyst)">agentic system<svg viewBox="0 0 100 12" preserveAspectRatio="none"><path d="M2,8 Q25,12 50,7 T98,8" stroke="var(--u)" stroke-width="5" fill="none" stroke-linecap="round"/></svg></span>.</p>
+
+      <div class="projects-toolbar">
+        <p class="section-lead">Drag the marker, or click a stop, to move across the spectrum.</p>
+        <button type="button" class="all-projects-btn" id="allProjectsBtn">All Projects</button>
+      </div>
+
+      <div class="spectrum-wrap" id="spectrumWrap">
+        <div class="spectrum-track" id="specTrack">
+          <button type="button" class="spectrum-tick active" data-cat="ml" style="left:0%;" aria-label="Machine Learning"></button>
+          <button type="button" class="spectrum-tick" data-cat="dl" style="left:33.333%;" aria-label="Deep Learning"></button>
+          <button type="button" class="spectrum-tick" data-cat="nlp" style="left:66.666%;" aria-label="NLP"></button>
+          <button type="button" class="spectrum-tick" data-cat="genai" style="left:100%;" aria-label="Gen AI"></button>
+          <div class="spectrum-marker" id="specMarker" style="left:0%;" tabindex="0" role="slider" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0" aria-label="Discipline spectrum"></div>
+        </div>
+        <div class="spectrum-labels">
+          <span>Machine Learning</span>
+          <span>Deep Learning</span>
+          <span>NLP</span>
+          <span>Gen AI</span>
+        </div>
+      </div>
 
       <div class="projects-grid">
         <!-- Project 1: TrebleAI -->
-        <div class="project-card">
+        <div class="project-card" data-cat="genai">
           <div class="project-card-content">
             <div class="project-eyebrow">
               <i class="fa-solid fa-music"></i>
@@ -256,7 +290,7 @@
         </div>
 
         <!-- Project 2: Cloud Security IoT -->
-        <div class="project-card">
+        <div class="project-card" data-cat="ml">
           <div class="project-card-content">
             <div class="project-eyebrow">
               <i class="fa-solid fa-shield-halved"></i>
@@ -283,7 +317,7 @@
         </div>
 
         <!-- Project 3: ECG AF Detection -->
-        <div class="project-card">
+        <div class="project-card" data-cat="dl">
           <div class="project-card-content">
             <div class="project-eyebrow">
               <i class="fa-solid fa-heart-pulse"></i>
@@ -310,7 +344,7 @@
         </div>
 
         <!-- Project 4: CKD Prediction -->
-        <div class="project-card">
+        <div class="project-card" data-cat="ml">
           <div class="project-card-content">
             <div class="project-eyebrow">
               <i class="fa-solid fa-stethoscope"></i>
@@ -390,12 +424,36 @@
             </div>
           </div>
         </div>
+
+        <!-- Project 7: Toda Language ASR & Translation -->
+        <div class="project-card" data-cat="nlp">
+          <div class="project-card-content">
+            <div class="project-eyebrow">
+              <i class="fa-solid fa-language"></i>
+              <span>NLP</span>
+            </div>
+            <h2>Toda Language ASR &amp; Translation</h2>
+            <p>Automatic speech recognition and translation system for the endangered, low-resource Toda language, built on pretrained models — the approach generalizes to other low-resource languages. Patent application filed.</p>
+            <div class="project-stat">→ Patent application filed</div>
+            <hr class="card-divider">
+            <div class="tech-tags">
+              <span class="tech-tag">NLP</span>
+              <span class="tech-tag">Speech Recognition</span>
+              <span class="tech-tag">Low-Resource Languages</span>
+            </div>
+            <hr class="card-divider">
+            <div class="project-ctas">
+              <a class="project-cta secondary" href="#research">View Research <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- ═══════════════ MY JOURNEY (Resume) ═══════════════ -->
     <div class="component comp2 fade-in" id="resume">
-      <h1 class="section-head">My Journey</h1>
+      <h1 class="section-head eyebrow">My Journey</h1>
+      <p class="section-headline">Learning by <span class="u" style="--u:var(--color-sage)">shipping<svg viewBox="0 0 100 12" preserveAspectRatio="none"><path d="M2,8 Q25,12 50,7 T98,8" stroke="var(--u)" stroke-width="5" fill="none" stroke-linecap="round"/></svg></span>, one <span class="u" style="--u:var(--color-coral)">internship<svg viewBox="0 0 100 12" preserveAspectRatio="none"><path d="M2,8 Q25,12 50,7 T98,8" stroke="var(--u)" stroke-width="5" fill="none" stroke-linecap="round"/></svg></span> at a time.</p>
 
       <div class="journey-stack">
         <!-- Internships -->
@@ -404,68 +462,77 @@
           <div class="timeline">
             <div class="timeline-item">
               <div class="timeline-dot"></div>
-              <div class="timeline-content">
-                <div class="timeline-header">
-                  <div class="timeline-title-group">
-                    <p class="role">AI Intern</p>
-                    <p class="institute">Linaius</p>
+              <div class="timeline-content timeline-content-with-cert">
+                <div class="timeline-body">
+                  <div class="timeline-header">
+                    <div class="timeline-title-group">
+                      <p class="role">AI Intern</p>
+                      <p class="institute">Linaius</p>
+                    </div>
+                    <div class="timeline-date-group">
+                      <p class="year">May 2026 – June 2026</p>
+                      <p class="location-tag">Remote</p>
+                    </div>
                   </div>
-                  <div class="timeline-date-group">
-                    <p class="year">May 2026 – June 2026</p>
-                    <p class="location-tag">Remote</p>
-                  </div>
+                  <p class="cont" style="font-size: 0.95rem; opacity: 0.85; line-height: 1.5; margin-top: 8px;">
+                    • Learned how <span class="highlight-accent highlight-italic">RAG systems</span> work, <span class="highlight-accent highlight-italic">BM25-based retrieval</span> and benchmark-driven evaluation practices, alongside NLP text-segmentation techniques like <span class="highlight-accent highlight-italic">TextTiling</span> for large-scale language pipelines.<br>
+                    • Designed prompting strategies (task decomposition, two-stage extraction, neutral framing) and made programmatic LLM calls through <span class="highlight-accent highlight-italic">AWS Bedrock</span>, with cost tracking and performance optimizations like caching, streaming, and concurrency.
+                  </p>
                 </div>
-                <p class="cont" style="font-size: 0.95rem; opacity: 0.85; line-height: 1.5; margin-top: 8px;">
-                  • Learned how <span class="highlight-accent highlight-italic">RAG systems</span> work, <span class="highlight-accent highlight-italic">BM25-based retrieval</span> and benchmark-driven evaluation practices, alongside NLP text-segmentation techniques like <span class="highlight-accent highlight-italic">TextTiling</span> for large-scale language pipelines.<br>
-                  • Designed prompting strategies (task decomposition, two-stage extraction, neutral framing) and made programmatic LLM calls through <span class="highlight-accent highlight-italic">AWS Bedrock</span>, with cost tracking and performance optimizations like caching, streaming, and concurrency.
-                </p>
-                <a class="cert-card cert-card-compact" style="margin-top: 10px;" href="documents/Linaius_Letter_of_Experience.pdf" target="_blank">
-                  <span class="cert-card-action"><i class="fa-solid fa-file-contract"></i> View Certificate</span>
-                </a>
+                <div class="timeline-cert">
+                  <img class="timeline-cert-thumb" src="images/CertificatePics/LinaiusLetter.png" alt="Linaius internship certificate" loading="lazy">
+                  <a class="timeline-cert-btn" href="documents/Linaius_Letter_of_Experience.pdf" target="_blank">View Certificate</a>
+                </div>
               </div>
             </div>
             <div class="timeline-item">
               <div class="timeline-dot"></div>
-              <div class="timeline-content">
-                <div class="timeline-header">
-                  <div class="timeline-title-group">
-                    <p class="role">Research Intern</p>
-                    <p class="institute">Indian Space Academy (ISA)</p>
+              <div class="timeline-content timeline-content-with-cert">
+                <div class="timeline-body">
+                  <div class="timeline-header">
+                    <div class="timeline-title-group">
+                      <p class="role">Research Intern</p>
+                      <p class="institute">Indian Space Academy (ISA)</p>
+                    </div>
+                    <div class="timeline-date-group">
+                      <p class="year">June 2025 – July 2025</p>
+                      <p class="location-tag">Remote</p>
+                    </div>
                   </div>
-                  <div class="timeline-date-group">
-                    <p class="year">June 2025 – July 2025</p>
-                    <p class="location-tag">Remote</p>
-                  </div>
+                  <p class="cont" style="font-size: 0.95rem; opacity: 0.85; line-height: 1.5; margin-top: 8px;">
+                    • Developed the <span class="highlight-accent highlight-italic">Age of the Universe Estimation project</span> using the <span class="highlight-accent highlight-italic">Pantheon+SH0ES Type Ia Supernova dataset</span> to estimate the Hubble parameter and compute the age of the universe through cosmological data analysis and numerical methods.<br>
+                    • Worked extensively with astronomical datasets, FITS files, data cubes, and the <span class="highlight-accent highlight-italic">Astropy ecosystem</span> for scientific data processing, visualization, and analysis in Python.
+                  </p>
                 </div>
-                <p class="cont" style="font-size: 0.95rem; opacity: 0.85; line-height: 1.5; margin-top: 8px;">
-                  • Developed the <span class="highlight-accent highlight-italic">Age of the Universe Estimation project</span> using the <span class="highlight-accent highlight-italic">Pantheon+SH0ES Type Ia Supernova dataset</span> to estimate the Hubble parameter and compute the age of the universe through cosmological data analysis and numerical methods.<br>
-                  • Worked extensively with astronomical datasets, FITS files, data cubes, and the <span class="highlight-accent highlight-italic">Astropy ecosystem</span> for scientific data processing, visualization, and analysis in Python.
-                </p>
-                <a class="cert-card cert-card-compact" style="margin-top: 10px;" href="documents/ISAInternship.pdf" target="_blank">
-                  <span class="cert-card-action"><i class="fa-solid fa-file-contract"></i> View Certificate</span>
-                </a>
+                <div class="timeline-cert">
+                  <img class="timeline-cert-thumb" src="images/CertificatePics/ISACertificate.png" alt="Indian Space Academy internship certificate" loading="lazy">
+                  <a class="timeline-cert-btn" href="documents/ISAInternship.pdf" target="_blank">View Certificate</a>
+                </div>
               </div>
             </div>
             <div class="timeline-item">
               <div class="timeline-dot"></div>
-              <div class="timeline-content">
-                <div class="timeline-header">
-                  <div class="timeline-title-group">
-                    <p class="role">AI Content Intern</p>
-                    <p class="institute">FlyBrand Digital Solutions</p>
+              <div class="timeline-content timeline-content-with-cert">
+                <div class="timeline-body">
+                  <div class="timeline-header">
+                    <div class="timeline-title-group">
+                      <p class="role">AI Content Intern</p>
+                      <p class="institute">FlyBrand Digital Solutions</p>
+                    </div>
+                    <div class="timeline-date-group">
+                      <p class="year">May 2025 – June 2025</p>
+                      <p class="location-tag">Remote</p>
+                    </div>
                   </div>
-                  <div class="timeline-date-group">
-                    <p class="year">May 2025 – June 2025</p>
-                    <p class="location-tag">Remote</p>
-                  </div>
+                  <p class="cont" style="font-size: 0.95rem; opacity: 0.85; line-height: 1.5; margin-top: 8px;">
+                    • Explored AI model development workflows using <span class="highlight-accent highlight-italic">Google Teachable Machine</span> and <span class="highlight-accent highlight-italic">Roboflow</span> by creating image, audio, and computer vision models for posture recognition, voice-command classification, and <span class="highlight-accent highlight-italic">PCB defect detection</span>.<br>
+                    • Produced technical training demonstrations documenting model creation, dataset preparation, training, evaluation, and deployment workflows for educational AI content.
+                  </p>
                 </div>
-                <p class="cont" style="font-size: 0.95rem; opacity: 0.85; line-height: 1.5; margin-top: 8px;">
-                  • Explored AI model development workflows using <span class="highlight-accent highlight-italic">Google Teachable Machine</span> and <span class="highlight-accent highlight-italic">Roboflow</span> by creating image, audio, and computer vision models for posture recognition, voice-command classification, and <span class="highlight-accent highlight-italic">PCB defect detection</span>.<br>
-                  • Produced technical training demonstrations documenting model creation, dataset preparation, training, evaluation, and deployment workflows for educational AI content.
-                </p>
-                <a class="cert-card cert-card-compact" style="margin-top: 10px;" href="documents/flybrandInternshipCertificate.pdf" target="_blank">
-                  <span class="cert-card-action"><i class="fa-solid fa-file-contract"></i> View Certificate</span>
-                </a>
+                <div class="timeline-cert">
+                  <img class="timeline-cert-thumb" src="images/CertificatePics/FlybrandCompletionCertificate.png" alt="FlyBrand Digital Solutions internship certificate" loading="lazy">
+                  <a class="timeline-cert-btn" href="documents/flybrandInternshipCertificate.pdf" target="_blank">View Certificate</a>
+                </div>
               </div>
             </div>
           </div>
@@ -521,7 +588,8 @@
 
     <!-- ═══════════════ RESEARCH & PUBLICATIONS ═══════════════ -->
     <div class="component comp fade-in" id="research">
-      <h1 class="section-head">Research &amp; Publications</h1>
+      <h1 class="section-head eyebrow">Research &amp; Publications</h1>
+      <p class="section-headline">A <span class="u" style="--u:var(--color-sky)">patent<svg viewBox="0 0 100 12" preserveAspectRatio="none"><path d="M2,8 Q25,12 50,7 T98,8" stroke="var(--u)" stroke-width="5" fill="none" stroke-linecap="round"/></svg></span> filed for a <span class="u" style="--u:var(--color-salmon)">low-resource language<svg viewBox="0 0 100 12" preserveAspectRatio="none"><path d="M2,8 Q25,12 50,7 T98,8" stroke="var(--u)" stroke-width="5" fill="none" stroke-linecap="round"/></svg></span>.</p>
 
       <div class="research-card">
         <div class="research-card-header">
@@ -538,36 +606,92 @@
 
     <!-- ═══════════════ COURSES & CERTIFICATIONS ═══════════════ -->
     <div class="component comp2 fade-in" id="courses">
-      <h1 class="section-head">Courses &amp; Hackathons</h1>
+      <h1 class="section-head eyebrow">Courses &amp; Hackathons</h1>
+      <p class="section-headline">Learning stacked in public — languages, the <span class="u" style="--u:var(--color-periwinkle)">fundamentals<svg viewBox="0 0 100 12" preserveAspectRatio="none"><path d="M2,8 Q25,12 50,7 T98,8" stroke="var(--u)" stroke-width="5" fill="none" stroke-linecap="round"/></svg></span>, and one <span class="u" style="--u:var(--color-gold)">hackathon<svg viewBox="0 0 100 12" preserveAspectRatio="none"><path d="M2,8 Q25,12 50,7 T98,8" stroke="var(--u)" stroke-width="5" fill="none" stroke-linecap="round"/></svg></span>.</p>
 
-      <div class="cert-grid">
-        <a class="cert-card" href="documents/Smartbridge/CompletionCertificateSmartBridge.pdf" target="_blank">
-          <p class="cert-card-title">Machine Learning</p>
-          <p class="cert-card-meta">SmartBridge × Google for Developers<br>May 2025 – Jun 2025</p>
-          <span class="cert-card-action"><i class="fa-solid fa-file-contract"></i> View Certificate</span>
-        </a>
-        <a class="cert-card" href="documents/CHERISH-VASANT-C.pdf" target="_blank">
-          <p class="cert-card-title">C Training</p>
-          <p class="cert-card-meta">Spoken Tutorial Project, IIT Bombay<br>Apr 2024 · Score: 90%</p>
-          <span class="cert-card-action"><i class="fa-solid fa-file-contract"></i> View Certificate</span>
-        </a>
-        <a class="cert-card" href="documents/CHERISH-VASANT-Cpp.pdf" target="_blank">
-          <p class="cert-card-title">C++ Training</p>
-          <p class="cert-card-meta">Spoken Tutorial Project, IIT Bombay<br>Apr 2024 · Score: 80%</p>
-          <span class="cert-card-action"><i class="fa-solid fa-file-contract"></i> View Certificate</span>
-        </a>
-        <a class="cert-card" href="documents/Certificate - Data Quest '24. 2 Days Event.pdf" target="_blank">
-          <p class="cert-card-title">Data Quest '24 — Hackathon Participation</p>
-          <p class="cert-card-meta">technoVIT'24, SCOPE-Qubit, VIT Chennai<br>Sep 2024</p>
-          <span class="cert-card-action"><i class="fa-solid fa-file-contract"></i> View Certificate</span>
-        </a>
+      <div class="bento">
+        <div class="bcard bcard-ml" style="--bc:var(--color-amethyst);">
+          <span class="bcard-type">Course</span>
+          <div class="blabel">SmartBridge × Google for Developers</div>
+          <div class="bhead">Machine Learning</div>
+          <div class="bitems">
+            <a class="bitem" href="documents/Smartbridge/CompletionCertificateSmartBridge.pdf" target="_blank">
+              <span class="bitem-thumb"><img src="images/CertificatePics/SmartbridgeCourseCompletion.png" alt="SmartBridge course completion certificate" loading="lazy"></span>
+              <span class="bitem-row">
+                <span class="bitem-text">Course Completion · May – Jun 2025</span>
+                <span class="bitem-view">View Certificate <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <div class="bcard bcard-languages" style="--bc:var(--color-rose);">
+          <span class="bcard-type">Course</span>
+          <div class="blabel">Spoken Tutorial · IIT Bombay</div>
+          <div class="bhead">Core Languages</div>
+          <div class="bitems bitems-row">
+            <a class="bitem" href="documents/CHERISH-VASANT-C.pdf" target="_blank">
+              <span class="bitem-thumb"><img src="images/CertificatePics/CSpoken.png" alt="C Training certificate" loading="lazy"></span>
+              <span class="bitem-row">
+                <span class="bitem-text">C Training · Apr 2024</span>
+                <span class="badge2">90%</span>
+                <span class="bitem-view">View Certificate <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+              </span>
+            </a>
+            <a class="bitem" href="documents/CHERISH-VASANT-Cpp.pdf" target="_blank">
+              <span class="bitem-thumb"><img src="images/CertificatePics/CppSpoken.png" alt="C++ Training certificate" loading="lazy"></span>
+              <span class="bitem-row">
+                <span class="bitem-text">C++ Training · Apr 2024</span>
+                <span class="badge2">80%</span>
+                <span class="bitem-view">View Certificate <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <div class="bcard bcard-webdev" style="--bc:var(--color-sky);">
+          <span class="bcard-type">Course</span>
+          <div class="blabel">LinkedIn Learning</div>
+          <div class="bhead">Web Development</div>
+          <div class="bitems bitems-row">
+            <a class="bitem" href="images/CertificatePics/HTMLLinkedIn.png" target="_blank">
+              <span class="bitem-thumb"><img src="images/CertificatePics/HTMLLinkedIn.png" alt="HTML Essential Training certificate" loading="lazy"></span>
+              <span class="bitem-row">
+                <span class="bitem-text">HTML Essential Training · Jan 2024</span>
+                <span class="bitem-view">View Certificate <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+              </span>
+            </a>
+            <a class="bitem" href="images/CertificatePics/JSLinkedIn.png" target="_blank">
+              <span class="bitem-thumb"><img src="images/CertificatePics/JSLinkedIn.png" alt="JavaScript Essential Training certificate" loading="lazy"></span>
+              <span class="bitem-row">
+                <span class="bitem-text">JavaScript Essential Training · Jan 2024</span>
+                <span class="bitem-view">View Certificate <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <div class="bcard bcard-hackathon" style="--bc:var(--color-gold);">
+          <span class="bcard-type hackathon">Hackathon</span>
+          <div class="blabel">technoVIT'24 · SCOPE-Qubit, VIT Chennai</div>
+          <div class="bhead">Data Quest '24</div>
+          <div class="bitems">
+            <a class="bitem" href="documents/Certificate - Data Quest '24. 2 Days Event.pdf" target="_blank">
+              <span class="bitem-thumb"><img src="images/CertificatePics/DataQuest24.png" alt="Data Quest '24 hackathon certificate" loading="lazy"></span>
+              <span class="bitem-row">
+                <span class="bitem-text">Sep 2024</span>
+                <span class="bitem-view">View Certificate <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+              </span>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- ═══════════════ CONTACT ═══════════════ -->
     <div class="component comp fade-in" id="contact">
       <h1 class="section-head">Let's Connect</h1>
-      <p class="connect-intro">Let's connect! Feel free to reach out via email or social media.</p>
+      <p class="connect-intro">Feel free to reach out via email or social media.</p>
 
       <div class="connect-links">
         <a class="connect-card" href="mailto:cherish.vasant@gmail.com" target="_blank" aria-label="Email">
@@ -592,6 +716,14 @@
           <span class="connect-text">
             <span class="connect-label">GitHub</span>
             <span class="connect-value">CherishVasant</span>
+          </span>
+        </a>
+
+        <a class="connect-card" href="https://leetcode.com/u/CherishVasant2846/" target="_blank" aria-label="LeetCode">
+          <span class="connect-icon"><i class="fa-solid fa-code"></i></span>
+          <span class="connect-text">
+            <span class="connect-label">LeetCode</span>
+            <span class="connect-value">CherishVasant2846</span>
           </span>
         </a>
 

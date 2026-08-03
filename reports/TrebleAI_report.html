@@ -16,12 +16,12 @@
 
   
 
-    <link rel="stylesheet" href="../styles.css?v=10">
+    <link rel="stylesheet" href="../styles.css?v=31">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baumans&family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="reports.css?v=6">
-    <script src="report.js?v=6" defer></script>
+    <link rel="stylesheet" href="reports.css?v=8">
+    <script src="report.js?v=8"></script>
     <script src="../sprinkles.js?v=1" defer></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_upward" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
@@ -625,11 +625,11 @@
           label: 'Deterministic Engine Extraction Profile',
           data: [33, 99.4, 24.8, 50, 64.6, 40],
           fill: true,
-          backgroundColor: 'rgba(147, 190, 125, 0.25)',
-          borderColor: '#93BE7D',
+          backgroundColor: 'rgba(182, 133, 225, 0.25)',
+          borderColor: '#B685E1',
           pointBackgroundColor: '#DA6F89',
-          pointBorderColor: '#F5EDE3',
-          pointHoverBackgroundColor: '#F5EDE3',
+          pointBorderColor: getChartTextColor(),
+          pointHoverBackgroundColor: getChartTextColor(),
           pointHoverBorderColor: '#80CBE2'
         }]
       };
@@ -655,13 +655,13 @@
           scales: {
             r: {
               grid: {
-                color: 'rgba(255, 241, 224, 0.1)'
+                color: getChartGridColor()
               },
               angleLines: {
-                color: 'rgba(255, 241, 224, 0.1)'
+                color: getChartGridColor()
               },
               pointLabels: {
-                color: 'rgba(245, 237, 227, 0.6)',
+                color: getChartTextColor(),
                 font: {
                   family: "'Fira Code', monospace",
                   size: 9
@@ -669,7 +669,7 @@
               },
               ticks: {
                 backdropColor: 'transparent',
-                color: 'rgba(245, 237, 227, 0.45)',
+                color: getChartTextColor(),
                 showLabelBackdrop: false,
                 stepSize: 20
               },
@@ -680,7 +680,8 @@
         }
       };
 
-      new Chart(ctx, chartConfig);
+      const radarChart = new Chart(ctx, chartConfig);
+      registerReportChart(radarChart);
     }
   </script>
 

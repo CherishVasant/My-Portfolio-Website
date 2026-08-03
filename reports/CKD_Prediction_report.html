@@ -16,14 +16,14 @@
 
 
 
-    <link rel="stylesheet" href="../styles.css?v=10">
+    <link rel="stylesheet" href="../styles.css?v=31">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Baumans&family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="reports.css?v=6">
-    <script src="report.js?v=6" defer></script>
+    <link rel="stylesheet" href="reports.css?v=8">
+    <script src="report.js?v=8"></script>
     <script src="../sprinkles.js?v=1" defer></script>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_upward" />
@@ -77,19 +77,18 @@
                     excellent grades and spearheaded the machine learning architecture and overfitting profiling for the
                     team.
                 </p>
-                <div style="display: flex; flex-wrap: wrap; gap: 12px;">
-                    <a class="project-cta" style="font-size: 0.8rem; padding: 8px 16px; width: auto;"
-                        href="../documents/Smartbridge/CompletionCertificateSmartBridge.pdf" target="_blank">
-                        <i class="fa-solid fa-graduation-cap"></i> Course Certificate
+                <div class="credential-row">
+                    <a class="credential-item" href="../documents/Smartbridge/CompletionCertificateSmartBridge.pdf" target="_blank">
+                        <img class="credential-thumb" src="../images/CertificatePics/SmartbridgeCourseCompletion.png" alt="SmartBridge course completion certificate" loading="lazy">
+                        <span class="credential-label"><i class="fa-solid fa-graduation-cap"></i> Course Certificate</span>
                     </a>
-                    <a class="project-cta" style="font-size: 0.8rem; padding: 8px 16px; width: auto;"
-                        href="../documents/Smartbridge/ProjectCompletionCertificateSmartInternz.pdf" target="_blank">
-                        <i class="fa-solid fa-file-signature"></i> Project Certificate
+                    <a class="credential-item" href="../documents/Smartbridge/ProjectCompletionCertificateSmartInternz.pdf" target="_blank">
+                        <img class="credential-thumb" src="../images/CertificatePics/SmartbridgeProjectCompletion.png" alt="SmartBridge project completion certificate" loading="lazy">
+                        <span class="credential-label"><i class="fa-solid fa-file-signature"></i> Project Certificate</span>
                     </a>
-                    <a class="project-cta secondary"
-                        style="font-size: 0.8rem; padding: 8px 16px; width: auto; display: inline-flex; align-items: center; gap: 6px;"
-                        href="../documents/Smartbridge/ScoreSheetSmartInternz.pdf" target="_blank">
-                        <i class="fa-solid fa-chart-simple"></i> View Score Sheet
+                    <a class="credential-item" href="../documents/Smartbridge/ScoreSheetSmartInternz.pdf" target="_blank">
+                        <img class="credential-thumb" src="../images/CertificatePics/SmartbridgeScoreSheet.png" alt="SmartBridge score sheet" loading="lazy">
+                        <span class="credential-label"><i class="fa-solid fa-chart-simple"></i> View Score Sheet</span>
                     </a>
                 </div>
             </section>
@@ -207,14 +206,14 @@
 
                 <div class="grid-2" style="margin-top: 24px;">
                     <div>
-                        <h4 class="mono" style="font-size: 14px; margin-bottom: 8px; color: var(--accent-pink);">Feature
+                        <h4 class="mono" style="font-size: 14px; margin-bottom: 8px; color: var(--color-coral);">Feature
                             Subset: v1 (11 Columns)</h4>
                         <p style="font-size: 13px;" id="v1-features-list">
                             <!-- Populated dynamically -->
                         </p>
                     </div>
                     <div>
-                        <h4 class="mono" style="font-size: 14px; margin-bottom: 8px; color: var(--accent-purple);">
+                        <h4 class="mono" style="font-size: 14px; margin-bottom: 8px; color: var(--color-periwinkle);">
                             Feature Subset: v2 (5 Columns)</h4>
                         <p style="font-size: 13px;" id="v2-features-list">
                             <!-- Populated dynamically -->
@@ -247,7 +246,7 @@
 
                 <div class="alert">
                     <div class="alert-title">
-                        <span style="color: var(--accent-pink);">✦</span> Overfitting Risk Penalty
+                        <span style="color: var(--color-gold);">✦</span> Overfitting Risk Penalty
                     </div>
                     <p class="alert-body">
                         In the evaluation script, final scores were derived by taking a weighted clinical score (40%
@@ -349,7 +348,7 @@
                     </div>
 
                     <div>
-                        <h3 class="mono" style="font-size: 16px; margin-bottom: 12px; color: var(--accent-pink);">
+                        <h3 class="mono" style="font-size: 16px; margin-bottom: 12px; color: var(--color-sky);">
                             Analysis of Diagnostic Performance</h3>
                         <p>
                             The confusion matrix showcases the high clinical safety of the Multi-layer Perceptron (MLP)
@@ -419,7 +418,7 @@
 
             <!-- Final Approach Summary -->
             <section class="report-section card summary-section" id="summary">
-                <h2 class="section-title" style="border-bottom-color: var(--accent-pink);">Summary</h2>
+                <h2 class="section-title" style="border-bottom-color: var(--color-amethyst);">Summary</h2>
                 <p style="font-size: 16px; color: var(--text-primary); font-weight: 500; margin-bottom: 12px;">
                     The project recommends an MLP or Gradient Boosting classifier trained on a subset of 5 core clinical
                     features (v2+hyp) as the optimal diagnostic model.
@@ -2578,7 +2577,7 @@
                 const topRecalls = tableData.map(d => d.recall);
                 const topF1s = tableData.map(d => d.f1);
 
-                new Chart(ctxTop, {
+                const topModelsChart = new Chart(ctxTop, {
                     type: 'bar',
                     data: {
                         labels: topLabels,
@@ -2586,24 +2585,24 @@
                             {
                                 label: 'Accuracy',
                                 data: topAccs,
-                                backgroundColor: 'rgba(147, 190, 125, 0.75)',
-                                borderColor: '#93BE7D',
+                                backgroundColor: 'rgba(238, 200, 136, 0.75)',
+                                borderColor: '#EEC888',
                                 borderWidth: 1,
                                 borderRadius: 4
                             },
                             {
                                 label: 'Recall',
                                 data: topRecalls,
-                                backgroundColor: 'rgba(128, 203, 226, 0.75)',
-                                borderColor: '#80CBE2',
+                                backgroundColor: 'rgba(140, 164, 236, 0.75)',
+                                borderColor: '#8CA4EC',
                                 borderWidth: 1,
                                 borderRadius: 4
                             },
                             {
                                 label: 'F1 Score',
                                 data: topF1s,
-                                backgroundColor: 'rgba(218, 111, 137, 0.75)',
-                                borderColor: '#DA6F89',
+                                backgroundColor: 'rgba(182, 133, 225, 0.75)',
+                                borderColor: '#B685E1',
                                 borderWidth: 1,
                                 borderRadius: 4
                             }
@@ -2615,7 +2614,7 @@
                         plugins: {
                             legend: {
                                 labels: {
-                                    color: 'rgba(245, 237, 227, 0.6)',
+                                    color: getChartTextColor(),
                                     font: { family: 'Share Tech Mono' }
                                 }
                             },
@@ -2630,24 +2629,25 @@
                         },
                         scales: {
                             x: {
-                                grid: { color: 'rgba(255, 241, 224, 0.08)' },
+                                grid: { color: getChartGridColor() },
                                 ticks: {
-                                    color: 'rgba(245, 237, 227, 0.6)',
+                                    color: getChartTextColor(),
                                     font: { family: 'Share Tech Mono', size: 10 }
                                 }
                             },
                             y: {
                                 min: 0.90,
                                 max: 1.0,
-                                grid: { color: 'rgba(255, 241, 224, 0.08)' },
+                                grid: { color: getChartGridColor() },
                                 ticks: {
-                                    color: 'rgba(245, 237, 227, 0.6)',
+                                    color: getChartTextColor(),
                                     font: { family: 'Share Tech Mono' }
                                 }
                             }
                         }
                     }
                 });
+                registerReportChart(topModelsChart);
 
                 // Chart 2: Versions Comparison Chart (Average/Best F1 of versions)
                 const ctxVers = document.getElementById('versions-comparison-chart').getContext('2d');
@@ -2686,7 +2686,7 @@
                     getBestF1(REPORT_DATA.v2_hyp_results) || 0.987
                 ];
 
-                new Chart(ctxVers, {
+                const versionsChart = new Chart(ctxVers, {
                     type: 'line',
                     data: {
                         labels: versionLabels,
@@ -2694,8 +2694,8 @@
                             {
                                 label: 'Average F1 Score',
                                 data: avgF1s,
-                                borderColor: '#93BE7D',
-                                backgroundColor: 'rgba(147, 190, 125, 0.15)',
+                                borderColor: '#F3AA7C',
+                                backgroundColor: 'rgba(243, 170, 124, 0.15)',
                                 borderWidth: 2,
                                 tension: 0.1,
                                 fill: true
@@ -2703,7 +2703,7 @@
                             {
                                 label: 'Best Model F1 Score',
                                 data: bestF1s,
-                                borderColor: '#DA6F89',
+                                borderColor: '#EA93A0',
                                 backgroundColor: 'transparent',
                                 borderWidth: 2,
                                 borderDash: [5, 5],
@@ -2717,7 +2717,7 @@
                         plugins: {
                             legend: {
                                 labels: {
-                                    color: 'rgba(245, 237, 227, 0.6)',
+                                    color: getChartTextColor(),
                                     font: { family: 'Share Tech Mono' }
                                 }
                             },
@@ -2732,24 +2732,25 @@
                         },
                         scales: {
                             x: {
-                                grid: { color: 'rgba(255, 241, 224, 0.08)' },
+                                grid: { color: getChartGridColor() },
                                 ticks: {
-                                    color: 'rgba(245, 237, 227, 0.6)',
+                                    color: getChartTextColor(),
                                     font: { family: 'Share Tech Mono' }
                                 }
                             },
                             y: {
                                 min: 0.85,
                                 max: 1.02,
-                                grid: { color: 'rgba(255, 241, 224, 0.08)' },
+                                grid: { color: getChartGridColor() },
                                 ticks: {
-                                    color: 'rgba(245, 237, 227, 0.6)',
+                                    color: getChartTextColor(),
                                     font: { family: 'Share Tech Mono' }
                                 }
                             }
                         }
                     }
                 });
+                registerReportChart(versionsChart);
             </script>
         </main>
     </div>
