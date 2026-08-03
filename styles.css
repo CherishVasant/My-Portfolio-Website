@@ -72,7 +72,6 @@
     --bg-mobile-menu: rgba(11, 13, 20, 0.98);
     --bg-mobile-menu-blur: rgba(11, 13, 20, 0.85);
     --bg-social-icon: rgba(11, 13, 20, 0.60);
-    --hero-cloud-color: rgba(255, 245, 220, 0.55);
 
     /* ── Borders ──────────────────────────────────────── */
     --border-color: rgba(255,241,224,0.08);
@@ -244,7 +243,6 @@
     --bg-mobile-menu: rgba(239, 230, 216, 0.98);
     --bg-mobile-menu-blur: rgba(239, 230, 216, 0.90);
     --bg-social-icon: rgba(243, 233, 215, 0.90);
-    --hero-cloud-color: rgba(255, 245, 220, 0.9);
 
     --border-color: rgba(58, 46, 34, 0.12);
     --border-subtle: rgba(58, 46, 34, 0.08);
@@ -458,8 +456,7 @@ ul.menu li a:hover {
 }
 
 a.selected {
-    border-bottom: 2px solid var(--color-accent);
-    color: var(--color-accent) !important;
+    border-bottom: 2px solid currentColor;
 }
 
 .gradient-text {
@@ -510,62 +507,6 @@ a.selected {
     padding: calc(var(--navbar-height) + var(--space-8)) var(--section-pad-x) var(--space-16);
     box-sizing: border-box;
 }
-
-.name-line {
-    position: relative;
-}
-
-/* Clouds are nested inside .accent (the "Cherish Vasant" span itself),
-   so left:0/right:0 always spans exactly the rendered width of the name
-   — no matter the viewport or font-size — instead of a fixed pixel
-   cluster that only lined up at one screen size. Sized in em so they
-   scale with the name's own responsive font-size. z-index:-1 sits them
-   behind the name text (see .name-line .accent for the stacking context). */
-.hero-name-clouds {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -0.25em;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    z-index: 1;
-    pointer-events: none;
-    width: 100%;
-}
-
-/* Cream swirls — soft-serve/frosting-swirl icon glyphs standing in for
-   the old CSS-blob clouds, still trailing the name in a scattered cluster */
-.hero-cloud.material-symbols-outlined {
-    position: relative;
-    display: inline-block;
-    color: var(--hero-cloud-color);
-    line-height: 1;
-    transition: transform 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
-    cursor: default;
-    pointer-events: auto;
-}
-
-.hero-cloud.hero-cloud-1 { font-size: 0.5em; }
-.hero-cloud.hero-cloud-2 { font-size: 0.4em; }
-.hero-cloud.hero-cloud-3 { font-size: 0.52em; }
-.hero-cloud.hero-cloud-4 { font-size: 0.38em; }
-.hero-cloud.hero-cloud-5 { font-size: 0.48em; }
-.hero-cloud.hero-cloud-6 { font-size: 0.4em; }
-.hero-cloud.hero-cloud-7 { font-size: 0.5em; }
-.hero-cloud.hero-cloud-8 { font-size: 0.36em; }
-.hero-cloud.hero-cloud-9 { font-size: 0.46em; }
-
-/* Every single cloud drifts downward (positive Y translation) on hover */
-.hero-cloud-1:hover { transform: translate(-0.3em, 0.35em); }
-.hero-cloud-2:hover { transform: translate(0.3em, 0.4em); }
-.hero-cloud-3:hover { transform: translate(0em, 0.38em); }
-.hero-cloud-4:hover { transform: translate(-0.25em, 0.35em); }
-.hero-cloud-5:hover { transform: translate(0.3em, 0.4em); }
-.hero-cloud-6:hover { transform: translate(0em, 0.35em); }
-.hero-cloud-7:hover { transform: translate(-0.3em, 0.4em); }
-.hero-cloud-8:hover { transform: translate(0.25em, 0.35em); }
-.hero-cloud-9:hover { transform: translate(-0.2em, 0.38em); }
 
 .cosmic-dust {
     position: absolute;
