@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notebook Extractor</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --border: #1e1e2e;
+    --accent: #c8f562;
+    --accent2: #4af0b4;
+    --text: #e8e8f0;
+    --muted: #5a5a7a;
+    --error: #ff5f7a;
+    --mono: 'Space Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2rem;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 15% 20%, rgba(200, 245, 98, 0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 85% 80%, rgba(74, 240, 180, 0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 780px;
+    padding-bottom: 3rem;
+  }
+
+  header {
+    margin-bottom: 2.5rem;
+    padding-top: 1rem;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    background: rgba(200, 245, 98, 0.08);
+    border: 1px solid rgba(200, 245, 98, 0.2);
+    padding: 0.3rem 0.7rem;
+    border-radius: 2px;
+    margin-bottom: 1.2rem;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    margin-bottom: 0.8rem;
+  }
+
+  h1 span { color: var(--accent); }
+
+  .subtitle {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .drop-zone {
+    position: relative;
+    border: 1.5px dashed var(--border);
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    background: var(--surface);
+    overflow: hidden;
+  }
+
+  .drop-zone::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(200, 245, 98, 0.04) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .drop-zone:hover, .drop-zone.drag-over {
+    border-color: var(--accent);
+    background: rgba(200, 245, 98, 0.03);
+  }
+
+  .drop-zone:hover::before, .drop-zone.drag-over::before { opacity: 1; }
+  .drop-zone.drag-over { transform: scale(1.01); }
+
+  .drop-icon {
+    width: 52px; height: 52px;
+    margin: 0 auto 1.1rem;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    background: rgba(200, 245, 98, 0.08);
+    border: 1px solid rgba(200, 245, 98, 0.15);
+  }
+
+  .drop-icon svg {
+    width: 24px; height: 24px;
+    stroke: var(--accent); fill: none;
+    stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+  }
+
+  .drop-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .drop-sub { font-family: var(--mono); font-size: 0.74rem; color: var(--muted); }
+  .drop-sub strong { color: var(--accent); }
+  #file-input { display: none; }
+
+  .options {
+    margin-top: 1.4rem;
+    display: flex; gap: 0.8rem; flex-wrap: wrap;
+  }
+
+  .option-pill {
+    display: flex; align-items: center; gap: 0.5rem;
+    cursor: pointer;
+    font-family: var(--mono); font-size: 0.73rem; color: var(--muted);
+    padding: 0.45rem 0.85rem;
+    border-radius: 6px; border: 1px solid var(--border);
+    background: var(--surface);
+    transition: all 0.2s; user-select: none;
+  }
+
+  .option-pill input[type="checkbox"] { display: none; }
+
+  .check {
+    width: 13px; height: 13px;
+    border-radius: 3px; border: 1.5px solid var(--muted);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all 0.2s;
+  }
+
+  .option-pill:has(input:checked) {
+    border-color: rgba(200, 245, 98, 0.3);
+    background: rgba(200, 245, 98, 0.05);
+    color: var(--text);
+  }
+
+  .option-pill:has(input:checked) .check {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .option-pill:has(input:checked) .check::after {
+    content: '';
+    width: 6px; height: 4px;
+    border-left: 1.5px solid #0a0a0f;
+    border-bottom: 1.5px solid #0a0a0f;
+    transform: rotate(-45deg) translateY(-1px);
+    display: block;
+  }
+
+  .file-info {
+    display: none;
+    margin-top: 1.1rem; padding: 0.8rem 1rem;
+    background: rgba(74, 240, 180, 0.05);
+    border: 1px solid rgba(74, 240, 180, 0.15);
+    border-radius: 8px;
+    font-family: var(--mono); font-size: 0.73rem; color: var(--accent2);
+    align-items: center; gap: 0.7rem;
+  }
+
+  .file-info.visible { display: flex; }
+  .file-info .fname { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .file-info .fsize { color: var(--muted); flex-shrink: 0; }
+
+  .error-msg {
+    display: none;
+    margin-top: 1rem; padding: 0.75rem 1rem;
+    background: rgba(255, 95, 122, 0.07);
+    border: 1px solid rgba(255, 95, 122, 0.2);
+    border-radius: 8px;
+    font-family: var(--mono); font-size: 0.73rem; color: var(--error);
+  }
+
+  .error-msg.visible { display: block; }
+
+  .btn-convert {
+    margin-top: 1.4rem; width: 100%;
+    padding: 0.95rem 1.5rem;
+    background: var(--accent); color: var(--bg);
+    font-family: var(--sans); font-size: 0.92rem; font-weight: 800;
+    letter-spacing: 0.04em;
+    border: none; border-radius: 8px;
+    cursor: pointer; transition: all 0.2s;
+    position: relative; overflow: hidden;
+    display: none;
+  }
+
+  .btn-convert::before {
+    content: '';
+    position: absolute; top: 50%; left: 50%;
+    width: 0; height: 0;
+    background: rgba(0,0,0,0.12); border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s;
+  }
+
+  .btn-convert:hover::before { width: 400px; height: 400px; }
+  .btn-convert:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(200,245,98,0.25); }
+  .btn-convert:active { transform: translateY(0); }
+  .btn-convert.visible { display: block; }
+
+  /* Output section */
+  .output-section {
+    display: none;
+    margin-top: 2rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    animation: slideUp 0.35s ease;
+  }
+
+  .output-section.visible { display: block; }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .output-header {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1.1rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    gap: 1rem; flex-wrap: wrap;
+  }
+
+  .output-meta {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-family: var(--mono); font-size: 0.72rem; color: var(--muted);
+    flex: 1; min-width: 0;
+  }
+
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent2); box-shadow: 0 0 8px var(--accent2);
+    flex-shrink: 0;
+  }
+
+  .stats {
+    display: flex; gap: 1rem;
+    font-family: var(--mono); font-size: 0.7rem; color: var(--muted);
+    flex-shrink: 0;
+  }
+
+  .stats span strong { color: var(--accent); }
+
+  .btn-copy {
+    display: flex; align-items: center; gap: 0.45rem;
+    padding: 0.42rem 0.9rem;
+    background: transparent;
+    border: 1px solid var(--border); border-radius: 6px;
+    color: var(--muted);
+    font-family: var(--mono); font-size: 0.7rem;
+    cursor: pointer; transition: all 0.2s;
+    flex-shrink: 0; white-space: nowrap;
+  }
+
+  .btn-copy svg {
+    width: 13px; height: 13px;
+    stroke: currentColor; fill: none;
+    stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+
+  .btn-copy:hover {
+    border-color: rgba(200, 245, 98, 0.4);
+    color: var(--accent);
+    background: rgba(200, 245, 98, 0.05);
+  }
+
+  .btn-copy.copied {
+    border-color: rgba(74, 240, 180, 0.4);
+    color: var(--accent2);
+    background: rgba(74, 240, 180, 0.06);
+  }
+
+  .output-body {
+    background: #0d0d14;
+    padding: 1.5rem;
+    max-height: 560px;
+    overflow-y: auto;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    line-height: 1.9;
+    white-space: pre;
+  }
+
+  .output-body::-webkit-scrollbar { width: 5px; height: 5px; }
+  .output-body::-webkit-scrollbar-track { background: transparent; }
+  .output-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  .reset-link {
+    display: none;
+    margin-top: 1rem; text-align: center;
+    font-family: var(--mono); font-size: 0.7rem; color: var(--muted);
+    cursor: pointer; transition: color 0.2s;
+  }
+
+  .reset-link:hover { color: var(--accent); }
+  .reset-link.visible { display: block; }
+
+  footer {
+    margin-top: 3rem;
+    font-family: var(--mono); font-size: 0.65rem;
+    color: var(--muted); text-align: center; letter-spacing: 0.06em;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="tag">// tool</div>
+    <h1>Notebook<br><span>Extractor</span></h1>
+    <p class="subtitle">
+      Drop your .ipynb → view extracted text instantly<br>
+      Code cells preserved · Markdown cells as comments
+    </p>
+  </header>
+
+  <div class="drop-zone" id="dropZone">
+    <input type="file" id="file-input" accept=".ipynb,application/json">
+    <div class="drop-icon">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 15V3m0 0L8 7m4-4l4 4"/>
+        <path d="M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/>
+      </svg>
+    </div>
+    <div class="drop-title">Drop your notebook here</div>
+    <div class="drop-sub">or click to browse — <strong>.ipynb</strong> files only</div>
+  </div>
+
+  <div class="options">
+    <label class="option-pill">
+      <input type="checkbox" id="opt-markdown" checked>
+      <span class="check"></span>
+      <span>Include Markdown</span>
+    </label>
+    <label class="option-pill">
+      <input type="checkbox" id="opt-code" checked>
+      <span class="check"></span>
+      <span>Include Code</span>
+    </label>
+    <label class="option-pill">
+      <input type="checkbox" id="opt-outputs">
+      <span class="check"></span>
+      <span>Include Outputs</span>
+    </label>
+    <label class="option-pill">
+      <input type="checkbox" id="opt-cell-nums" checked>
+      <span class="check"></span>
+      <span>Cell Numbers</span>
+    </label>
+  </div>
+
+  <div class="file-info" id="fileInfo">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+      <polyline points="14 2 14 8 20 8"/>
+    </svg>
+    <span class="fname" id="fileName"></span>
+    <span class="fsize" id="fileSize"></span>
+  </div>
+
+  <div class="error-msg" id="errorMsg"></div>
+
+  <button class="btn-convert" id="btnConvert">Extract Text →</button>
+
+  <div class="output-section" id="outputSection">
+    <div class="output-header">
+      <div class="output-meta">
+        <span class="dot"></span>
+        <span>extracted output</span>
+      </div>
+      <div class="stats" id="statsBar"></div>
+      <button class="btn-copy" id="btnCopy">
+        <svg id="copyIcon" viewBox="0 0 24 24">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+        <span id="copyLabel">Copy</span>
+      </button>
+    </div>
+    <div class="output-body" id="outputBody"></div>
+  </div>
+
+  <div class="reset-link" id="resetLink">↺ Convert another notebook</div>
+
+  <footer>CLIENT-SIDE ONLY · YOUR FILES NEVER LEAVE YOUR BROWSER</footer>
+</div>
+
+<script>
+  const dropZone      = document.getElementById('dropZone');
+  const fileInput     = document.getElementById('file-input');
+  const fileInfo      = document.getElementById('fileInfo');
+  const fileName      = document.getElementById('fileName');
+  const fileSize      = document.getElementById('fileSize');
+  const btnConvert    = document.getElementById('btnConvert');
+  const outputSection = document.getElementById('outputSection');
+  const outputBody    = document.getElementById('outputBody');
+  const statsBar      = document.getElementById('statsBar');
+  const btnCopy       = document.getElementById('btnCopy');
+  const copyLabel     = document.getElementById('copyLabel');
+  const copyIcon      = document.getElementById('copyIcon');
+  const resetLink     = document.getElementById('resetLink');
+  const errorMsg      = document.getElementById('errorMsg');
+
+  let currentFile = null;
+  let outputText  = '';
+
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault(); dropZone.classList.remove('drag-over');
+    const f = e.dataTransfer.files[0];
+    if (f) handleFile(f);
+  });
+  dropZone.addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', () => { if (fileInput.files[0]) handleFile(fileInput.files[0]); });
+
+  function handleFile(file) {
+    if (!file.name.endsWith('.ipynb')) { showError('Only .ipynb files are supported.'); return; }
+    hideError();
+    currentFile = file;
+    fileName.textContent = file.name;
+    fileSize.textContent = formatBytes(file.size);
+    fileInfo.classList.add('visible');
+    btnConvert.classList.add('visible');
+    outputSection.classList.remove('visible');
+    resetLink.classList.remove('visible');
+    outputText = '';
+  }
+
+  btnConvert.addEventListener('click', () => {
+    if (!currentFile) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      try {
+        const nb = JSON.parse(e.target.result);
+        outputText = convertNotebook(nb, currentFile.name);
+        renderOutput(outputText);
+      } catch (err) {
+        showError('Failed to parse notebook: ' + err.message);
+      }
+    };
+    reader.readAsText(currentFile);
+  });
+
+  function convertNotebook(nb, fname) {
+    const inclMarkdown = document.getElementById('opt-markdown').checked;
+    const inclCode     = document.getElementById('opt-code').checked;
+    const inclOutputs  = document.getElementById('opt-outputs').checked;
+    const inclNums     = document.getElementById('opt-cell-nums').checked;
+
+    const cells = nb.cells ||
+      (nb.worksheets && nb.worksheets[0] && nb.worksheets[0].cells) || [];
+    const kernelLang = nb.metadata?.kernelspec?.language
+      || nb.metadata?.language_info?.name || 'python';
+
+    const SEP  = '='.repeat(70);
+    const dash = n => '─'.repeat(Math.max(0, n));
+    const lines = [];
+
+    lines.push(SEP);
+    lines.push(`NOTEBOOK : ${fname}`);
+    lines.push(`KERNEL   : ${kernelLang}`);
+    lines.push(`CELLS    : ${cells.length}`);
+    lines.push(`EXTRACTED: ${new Date().toLocaleString()}`);
+    lines.push(SEP);
+    lines.push('');
+
+    let codeCount = 0, mdCount = 0;
+
+    cells.forEach((cell, i) => {
+      const type = cell.cell_type;
+      const src  = Array.isArray(cell.source) ? cell.source.join('') : (cell.source || '');
+
+      if (type === 'markdown' && inclMarkdown) {
+        mdCount++;
+        const label = inclNums ? `[MARKDOWN ${i + 1}]` : '[MARKDOWN]';
+        lines.push(`# ${label} ${dash(58 - label.length)}`);
+        src.split('\n').forEach(l => lines.push(`# ${l}`));
+        lines.push('');
+      }
+
+      if (type === 'code' && inclCode) {
+        codeCount++;
+        const label = inclNums ? `[CODE ${i + 1}]` : '[CODE]';
+        lines.push(`# ${label} ${dash(62 - label.length)}`);
+        lines.push(src.trim() ? src : '# (empty cell)');
+
+        if (inclOutputs && cell.outputs && cell.outputs.length > 0) {
+          lines.push('');
+          lines.push('# [OUTPUT] ' + dash(57));
+          cell.outputs.forEach(out => {
+            if (out.output_type === 'stream') {
+              const t = Array.isArray(out.text) ? out.text.join('') : (out.text || '');
+              t.split('\n').forEach(l => lines.push(`# | ${l}`));
+            } else if (out.output_type === 'execute_result' || out.output_type === 'display_data') {
+              const d = out.data?.['text/plain'];
+              if (d) { const t = Array.isArray(d) ? d.join('') : d; t.split('\n').forEach(l => lines.push(`# | ${l}`)); }
+            } else if (out.output_type === 'error') {
+              lines.push(`# | ERROR: ${out.ename}: ${out.evalue}`);
+            }
+          });
+        }
+        lines.push('');
+      }
+
+      if (type === 'raw') {
+        const label = inclNums ? `[RAW ${i + 1}]` : '[RAW]';
+        lines.push(`# ${label} ${dash(64 - label.length)}`);
+        src.split('\n').forEach(l => lines.push(`# ${l}`));
+        lines.push('');
+      }
+    });
+
+    lines.push(SEP);
+    lines.push(`# END · Code: ${codeCount} cells · Markdown: ${mdCount} cells`);
+    lines.push(SEP);
+
+    convertNotebook._stats = { codeCount, mdCount, total: cells.length };
+    return lines.join('\n');
+  }
+
+  function renderOutput(text) {
+    const { codeCount, mdCount, total } = convertNotebook._stats;
+
+    statsBar.innerHTML = `
+      <span><strong>${total}</strong> cells</span>
+      <span><strong>${codeCount}</strong> code</span>
+      <span><strong>${mdCount}</strong> md</span>
+    `;
+
+    // Colorize lines
+    const html = text.split('\n').map(line => {
+      const esc = line.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      if (/^={3,}/.test(line))               return `<span style="color:#1e2a3a">${esc}</span>`;
+      if (/^# \[MARKDOWN/.test(line))        return `<span style="color:#3a8a68">${esc}</span>`;
+      if (/^# \[CODE/.test(line))            return `<span style="color:#4a6aaa">${esc}</span>`;
+      if (/^# \[OUTPUT/.test(line))          return `<span style="color:#7a5aaa">${esc}</span>`;
+      if (/^# \| /.test(line))              return `<span style="color:#4a3a6a">${esc}</span>`;
+      if (/^# (NOTEBOOK|KERNEL|CELLS|EXTRACTED|END)/.test(line)) return `<span style="color:#6a7a5a">${esc}</span>`;
+      if (/^# /.test(line))                  return `<span style="color:#3d6654">${esc}</span>`;
+      if (line.trim() === '')                return esc;
+      return `<span style="color:#c8d0e0">${esc}</span>`;
+    }).join('\n');
+
+    outputBody.innerHTML = html;
+    outputSection.classList.add('visible');
+    resetLink.classList.add('visible');
+    outputSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Copy
+  btnCopy.addEventListener('click', () => {
+    if (!outputText) return;
+    navigator.clipboard.writeText(outputText).then(() => {
+      copyLabel.textContent = 'Copied!';
+      copyIcon.innerHTML = `<polyline points="20 6 9 17 4 12"/>`;
+      btnCopy.classList.add('copied');
+      setTimeout(() => {
+        copyLabel.textContent = 'Copy';
+        copyIcon.innerHTML = `<rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>`;
+        btnCopy.classList.remove('copied');
+      }, 2000);
+    }).catch(() => {
+      // Fallback for browsers without clipboard API
+      const ta = document.createElement('textarea');
+      ta.value = outputText;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      copyLabel.textContent = 'Copied!';
+      btnCopy.classList.add('copied');
+      setTimeout(() => { copyLabel.textContent = 'Copy'; btnCopy.classList.remove('copied'); }, 2000);
+    });
+  });
+
+  resetLink.addEventListener('click', () => {
+    currentFile = null; outputText = '';
+    fileInfo.classList.remove('visible');
+    btnConvert.classList.remove('visible');
+    outputSection.classList.remove('visible');
+    resetLink.classList.remove('visible');
+    fileInput.value = '';
+    hideError();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  function showError(msg) { errorMsg.textContent = msg; errorMsg.classList.add('visible'); }
+  function hideError()    { errorMsg.classList.remove('visible'); }
+  function formatBytes(b) {
+    if (b < 1024) return b + ' B';
+    if (b < 1048576) return (b / 1024).toFixed(1) + ' KB';
+    return (b / 1048576).toFixed(1) + ' MB';
+  }
+</script>
+</body>
+</html>

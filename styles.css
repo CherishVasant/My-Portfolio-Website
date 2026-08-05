@@ -2264,3 +2264,84 @@ ul.menu li a:hover { opacity: 0.75; text-shadow: none; }
 /* Back-to-top — periwinkle to rose */
 .back-to-top { background: var(--color-periwinkle) !important; }
 .back-to-top:hover { background: var(--color-rose) !important; }
+
+/* ═══════════════════════════════════════════════════════════
+   SECRET PROJECTS EASTER EGG SQUARE BUTTON
+═══════════════════════════════════════════════════════════ */
+.projects-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.secret-square-wrapper {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    perspective: 600px;
+    margin-left: auto;
+}
+
+.secret-square-btn {
+    display: block;
+    width: 50px;
+    height: 50px;
+    text-decoration: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.secret-square-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 8px;
+}
+
+/* Hover flips towards the left (rotateY -180deg) */
+.secret-square-btn:hover .secret-square-inner,
+.secret-square-btn:focus-visible .secret-square-inner {
+    transform: rotateY(-180deg);
+}
+
+.secret-square-front,
+.secret-square-back {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Front face: completely invisible / seamless blend with background */
+.secret-square-front {
+    background-color: transparent;
+    border: 1px solid transparent;
+}
+
+/* Back face: dark pink / vibrant rose secret button */
+.secret-square-back {
+    background: linear-gradient(135deg, #E91E63 0%, #D81B60 100%);
+    color: #ffffff;
+    transform: rotateY(-180deg);
+    box-shadow: 0 0 14px rgba(233, 30, 99, 0.5), 0 3px 10px rgba(0, 0, 0, 0.3);
+    font-size: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.secret-square-back i {
+    transition: transform 0.3s ease;
+}
+
+.secret-square-btn:hover .secret-square-back i {
+    transform: scale(1.15);
+}
+
